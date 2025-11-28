@@ -1,0 +1,595 @@
+/* =========================================
+   1. VARIABLES
+   ========================================= */
+:root {
+    --phi: 1.618033988;
+    --nav-width: 362px;
+    --header-height: 60px;
+    --font-sans: 'Inter', sans-serif;
+    --font-serif: 'DM Serif Display', serif;
+
+    /* TYPOGRAPHY SCALES */
+    --type-base: 1rem;
+    --type-h2: calc(var(--type-base) * var(--phi));
+    --type-h1: calc(var(--type-h2) * var(--phi));
+    --type-display-med: calc(var(--type-h1) * var(--phi));
+    --type-display-lg: calc(var(--type-display-med) * var(--phi));
+    --type-caption: calc(var(--type-base) / var(--phi));
+    --type-micro: calc(var(--type-caption) / var(--phi));
+    --leading-base: var(--phi);
+
+    /* --- COLOR DEFINITIONS (12 Steps per Scale) --- */
+
+    /* 1. MONOCHROME */
+    --mono-01: #000000;
+    --mono-02: #0E0E0E;
+    --mono-03: #1A1A1A;
+    --mono-04: #252525;
+    --mono-05: #3C3C3C;
+    --mono-06: #616161;
+    --mono-07: #9E9E9E;
+    --mono-08: #C3C3C3;
+    --mono-09: #DADADA;
+    --mono-10: #F1F1F1;
+    --mono-11: #F9F9F9;
+    --mono-12: #FFFFFF;
+
+    /* 2. PHI GREEN */
+    --green-01: #002500;
+    --green-02: #003C00;
+    --green-03: #006100;
+    --green-04: #009E00;
+    --green-05: #00C300;
+    --green-06: #00DA00;
+    --green-07: #00F100;
+    --green-08: #00FF00;
+    --green-09: #00FF61;
+    --green-10: #61FF9E;
+    --green-11: #9EFFC3;
+    --green-12: #DAFFF1;
+
+    /* 3. PHI BLUE */
+    --blue-01: #00003C;
+    --blue-02: #000061;
+    --blue-03: #000E9E;
+    --blue-04: #000EC3;
+    --blue-05: #003CC3;
+    --blue-06: #0061DA;
+    --blue-07: #009EFF;
+    --blue-08: #00C3FF;
+    --blue-09: #00DAFF;
+    --blue-10: #3CFFFF;
+    --blue-11: #61FFFF;
+    --blue-12: #C3FFFF;
+
+    /* 4. PHI PURPLE */
+    --purple-01: #250E3C;
+    --purple-02: #3C0061;
+    --purple-03: #4B0082;
+    --purple-04: #61009E;
+    --purple-05: #800080;
+    --purple-06: #9E3CC3;
+    --purple-07: #9E61C3;
+    --purple-08: #C39EFF;
+    --purple-09: #DAC3FF;
+    --purple-10: #E0D0FF;
+    --purple-11: #F1F1FF;
+    --purple-12: #F9F5FF;
+
+    /* 5. PHI MAGENTA */
+    --magenta-01: #3C003C;
+    --magenta-02: #610061;
+    --magenta-03: #8B008B;
+    --magenta-04: #9E009E;
+    --magenta-05: #C300C3;
+    --magenta-06: #DA00DA;
+    --magenta-07: #F100F1;
+    --magenta-08: #FF61FF;
+    --magenta-09: #FF9EFF;
+    --magenta-10: #FFDAFF;
+    --magenta-11: #FFE5FF;
+    --magenta-12: #FFF0FF;
+
+    /* 6. PHI RED */
+    --red-01: #250000;
+    --red-02: #3C0000;
+    --red-03: #610000;
+    --red-04: #9E0000;
+    --red-05: #DA0000;
+    --red-06: #FF0000;
+    --red-07: #FF3C3C;
+    --red-08: #FF6161;
+    --red-09: #FF9E9E;
+    --red-10: #FFC3C3;
+    --red-11: #FFDADA;
+    --red-12: #FFF1F1;
+
+    /* 7. PHI EARTH */
+    --earth-01: #250E0E;
+    --earth-02: #3C250E;
+    --earth-03: #613C25;
+    --earth-04: #8B4513;
+    --earth-05: #9E613C;
+    --earth-06: #A0522D;
+    --earth-07: #CD853F;
+    --earth-08: #FF9E61;
+    --earth-09: #FFC39E;
+    --earth-10: #FFDAC3;
+    --earth-11: #FFF1DA;
+    --earth-12: #FFFAF0;
+
+    /* 8. PHI SOLAR */
+    --solar-01: #F12500;
+    --solar-02: #F13C00;
+    --solar-03: #FF8C00;
+    --solar-04: #FF9E00;
+    --solar-05: #FFC300;
+    --solar-06: #FFDA00;
+    --solar-07: #FFF100;
+    --solar-08: #FFFF61;
+    --solar-09: #FFFF9E;
+    --solar-10: #FFFFC3;
+    --solar-11: #FFFFDA;
+    --solar-12: #FFFFF0;
+
+    /* UI MAPPINGS */
+    --c-bg: var(--mono-12);
+    --c-text: var(--mono-04);
+    --c-text-muted: var(--mono-07);
+    --c-border: var(--mono-05);
+    --c-border-light: var(--mono-09);
+    --c-nav-bg: var(--mono-10);
+    --c-hover: var(--mono-11);
+    --c-zone-bg: #f9f9f9;
+    /* Kept from original macro layout */
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* =========================================
+   2. BASE STYLES
+   ========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-rows: var(--header-height) 1fr var(--header-height);
+
+    background-color: var(--c-bg);
+    color: var(--c-text);
+    font-family: var(--font-sans);
+    font-size: var(--type-base);
+    line-height: var(--leading-base);
+    font-weight: 400;
+    /* Inter Regular */
+}
+
+p {
+    margin: 0 0 1rem 0;
+    font-weight: 400;
+}
+
+/* HEADERS: DM Serif Display */
+h1,
+h2,
+h3 {
+    margin: 0 0 1rem 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    /* DM Serif Display is typically 400 */
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: var(--type-h1);
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: var(--type-h2);
+    line-height: 1.2;
+}
+
+/* H3 can stay Sans or Serif depending on preference, keeping Serif for consistency with headers */
+h3 {
+    font-size: var(--type-base);
+    font-weight: 400;
+}
+
+/* LEAD / SUMMARY TEXT */
+.lead {
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    /* Slightly larger than base */
+    font-weight: 300;
+    /* Inter Light for elegance */
+    line-height: 1.5;
+    color: var(--c-text);
+    max-width: 65ch;
+    /* Optimal reading length */
+}
+
+.type-display-lg {
+    font-family: var(--font-serif);
+    font-size: var(--type-display-lg);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+}
+
+.type-display-med {
+    font-family: var(--font-serif);
+    font-size: var(--type-display-med);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+}
+
+small,
+.caption {
+    font-family: var(--font-sans);
+    font-size: var(--type-caption);
+    color: var(--c-text-muted);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.type-micro {
+    font-family: var(--font-sans);
+    font-size: var(--type-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+
+.zone {
+    background: var(--c-zone-bg);
+    border: 1px solid var(--c-border);
+    min-height: 1em;
+    /* Reduced from 300px to prevent gaps */
+
+    /* Container Query Context */
+    container-type: inline-size;
+    container-name: macro-zone;
+}
+
+/* UTILITY: Dark Zone (Matches mono-02 widgets, hides border) */
+.zone.dark {
+    background: var(--mono-02);
+    border-color: var(--mono-02);
+}
+
+/* UTILITY: Dark Border Only */
+.zone.border-dark {
+    border-color: var(--mono-02);
+}
+
+/* =========================================
+   3. APP SHELL
+   ========================================= */
+
+/* HEADER */
+header {
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    background: var(--c-bg);
+    border-bottom: 1px solid var(--c-border);
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+}
+
+/* ICON BUTTONS */
+.nav-btn {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+    color: var(--c-text);
+}
+
+.nav-btn:hover {
+    opacity: 0.6;
+}
+
+.nav-btn svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+}
+
+/* MAIN GRID */
+.shell-body {
+    display: grid;
+    transition: grid-template-columns 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+/* NAV PANELS */
+nav {
+    background: var(--c-nav-bg);
+    overflow-y: auto;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+}
+
+/* DESKTOP LOGIC (>1000px) */
+@media (min-width: 1000px) {
+    .shell-body {
+        grid-template-columns: var(--nav-width) 1fr 0px;
+    }
+
+    nav.left {
+        border-right: 1px solid var(--c-border);
+    }
+
+    nav.right {
+        border-left: 1px solid var(--c-border);
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    /* States */
+    body.left-closed .shell-body {
+        grid-template-columns: 0px 1fr 0px;
+    }
+
+    body.left-closed nav.left {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    body.right-open .shell-body {
+        grid-template-columns: var(--nav-width) 1fr var(--nav-width);
+    }
+
+    body.right-open nav.right {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    body.left-closed.right-open .shell-body {
+        grid-template-columns: 0px 1fr var(--nav-width);
+    }
+}
+
+/* MOBILE LOGIC (<1000px) */
+@media (max-width: 999px) {
+    .shell-body {
+        display: block;
+        position: relative;
+    }
+
+    nav.left,
+    nav.right {
+        position: fixed;
+        top: var(--header-height);
+        bottom: 0;
+        width: 85%;
+        max-width: 320px;
+        z-index: 4000;
+        background: var(--c-nav-bg);
+        transition: transform 0.3s ease;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        visibility: hidden;
+    }
+
+    nav.left {
+        left: 0;
+        border-right: 1px solid var(--c-border);
+        transform: translateX(-100%);
+    }
+
+    nav.right {
+        right: 0;
+        border-left: 1px solid var(--c-border);
+        transform: translateX(100%);
+    }
+
+    body.mobile-left-open nav.left {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    body.mobile-right-open nav.right {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    /* Backdrop */
+    body.mobile-left-open::after,
+    body.mobile-right-open::after {
+        content: '';
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 3000;
+        animation: fadeIn 0.3s forwards;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* NAV LINKS */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-l1 {
+    display: block;
+    padding: 1rem 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    color: var(--c-text);
+    border-bottom: 1px solid var(--c-border);
+}
+
+.nav-l2 {
+    display: block;
+    padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+    text-decoration: none;
+    color: var(--c-text-muted);
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--c-border-light);
+}
+
+.nav-l2:hover {
+    background: var(--c-hover);
+    color: var(--c-text);
+}
+
+/* =========================================
+   4. CONTENT AREA & MACRO LAYOUTS
+   ========================================= */
+main {
+    container-type: inline-size;
+    container-name: macro-view;
+    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    /* ADDED: Handles horizontal borders between sections */
+    gap: 1px;
+    background: var(--c-border);
+}
+
+/* SECTION WRAPPER */
+section {
+    width: 100%;
+    display: grid;
+    /* Default: Stacked Mobile */
+    grid-template-columns: 1fr;
+
+    /* ADDED: Handles vertical/inner borders between zones */
+    gap: 1px;
+    background: var(--c-border);
+}
+
+
+/* --- MACRO 1: FULL WIDTH (Wide Content) --- */
+.layout-full {
+    grid-template-columns: 1fr;
+}
+
+.layout-full .zone {
+    width: 100%;
+    background: var(--c-zone-bg);
+}
+
+
+/* --- MACRO 2: GOLDEN RATIO --- */
+/* Default: Stacked (Mobile) */
+.layout-golden {
+    grid-template-columns: 1fr;
+}
+
+/* Desktop: 1.618fr | 1fr (Row 1), Full (Row 2) */
+@container macro-view (min-width: 999px) {
+    .layout-golden {
+        grid-template-columns: 1.618fr 1fr;
+    }
+
+    .layout-golden .zone-3 {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Wide: 1.618fr | 1fr | 1.618fr */
+@container macro-view (min-width: 1900px) {
+    .layout-golden {
+        grid-template-columns: 1.618fr 1fr 1.618fr;
+    }
+
+    .layout-golden .zone-3 {
+        grid-column: auto;
+    }
+}
+
+
+/* --- MACRO 3: TRINITY (1:1:1) --- */
+/* Default: Stacked (Mobile) */
+.layout-trinity {
+    grid-template-columns: 1fr;
+}
+
+/* Desktop: 1fr | 1fr (Row 1), Full (Row 2) */
+@container macro-view (min-width: 768px) {
+    .layout-trinity {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .layout-trinity .zone-3 {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Wide: 1fr | 1fr | 1fr */
+@container macro-view (min-width: 1900px) {
+    .layout-trinity {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .layout-trinity .zone-3 {
+        grid-column: auto;
+    }
+}
+
+/* --- MACRO 4: STATIC DYNAMIC (1000px | Fluid) --- */
+/* Default: Stacked (Mobile/Tablet) */
+.layout-static-dynamic {
+    grid-template-columns: 1fr;
+}
+
+/* Desktop Wide: 1000px | 1fr */
+@container macro-view (min-width: 1400px) {
+    .layout-static-dynamic {
+        grid-template-columns: 1000px 1fr;
+    }
+}
+
+/* FOOTER */
+footer {
+    border-top: 1px solid var(--c-border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    background: var(--c-bg);
+    z-index: 50;
+}

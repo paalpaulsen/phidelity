@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phidelity: Framework Shell</title>
+
+  <!-- Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/macro.css">
+  <link rel="stylesheet" href="css/micro.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <!-- Icon: Menu -->
+    <button id="btn-left" class="nav-btn" aria-label="Toggle Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+
+    <span>Phidelity</span>
+
+    <!-- Icon: User Profile -->
+    <button id="btn-right" class="nav-btn" aria-label="User Profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+    </button>
+  </header>
+
+  <div class="shell-body">
+
+    <!-- LEFT NAV -->
+    <nav class="left">
+      <ul>
+        <li><span class="nav-l1">Layouts</span></li>
+        <li><a href="#full" class="nav-l2">Full Width</a></li>
+        <li><a href="#golden" class="nav-l2">Golden Ratio</a></li>
+        <li><a href="#trinity" class="nav-l2">Trinity</a></li>
+      </ul>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content">
+
+      <!-- 0. STATIC DYNAMIC (New Top Section) -->
+      <section class="layout-static-dynamic">
+        <div class="zone">
+          <phi-title-summary-meta eyebrow="Phidelity" title="The missing design system"
+            summary="Design systems and CSS frameworks like Bootstrap, Foundation and Tailwind focus on microscopic tokens, atoms and minor components. Phidelity delivers the bigger picture - A framework for larger modules and responsive compositions."
+            name="Pål Eirik Paulsen" role="Digital Designer and Developer" image="assets/images/author.jpg">
+          </phi-title-summary-meta>
+        </div>
+        <div class="zone">
+          <phi-media-gallery images='[
+            {
+              "src": "assets/images/gallery_1.jpg",
+              "title": "Golden Spiral",
+              "description": "A perfect example of the Fibonacci sequence in nature, demonstrating the mathematical harmony that underpins the Phidelity design system.",
+              "credits": "Photo: Nature Collection"
+            },
+            {
+              "src": "assets/images/gallery_2.jpg",
+              "title": "Fluid Dynamics",
+              "description": "The ocean wave represents the fluid responsiveness of our grid, adapting seamlessly to any container width.",
+              "credits": "Photo: Ocean Series"
+            },
+            {
+              "src": "assets/images/gallery_3.jpg",
+              "title": "Cosmic Spiral",
+              "description": "The galaxy illustrates the universal scale of the golden ratio.",
+              "credits": "Photo: Space Archive"
+            },
+            {
+              "src": "assets/images/gallery_4.jpg",
+              "title": "Fractal Succulent",
+              "description": "Natural geometry in flora showing precise repetition and scale.",
+              "credits": "Photo: Botanical Garden"
+            }
+          ]'></phi-media-gallery>
+        </div>
+      </section>
+
+      <!-- HEADER: GRID SYSTEM -->
+      <section class="layout-full">
+        <div class="zone dark">
+          <phi-section-header title="Phidelity Grid System"
+            lead="A responsive, mathematical grid framework based on the Golden Ratio. Observe how the columns and gutters adapt fluidly across different viewports.">
+          </phi-section-header>
+        </div>
+      </section>
+
+      <!-- . FULL WIDTH (For Wide Content) -->
+      <section id="full-bottom" class="layout-full">
+        <div class="zone border-dark">
+          <!-- Full Width Zone -->
+          <phi-grid-display></phi-grid-display>
+        </div>
+      </section>
+
+      <!-- HEADER: PANTONE DECK -->
+      <section class="layout-full">
+        <div class="zone dark">
+          <phi-section-header title="Phidelity Pantone Deck"
+            lead="The complete color spectrum of the design system. 8 scales, 12 steps each, mathematically derived for perfect harmony and contrast.">
+          </phi-section-header>
+        </div>
+      </section>
+
+      <!-- PANTONE DECK -->
+      <section id="pantone" class="layout-full">
+        <div class="zone border-dark">
+          <phi-pantone-deck></phi-pantone-deck>
+        </div>
+      </section>
+
+      <!-- 2. GOLDEN RATIO -->
+      <section id="golden" class="layout-golden">
+        <div class="zone zone-1"></div>
+        <div class="zone zone-2"></div>
+        <div class="zone zone-3"></div>
+      </section>
+
+      <!-- 3. TRINITY (1:1:1) -->
+      <section id="trinity" class="layout-trinity">
+        <div class="zone zone-1"></div>
+        <div class="zone zone-2"></div>
+        <div class="zone zone-3"></div>
+      </section>
+
+    </main>
+
+    <!-- RIGHT NAV (User Profile Context) -->
+    <nav class="right">
+      <ul>
+        <li><span class="nav-l1">User</span></li>
+        <li><a href="#" class="nav-l2">Profile</a></li>
+        <li><a href="#" class="nav-l2">Account Settings</a></li>
+        <li><a href="#" class="nav-l2">Log Out</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <footer>
+    <span>&copy; 2025 Phidelity</span>
+    <span>System Status: Active</span>
+  </footer>
+
+  <!-- Logic -->
+  <script src="js/app.js"></script>
+  <script src="widgets/SectionHeader.js"></script>
+  <script src="widgets/GridDisplay.js"></script>
+  <script src="widgets/PantoneDeck.js"></script>
+  <script src="widgets/TitleSummaryMeta.js"></script>
+  <script src="widgets/MediaGallery.js"></script>
+
+
+</body>
+
+</html>

@@ -5,7 +5,7 @@ const main = document.getElementById('main-content');
 
 const toggleNav = (side) => {
   const isMobile = window.innerWidth < 1000;
-  
+
   if (isMobile) {
     // Mobile Logic (Exclusive Toggles)
     if (side === 'left') {

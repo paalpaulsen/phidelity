@@ -29,7 +29,6 @@ class SectionHeader extends HTMLElement {
           width: 100%;
           --c-bg: var(--mono-02, #0E0E0E);
           --c-text: #fff;
-          --c-accent: #00E0FF;
           --font-serif: 'DM Serif Display', serif;
           --font-sans: 'Inter', sans-serif;
         }
@@ -47,19 +46,21 @@ class SectionHeader extends HTMLElement {
           container-name: header-box;
         }
 
-        /* Decorative accent line */
-        .header-block::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0;
-          width: 4px; height: 100%;
-          background: var(--c-accent);
-          z-index: 1;
-        }
-
         .content-wrapper {
           display: grid;
-          /* Grid columns defined in queries below */
+          /* Local Typography Defaults (Mobile) */
+          --scale: 1.309;
+          --type-base: 1rem;
+          /* H2 uses global fluid clamp */
+          --type-summary-l: calc(var(--type-base) * var(--scale) * var(--scale));
+        }
+
+        /* Desktop Typography Override */
+        @container header-box (min-width: 963px) {
+          .content-wrapper {
+            --scale: 1.618;
+            --type-summary-l: calc(var(--type-base) * var(--scale));
+          }
         }
 
         .text-container {
@@ -72,7 +73,7 @@ class SectionHeader extends HTMLElement {
 
         h2 {
           font-family: var(--font-serif);
-          font-size: 3rem;
+          font-size: var(--type-h2);
           font-weight: 400;
           margin: 0;
           line-height: 1.1;
@@ -81,10 +82,10 @@ class SectionHeader extends HTMLElement {
 
         .lead {
           font-family: var(--font-sans);
-          font-size: 1.25rem;
+          font-size: var(--type-summary-l);
           font-weight: 300;
-          line-height: 1.6;
-          opacity: 0.8;
+          line-height: 1.309;
+          color: var(--mono-07);
           max-width: 65ch;
           margin: 0;
         }
@@ -96,44 +97,42 @@ class SectionHeader extends HTMLElement {
         @container header-box (max-width: 169px) {
           .content-wrapper { grid-template-columns: repeat(13, 1fr); }
           .text-container { grid-column: 3 / -3; } /* Fallback for tiny screens: standard margin */
-          h2 { font-size: 2rem; }
         }
 
         /* 26 Cols (170px - 650px) */
         @container header-box (min-width: 170px) and (max-width: 650px) {
           .content-wrapper { grid-template-columns: repeat(26, 1fr); }
           .text-container { grid-column: 3 / -3; } /* Mobile: standard margin is better than col 7 (too narrow) */
-          h2 { font-size: 2.5rem; }
         }
 
         /* 50 Cols (651px - 962px) */
         @container header-box (min-width: 651px) and (max-width: 962px) {
           .content-wrapper { grid-template-columns: repeat(50, 1fr); }
-          .text-container { grid-column: 7 / -3; }
+          .text-container { grid-column: 7 / -7; }
         }
 
         /* 74 Cols (963px - 1274px) */
         @container header-box (min-width: 963px) and (max-width: 1274px) {
           .content-wrapper { grid-template-columns: repeat(74, 1fr); }
-          .text-container { grid-column: 7 / -3; }
+          .text-container { grid-column: 7 / -7; }
         }
 
         /* 98 Cols (1275px - 1585px) */
         @container header-box (min-width: 1275px) and (max-width: 1585px) {
           .content-wrapper { grid-template-columns: repeat(98, 1fr); }
-          .text-container { grid-column: 7 / -3; }
+          .text-container { grid-column: 7 / -7; }
         }
 
         /* 122 Cols (1586px - 1897px) */
         @container header-box (min-width: 1586px) and (max-width: 1897px) {
           .content-wrapper { grid-template-columns: repeat(122, 1fr); }
-          .text-container { grid-column: 7 / -3; }
+          .text-container { grid-column: 7 / -7; }
         }
 
         /* 146 Cols (> 1898px) */
         @container header-box (min-width: 1898px) {
           .content-wrapper { grid-template-columns: repeat(146, 1fr); }
-          .text-container { grid-column: 7 / -3; }
+          .text-container { grid-column: 7 / -7; }
         }
 
       </style>

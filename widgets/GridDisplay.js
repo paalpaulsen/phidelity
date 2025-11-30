@@ -60,19 +60,35 @@ class GridDisplay extends HTMLElement {
         /* 2. THE HUD (Heads Up Display) */
         .hud {
           background: var(--c-hud-bg); color: var(--c-hud-text);
-          font-family: 'JetBrains Mono', monospace; font-size: 11px;
-          padding: 1rem 1.5rem;
+          padding: 1rem 0;
           margin-bottom: 1.5rem;
-          display: flex; flex-wrap: wrap; gap: 2rem; align-items: center;
-          border-bottom: 2px solid var(--c-accent);
+          display: grid;
+          /* Grid columns defined in queries below */
+          align-items: start;
         }
         
         .hud-item { display: flex; flex-direction: column; gap: 4px; }
-        .hud-label { text-transform: uppercase; opacity: 0.5; font-size: 9px; letter-spacing: 1px; }
-        .hud-value { font-size: 14px; font-weight: 700; }
+        
+        /* TYPOGRAPHY */
+        .eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            opacity: 0.5;
+            margin: 0;
+        }
+
+        .paragraph {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            margin: 0;
+        }
         
         /* Live Width Color */
-        #live-width { color: var(--c-accent); }
+        #live-width { color: var(--mono-12, #fff); font-weight: 700; }
         
         /* Breakpoint info injected via CSS */
         .hud-bp::after { content: "Initializing..."; }
@@ -109,19 +125,22 @@ class GridDisplay extends HTMLElement {
 
         /* --- WATCH: 13 COLUMNS (0 - 169px) --- */
         @container (max-width: 169px) {
-          .grid-ruler, .row { grid-template-columns: repeat(13, 1fr); }
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(13, 1fr); }
           .col-index:nth-child(-n+13) { display: flex; }
           .col-index:nth-child(12), .col-index:nth-child(13) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
           
           .row.is-full { display: grid; }
           .full { grid-column: 3 / 12; }
 
+          .hud-item:nth-child(1) { grid-column: 3 / 12; margin-bottom: 1rem; }
+          .hud-item:nth-child(2) { grid-column: 3 / 12; }
+
           .hud-bp::after { content: "13 Cols [0px - 169px]"; }
         }
 
         /* --- MOBILE: 26 COLUMNS (170px - 650px) --- */
         @container (min-width: 170px) and (max-width: 650px) {
-          .grid-ruler, .row { grid-template-columns: repeat(26, 1fr); }
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(26, 1fr); }
           .col-index:nth-child(-n+26) { display: flex; }
           .col-index:nth-child(25), .col-index:nth-child(26) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
 
@@ -134,12 +153,15 @@ class GridDisplay extends HTMLElement {
           .sixth1 { grid-column: 3 / 5; } .sixth2 { grid-column: 7 / 9; } .sixth3 { grid-column: 11 / 13; } .sixth4 { grid-column: 15 / 17; } .sixth5 { grid-column: 19 / 21; } .sixth6 { grid-column: 23 / 25; }
           .eighth1 { grid-column: 3 / 4; } .eighth2 { grid-column: 6 / 7; } .eighth3 { grid-column: 9 / 10; } .eighth4 { grid-column: 12 / 13; } .eighth5 { grid-column: 15 / 16; } .eighth6 { grid-column: 18 / 19; } .eighth7 { grid-column: 21 / 22; } .eighth8 { grid-column: 24 / 25; }
 
+          .hud-item:nth-child(1) { grid-column: 3 / 13; }
+          .hud-item:nth-child(2) { grid-column: 15 / 25; }
+
           .hud-bp::after { content: "26 Cols [Start: 170px | End: 650px]"; }
         }
 
         /* --- TABLET: 50 COLUMNS (651px - 962px) --- */
         @container (min-width: 651px) and (max-width: 962px) {
-          .grid-ruler, .row { grid-template-columns: repeat(50, 1fr); }
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(50, 1fr); }
           .col-index:nth-child(-n+50) { display: flex; }
           .col-index:nth-child(49), .col-index:nth-child(50) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
           
@@ -153,12 +175,15 @@ class GridDisplay extends HTMLElement {
           .eighth1 { grid-column: 3 / 7; } .eighth2 { grid-column: 9 / 13; } .eighth3 { grid-column: 15 / 19; } .eighth4 { grid-column: 21 / 25; } .eighth5 { grid-column: 27 / 31; } .eighth6 { grid-column: 33 / 37; } .eighth7 { grid-column: 39 / 43; } .eighth8 { grid-column: 45 / 49; }
           .twelfth1 { grid-column: 3 / 5; } .twelfth2 { grid-column: 7 / 9; } .twelfth3 { grid-column: 11 / 13; } .twelfth4 { grid-column: 15 / 17; } .twelfth5 { grid-column: 19 / 21; } .twelfth6 { grid-column: 23 / 25; } .twelfth7 { grid-column: 27 / 29; } .twelfth8 { grid-column: 31 / 33; } .twelfth9 { grid-column: 35 / 37; } .twelfth10 { grid-column: 39 / 41; } .twelfth11 { grid-column: 43 / 45; } .twelfth12 { grid-column: 47 / 49; }
 
+          .hud-item:nth-child(1) { grid-column: 7 / 17; }
+          .hud-item:nth-child(2) { grid-column: 19 / -7; }
+
           .hud-bp::after { content: "50 Cols [Start: 651px | End: 962px]"; }
         }
 
         /* --- DESKTOP: 74 COLUMNS (963px - 1274px) --- */
         @container (min-width: 963px) and (max-width: 1274px) {
-          .grid-ruler, .row { grid-template-columns: repeat(74, 1fr); }
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(74, 1fr); }
           .col-index:nth-child(-n+74) { display: flex; }
           .col-index:nth-child(73), .col-index:nth-child(74) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
           
@@ -172,12 +197,15 @@ class GridDisplay extends HTMLElement {
           .eighth1 { grid-column: 3 / 10; } .eighth2 { grid-column: 12 / 19; } .eighth3 { grid-column: 21 / 28; } .eighth4 { grid-column: 30 / 37; } .eighth5 { grid-column: 39 / 46; } .eighth6 { grid-column: 48 / 55; } .eighth7 { grid-column: 57 / 64; } .eighth8 { grid-column: 66 / 73; }
           .twelfth1 { grid-column: 3 / 7; } .twelfth2 { grid-column: 9 / 13; } .twelfth3 { grid-column: 15 / 19; } .twelfth4 { grid-column: 21 / 25; } .twelfth5 { grid-column: 27 / 31; } .twelfth6 { grid-column: 33 / 37; } .twelfth7 { grid-column: 39 / 43; } .twelfth8 { grid-column: 45 / 49; } .twelfth9 { grid-column: 51 / 55; } .twelfth10 { grid-column: 57 / 61; } .twelfth11 { grid-column: 63 / 67; } .twelfth12 { grid-column: 69 / 73; }
 
+          .hud-item:nth-child(1) { grid-column: 7 / 17; }
+          .hud-item:nth-child(2) { grid-column: 19 / -7; }
+
           .hud-bp::after { content: "74 Cols [Start: 963px | End: 1274px]"; }
         }
 
         /* --- LARGE: 98 COLUMNS (1275px - 1585px) --- */
         @container (min-width: 1275px) and (max-width: 1585px) {
-          .grid-ruler, .row { grid-template-columns: repeat(98, 1fr); }
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(98, 1fr); }
           .col-index:nth-child(-n+98) { display: flex; }
           .col-index:nth-child(97), .col-index:nth-child(98) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
           
@@ -191,12 +219,15 @@ class GridDisplay extends HTMLElement {
           .eighth1 { grid-column: 3 / 13; } .eighth2 { grid-column: 15 / 25; } .eighth3 { grid-column: 27 / 37; } .eighth4 { grid-column: 39 / 49; } .eighth5 { grid-column: 51 / 61; } .eighth6 { grid-column: 63 / 73; } .eighth7 { grid-column: 75 / 85; } .eighth8 { grid-column: 87 / 97; }
           .twelfth1 { grid-column: 3 / 9; } .twelfth2 { grid-column: 11 / 17; } .twelfth3 { grid-column: 19 / 25; } .twelfth4 { grid-column: 27 / 33; } .twelfth5 { grid-column: 35 / 41; } .twelfth6 { grid-column: 43 / 49; } .twelfth7 { grid-column: 51 / 57; } .twelfth8 { grid-column: 59 / 65; } .twelfth9 { grid-column: 67 / 73; } .twelfth10 { grid-column: 75 / 81; } .twelfth11 { grid-column: 83 / 89; } .twelfth12 { grid-column: 91 / 97; }
 
+          .hud-item:nth-child(1) { grid-column: 7 / 17; }
+          .hud-item:nth-child(2) { grid-column: 19 / -7; }
+
           .hud-bp::after { content: "98 Cols [Start: 1275px | End: 1585px]"; }
         }
 
         /* --- XL: 122 COLUMNS (1586px - 1897px) --- */
         @container (min-width: 1586px) and (max-width: 1897px) {
-          .grid-ruler, .row { grid-template-columns: repeat(122, 1fr); }
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(122, 1fr); }
           .col-index:nth-child(-n+122) { display: flex; }
           .col-index:nth-child(121), .col-index:nth-child(122) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
           
@@ -210,12 +241,15 @@ class GridDisplay extends HTMLElement {
           .eighth1 { grid-column: 3 / 16; } .eighth2 { grid-column: 18 / 31; } .eighth3 { grid-column: 33 / 46; } .eighth4 { grid-column: 48 / 61; } .eighth5 { grid-column: 63 / 76; } .eighth6 { grid-column: 78 / 91; } .eighth7 { grid-column: 93 / 106; } .eighth8 { grid-column: 108 / 121; }
           .twelfth1 { grid-column: 3 / 11; } .twelfth2 { grid-column: 13 / 21; } .twelfth3 { grid-column: 23 / 31; } .twelfth4 { grid-column: 33 / 41; } .twelfth5 { grid-column: 43 / 51; } .twelfth6 { grid-column: 53 / 61; } .twelfth7 { grid-column: 63 / 71; } .twelfth8 { grid-column: 73 / 81; } .twelfth9 { grid-column: 83 / 91; } .twelfth10 { grid-column: 93 / 101; } .twelfth11 { grid-column: 103 / 111; } .twelfth12 { grid-column: 113 / 121; }
 
+          .hud-item:nth-child(1) { grid-column: 7 / 17; }
+          .hud-item:nth-child(2) { grid-column: 19 / -7; }
+
           .hud-bp::after { content: "122 Cols [Start: 1586px | End: 1897px]"; }
         }
 
         /* --- CINEMA: 146 COLUMNS (1898px +) --- */
         @container (min-width: 1898px) {
-          .grid-ruler, .row { grid-template-columns: repeat(146, 1fr); }
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(146, 1fr); }
           .col-index:nth-child(-n+146) { display: flex; }
           .col-index:nth-child(145), .col-index:nth-child(146) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
           
@@ -237,6 +271,9 @@ class GridDisplay extends HTMLElement {
           /* Sixteenths (7 cols wide) */
           .sixteenth1 { grid-column: 3 / 10; } .sixteenth2 { grid-column: 12 / 19; } .sixteenth3 { grid-column: 21 / 28; } .sixteenth4 { grid-column: 30 / 37; } .sixteenth5 { grid-column: 39 / 46; } .sixteenth6 { grid-column: 48 / 55; } .sixteenth7 { grid-column: 57 / 64; } .sixteenth8 { grid-column: 66 / 73; } .sixteenth9 { grid-column: 75 / 82; } .sixteenth10 { grid-column: 84 / 91; } .sixteenth11 { grid-column: 93 / 100; } .sixteenth12 { grid-column: 102 / 109; } .sixteenth13 { grid-column: 111 / 118; } .sixteenth14 { grid-column: 120 / 127; } .sixteenth15 { grid-column: 129 / 136; } .sixteenth16 { grid-column: 138 / 145; }
 
+          .hud-item:nth-child(1) { grid-column: 7 / 17; }
+          .hud-item:nth-child(2) { grid-column: 19 / -7; }
+
           .hud-bp::after { content: "146 Cols [Start: 1898px]"; }
         }
       </style>
@@ -246,12 +283,12 @@ class GridDisplay extends HTMLElement {
           
           <div class="hud">
             <div class="hud-item">
-              <span class="hud-label">Active Viewport</span>
-              <span class="hud-value" id="live-width">---</span>
+              <span class="eyebrow">Active Viewport</span>
+              <span class="paragraph" id="live-width">---</span>
             </div>
             <div class="hud-item">
-              <span class="hud-label">Break Point</span>
-              <span class="hud-value hud-bp"></span>
+              <span class="eyebrow">Break Point</span>
+              <span class="paragraph hud-bp"></span>
             </div>
           </div>
 

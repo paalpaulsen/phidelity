@@ -3,6 +3,8 @@
    ========================================= */
 :root {
     --phi: 1.618033988;
+    --scale: 1.309;
+    /* Mobile Default */
     --nav-width: 362px;
     --header-height: 60px;
     --font-sans: 'Inter', sans-serif;
@@ -10,13 +12,35 @@
 
     /* TYPOGRAPHY SCALES */
     --type-base: 1rem;
-    --type-h2: calc(var(--type-base) * var(--phi));
-    --type-h1: calc(var(--type-h2) * var(--phi));
-    --type-display-med: calc(var(--type-h1) * var(--phi));
-    --type-display-lg: calc(var(--type-display-med) * var(--phi));
-    --type-caption: calc(var(--type-base) / var(--phi));
-    --type-micro: calc(var(--type-caption) / var(--phi));
-    --leading-base: var(--phi);
+
+    /* H3 = Base (Bold) */
+    --type-h3: var(--type-base);
+
+    /* H2 = Base * Scale (Fluid: 1.31rem -> 1.62rem) */
+    --type-h2: clamp(1.31rem, 1rem + 1cqw, 1.62rem);
+
+    /* H1 S = Base * Scale^2 (Fluid: 1.71rem -> 2.62rem) */
+    --type-h1-s: clamp(1.71rem, 1rem + 2cqw, 2.62rem);
+
+    /* H1 M = Base * Scale^3 (Fluid: 2.24rem -> 4.24rem) */
+    --type-h1-m: clamp(2.24rem, 1rem + 5cqw, 4.24rem);
+
+    /* H1 L = Base * Scale^4 (Fluid: 2.93rem -> 6.85rem) */
+    --type-h1-l: clamp(2.93rem, 1rem + 8cqw, 6.85rem);
+
+    /* Default H1 mapping */
+    --type-h1: var(--type-h1-m);
+
+    /* Display Sizes mapping */
+    --type-display-med: var(--type-h1-m);
+    --type-display-lg: var(--type-h1-l);
+
+    /* Summary L: Base * Scale */
+    --type-summary-l: calc(var(--type-base) * var(--scale));
+
+    --type-caption: calc(var(--type-base) / var(--scale));
+    --type-micro: calc(var(--type-caption) / var(--scale));
+    --leading-base: var(--scale);
 
     /* --- COLOR DEFINITIONS (12 Steps per Scale) --- */
 
@@ -208,14 +232,13 @@ h2 {
 /* H3 can stay Sans or Serif depending on preference, keeping Serif for consistency with headers */
 h3 {
     font-size: var(--type-base);
-    font-weight: 400;
+    font-weight: 700;
 }
 
 /* LEAD / SUMMARY TEXT */
 .lead {
     font-family: var(--font-sans);
-    font-size: 1.25rem;
-    /* Slightly larger than base */
+    font-size: var(--type-summary-l);
     font-weight: 300;
     /* Inter Light for elegance */
     line-height: 1.5;
@@ -297,6 +320,10 @@ small,
 
 /* DESKTOP LOGIC (>1000px) */
 @media (min-width: 1000px) {
+    :root {
+        --scale: 1.618;
+    }
+
     .shell-body {
         grid-template-columns: var(--nav-width) 1fr 0px;
     }

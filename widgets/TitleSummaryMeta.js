@@ -42,6 +42,20 @@ class TitleSummaryMeta extends HTMLElement {
           /* Grid defined in queries */
           padding-top: 4rem;
           padding-bottom: 4rem;
+          
+          /* Local Typography Defaults (Mobile) */
+          --scale: 1.309;
+          --type-base: 1rem;
+          /* H1 M uses global fluid clamp */
+          --type-summary-l: calc(var(--type-base) * var(--scale) * var(--scale));
+        }
+
+        /* Desktop Typography Override */
+        @container title-meta (min-width: 963px) {
+          .container {
+            --scale: 1.618;
+            --type-summary-l: calc(var(--type-base) * var(--scale));
+          }
         }
 
         /* Elements */
@@ -51,14 +65,14 @@ class TitleSummaryMeta extends HTMLElement {
           text-transform: uppercase;
           letter-spacing: 0.1em;
           font-weight: 700;
-          color: var(--c-text-muted, #999);
+          color: var(--mono-07);
           margin: 0 0 1rem 0;
         }
 
         h1 {
           grid-column: 1 / -1;
           font-family: var(--font-serif);
-          font-size: 4rem;
+          font-size: var(--type-h1-m);
           font-weight: 400;
           line-height: 1.1;
           margin: 0 0 1.5rem 0;
@@ -67,11 +81,11 @@ class TitleSummaryMeta extends HTMLElement {
 
         .lead {
           grid-column: 1 / -1;
-          font-size: 1.25rem;
+          font-size: var(--type-summary-l);
           font-weight: 300;
-          line-height: 1.5;
+          line-height: 1.309;
           margin: 0 0 2rem 0;
-          opacity: 0.9;
+          color: var(--mono-07);
         }
 
         .meta {
@@ -95,7 +109,7 @@ class TitleSummaryMeta extends HTMLElement {
         }
 
         .name { font-weight: 700; font-size: 1rem; }
-        .role { font-weight: 400; font-size: 0.875rem; color: var(--c-text-muted, #666); }
+        .role { font-weight: 400; font-size: 0.875rem; color: var(--mono-07); }
 
         /* --- PHIDELITY GRID LOGIC --- */
 

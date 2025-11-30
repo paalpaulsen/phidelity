@@ -113,13 +113,13 @@ class TypographicScale extends HTMLElement {
     render() {
         // Sorted: Headers -> Summaries -> Paragraph -> Caption -> Eyebrows
         const styles = [
-            { name: 'H1 L', token: 'H1-L', class: 'h1-l', tag: 'h1', calc: 'Base × φ³', lh: '1.1', isDouble: true },
-            { name: 'H1 M', token: 'H1-M', class: 'h1-m', tag: 'h1', calc: 'Base × φ²', lh: '1.1' },
-            { name: 'H1 S', token: 'H1-S', class: 'h1-s', tag: 'h1', calc: 'Base × φ¹', lh: '1.2' },
-            { name: 'H2', token: 'H2', class: 'h2', tag: 'h2', calc: 'Base × φ¹', lh: '1.3' },
-            { name: 'H3', token: 'H3', class: 'h3', tag: 'h3', calc: 'Base', lh: '1.4' },
-            { name: 'Summary L', token: 'Sum-L', class: 'summary-l', tag: 'p', calc: 'Base × φ¹', lh: '1.4' },
-            { name: 'Summary S', token: 'Sum-S', class: 'summary-s', tag: 'p', calc: 'Base × φ', lh: '1.5' },
+            { name: 'H1 L', token: 'H1-L', class: 'h1-l', tag: 'h1', calc: 'Base × φ⁵', lh: '1.1', isDouble: true },
+            { name: 'H1 M', token: 'H1-M', class: 'h1-m', tag: 'h1', calc: 'Base × φ⁴', lh: '1.1' },
+            { name: 'H1 S', token: 'H1-S', class: 'h1-s', tag: 'h1', calc: 'Base × φ³', lh: '1.2' },
+            { name: 'H2', token: 'H2', class: 'h2', tag: 'h2', calc: 'Base × φ²', lh: '1.3' },
+            { name: 'H3', token: 'H3', class: 'h3', tag: 'h3', calc: 'Base × φ¹', lh: '1.4' },
+            { name: 'Summary L', token: 'Sum-L', class: 'summary-l', tag: 'p', calc: 'Base × φ²', lh: '1.4' },
+            { name: 'Summary S', token: 'Sum-S', class: 'summary-s', tag: 'p', calc: 'Base × φ¹', lh: '1.5' },
             { name: 'Paragraph', token: 'P', class: 'p-body', tag: 'p', calc: 'Base', lh: '1.6' },
             { name: 'Caption', token: 'Cap', class: 'caption', tag: 'p', calc: 'Base ÷ φ', lh: '1.4' },
             { name: 'Eyebrow L', token: 'Eye-L', class: 'eyebrow-l', tag: 'p', calc: 'Base', lh: '1.2' },
@@ -191,7 +191,7 @@ class TypographicScale extends HTMLElement {
             flex-direction: column;
             justify-content: space-between;
             border: 1px solid var(--c-border);
-            border-radius: 4px;
+            border-radius: var(--radius-base, 0px);
         }
 
         .card-header {
@@ -211,7 +211,7 @@ class TypographicScale extends HTMLElement {
             font-weight: 600;
             background: #F5F5F5;
             padding: 4px 8px;
-            border-radius: 4px;
+            border-radius: var(--radius-base, 0px);
             color: #333;
         }
 

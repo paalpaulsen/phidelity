@@ -19,45 +19,18 @@
 <body>
 
   <!-- HEADER -->
-  <header>
-    <!-- Icon: Menu -->
-    <button id="btn-left" class="nav-btn" aria-label="Toggle Menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
-
-    <span>Phidelity</span>
-
-    <!-- Icon: User Profile -->
-    <button id="btn-right" class="nav-btn" aria-label="User Profile">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-      </svg>
-    </button>
-  </header>
+  <phi-header></phi-header>
 
   <div class="shell-body">
 
     <!-- LEFT NAV -->
-    <nav class="left">
-      <ul>
-        <li><span class="nav-l1">Layouts</span></li>
-        <li><a href="#full" class="nav-l2">Full Width</a></li>
-        <li><a href="#golden" class="nav-l2">Golden Ratio</a></li>
-        <li><a href="#trinity" class="nav-l2">Trinity</a></li>
-      </ul>
-    </nav>
+    <phi-left-nav></phi-left-nav>
 
     <!-- MAIN CONTENT -->
-    <main id="main-content">
+    <phi-main>
 
       <!-- 0. STATIC DYNAMIC (New Top Section) -->
-      <section class="layout-static-dynamic">
+      <phi-section layout="static-dynamic">
         <div class="zone">
           <phi-title-summary-meta eyebrow="Phidelity" title="The missing design system"
             summary="Design systems and CSS frameworks like Bootstrap, Foundation and Tailwind focus on microscopic tokens, atoms and minor components. Phidelity delivers the bigger picture - A framework for larger modules and responsive compositions."
@@ -92,90 +65,87 @@
             }
           ]'></phi-media-gallery>
         </div>
-      </section>
+      </phi-section>
 
       <!-- HEADER: TYPOGRAPHIC SCALE -->
-      <section class="layout-full">
+      <phi-section layout="full">
         <div class="zone dark">
           <phi-section-header title="Typographic Scale"
             lead="The mathematical type system ensuring rhythm and harmony. Scales adapt between Desktop (1.618) and Mobile (1.309).">
           </phi-section-header>
         </div>
-      </section>
+      </phi-section>
 
       <!-- TYPOGRAPHIC SCALE -->
-      <section class="layout-full">
+      <phi-section layout="full">
         <div class="zone">
           <phi-typographic-scale></phi-typographic-scale>
         </div>
-      </section>
+      </phi-section>
 
       <!-- HEADER: GRID SYSTEM -->
-      <section class="layout-full">
+      <phi-section layout="full">
         <div class="zone dark">
           <phi-section-header title="Phidelity Grid System"
             lead="A responsive, mathematical grid framework based on the Golden Ratio. Observe how the columns and gutters adapt fluidly across different viewports.">
           </phi-section-header>
         </div>
-      </section>
+      </phi-section>
 
       <!-- . FULL WIDTH (For Wide Content) -->
-      <section id="full-bottom" class="layout-full">
+      <phi-section layout="full" id="full-bottom">
         <div class="zone border-dark">
           <!-- Full Width Zone -->
           <phi-grid-display></phi-grid-display>
         </div>
-      </section>
+      </phi-section>
 
       <!-- HEADER: PANTONE DECK -->
-      <section class="layout-full">
+      <phi-section layout="full">
         <div class="zone dark">
           <phi-section-header title="Phidelity Pantone Deck"
             lead="The complete color spectrum of the design system. 8 scales, 12 steps each, mathematically derived for perfect harmony and contrast.">
           </phi-section-header>
         </div>
-      </section>
+      </phi-section>
 
       <!-- PANTONE DECK -->
-      <section id="pantone" class="layout-full">
+      <phi-section layout="full" id="pantone">
         <div class="zone border-dark">
           <phi-pantone-deck></phi-pantone-deck>
         </div>
-      </section>
+      </phi-section>
 
       <!-- 2. GOLDEN RATIO -->
-      <section id="golden" class="layout-golden">
+      <phi-section layout="golden" id="golden">
         <div class="zone zone-1"></div>
         <div class="zone zone-2"></div>
         <div class="zone zone-3"></div>
-      </section>
+      </phi-section>
 
       <!-- 3. TRINITY (1:1:1) -->
-      <section id="trinity" class="layout-trinity">
+      <phi-section layout="trinity" id="trinity">
         <div class="zone zone-1"></div>
         <div class="zone zone-2"></div>
         <div class="zone zone-3"></div>
-      </section>
+      </phi-section>
 
-    </main>
+    </phi-main>
 
     <!-- RIGHT NAV (User Profile Context) -->
-    <nav class="right">
-      <ul>
-        <li><span class="nav-l1">User</span></li>
-        <li><a href="#" class="nav-l2">Profile</a></li>
-        <li><a href="#" class="nav-l2">Account Settings</a></li>
-        <li><a href="#" class="nav-l2">Log Out</a></li>
-      </ul>
-    </nav>
+    <phi-right-nav></phi-right-nav>
   </div>
 
-  <footer>
-    <span>&copy; 2025 Phidelity</span>
-    <span>System Status: Active</span>
-  </footer>
+  <phi-footer></phi-footer>
 
   <!-- Logic -->
+  <script src="components/PhiHeader.js"></script>
+  <script src="components/PhiLeftNav.js"></script>
+  <script src="components/PhiRightNav.js"></script>
+  <script src="components/PhiMain.js"></script>
+  <script src="components/PhiFooter.js"></script>
+  <script src="components/PhiSection.js"></script>
+
   <script src="widgets/TitleSummaryMeta.js"></script>
   <script src="widgets/PantoneDeck.js"></script>
   <script src="widgets/SectionHeader.js"></script>

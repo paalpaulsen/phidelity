@@ -141,7 +141,10 @@
     --c-nav-bg: var(--mono-10);
     --c-hover: var(--mono-11);
     --c-zone-bg: #f9f9f9;
-    /* Kept from original macro layout */
+
+    /* LAYOUT CONTROLLER */
+    --max-width: 3000px;
+    --radius-base: 0px;
 }
 
 * {
@@ -151,11 +154,19 @@
 /* =========================================
    2. BASE STYLES
    ========================================= */
+html {
+    background-color: var(--mono-09);
+}
+
 body {
-    margin: 0;
+    margin: 0 auto;
+    /* Centered */
     padding: 0;
     display: grid;
     grid-template-rows: var(--header-height) 1fr var(--header-height);
+
+    max-width: var(--max-width);
+    width: 100%;
 
     background-color: var(--c-bg);
     color: var(--c-text);
@@ -164,6 +175,8 @@ body {
     line-height: var(--leading-base);
     font-weight: 400;
     /* Inter Regular */
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+    /* Optional: Visual separation on huge screens */
 }
 
 p {
@@ -272,61 +285,14 @@ small,
    3. APP SHELL
    ========================================= */
 
-/* HEADER */
-header {
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.8rem;
-    background: var(--c-bg);
-    border-bottom: 1px solid var(--c-border);
-    position: sticky;
-    top: 0;
-    z-index: 5000;
-}
-
-/* ICON BUTTONS */
-.nav-btn {
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.2s;
-    color: var(--c-text);
-}
-
-.nav-btn:hover {
-    opacity: 0.6;
-}
-
-.nav-btn svg {
-    width: 24px;
-    height: 24px;
-    display: block;
-}
-
 /* MAIN GRID */
 .shell-body {
     display: grid;
     transition: grid-template-columns 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     overflow: hidden;
     position: relative;
-}
-
-/* NAV PANELS */
-nav {
-    background: var(--c-nav-bg);
-    overflow-y: auto;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: column;
+    height: calc(100vh - 120px);
+    /* Viewport - Header - Footer */
 }
 
 /* DESKTOP LOGIC (>1000px) */
@@ -335,12 +301,14 @@ nav {
         grid-template-columns: var(--nav-width) 1fr 0px;
     }
 
-    nav.left {
+    phi-left-nav {
         border-right: 1px solid var(--c-border);
+        border-left: 1px solid var(--c-border);
     }
 
-    nav.right {
+    phi-right-nav {
         border-left: 1px solid var(--c-border);
+        border-right: 1px solid var(--c-border);
         visibility: hidden;
         opacity: 0;
     }
@@ -350,7 +318,7 @@ nav {
         grid-template-columns: 0px 1fr 0px;
     }
 
-    body.left-closed nav.left {
+    body.left-closed phi-left-nav {
         visibility: hidden;
         opacity: 0;
     }
@@ -359,7 +327,7 @@ nav {
         grid-template-columns: var(--nav-width) 1fr var(--nav-width);
     }
 
-    body.right-open nav.right {
+    body.right-open phi-right-nav {
         visibility: visible;
         opacity: 1;
     }
@@ -374,10 +342,12 @@ nav {
     .shell-body {
         display: block;
         position: relative;
+        height: auto;
+        min-height: calc(100vh - 120px);
     }
 
-    nav.left,
-    nav.right {
+    phi-left-nav,
+    phi-right-nav {
         position: fixed;
         top: var(--header-height);
         bottom: 0;
@@ -390,24 +360,24 @@ nav {
         visibility: hidden;
     }
 
-    nav.left {
+    phi-left-nav {
         left: 0;
         border-right: 1px solid var(--c-border);
         transform: translateX(-100%);
     }
 
-    nav.right {
+    phi-right-nav {
         right: 0;
         border-left: 1px solid var(--c-border);
         transform: translateX(100%);
     }
 
-    body.mobile-left-open nav.left {
+    body.mobile-left-open phi-left-nav {
         transform: translateX(0);
         visibility: visible;
     }
 
-    body.mobile-right-open nav.right {
+    body.mobile-right-open phi-right-nav {
         transform: translateX(0);
         visibility: visible;
     }
@@ -437,159 +407,25 @@ nav {
     }
 }
 
-/* NAV LINKS */
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.nav-l1 {
-    display: block;
-    padding: 1rem 1.5rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-    color: var(--c-text);
-    border-bottom: 1px solid var(--c-border);
-}
-
-.nav-l2 {
-    display: block;
-    padding: 0.8rem 1.5rem 0.8rem 2.5rem;
-    text-decoration: none;
-    color: var(--c-text-muted);
-    font-weight: 500;
-    font-size: 0.9rem;
-    border-bottom: 1px solid var(--c-border-light);
-}
-
-.nav-l2:hover {
-    background: var(--c-hover);
-    color: var(--c-text);
-}
-
 /* =========================================
-   4. CONTENT AREA & MACRO LAYOUTS
+   4. ZONES (Content Slots)
    ========================================= */
-main {
-    container-type: inline-size;
-    container-name: macro-view;
-    overflow-y: auto;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-
-    /* ADDED: Handles horizontal borders between sections */
-    gap: 1px;
-    background: var(--c-border);
-}
-
-/* SECTION WRAPPER */
-section {
-    width: 100%;
-    display: grid;
-    /* Default: Stacked Mobile */
-    grid-template-columns: 1fr;
-
-    /* ADDED: Handles vertical/inner borders between zones */
-    gap: 1px;
-    background: var(--c-border);
-}
-
-
-/* --- MACRO 1: FULL WIDTH (Wide Content) --- */
-.layout-full {
-    grid-template-columns: 1fr;
-}
-
-.layout-full .zone {
-    width: 100%;
+.zone {
     background: var(--c-zone-bg);
+    border: 1px solid var(--c-border);
+    min-height: 1em;
+    /* Container Query Context */
+    container-type: inline-size;
+    container-name: macro-zone;
 }
 
-
-/* --- MACRO 2: GOLDEN RATIO --- */
-/* Default: Stacked (Mobile) */
-.layout-golden {
-    grid-template-columns: 1fr;
+/* UTILITY: Dark Zone */
+.zone.dark {
+    background: var(--mono-02);
+    border-color: var(--mono-02);
 }
 
-/* Desktop: 1.618fr | 1fr (Row 1), Full (Row 2) */
-@container macro-view (min-width: 999px) {
-    .layout-golden {
-        grid-template-columns: 1.618fr 1fr;
-    }
-
-    .layout-golden .zone-3 {
-        grid-column: 1 / -1;
-    }
-}
-
-/* Wide: 1.618fr | 1fr | 1.618fr */
-@container macro-view (min-width: 1900px) {
-    .layout-golden {
-        grid-template-columns: 1.618fr 1fr 1.618fr;
-    }
-
-    .layout-golden .zone-3 {
-        grid-column: auto;
-    }
-}
-
-
-/* --- MACRO 3: TRINITY (1:1:1) --- */
-/* Default: Stacked (Mobile) */
-.layout-trinity {
-    grid-template-columns: 1fr;
-}
-
-/* Desktop: 1fr | 1fr (Row 1), Full (Row 2) */
-@container macro-view (min-width: 768px) {
-    .layout-trinity {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .layout-trinity .zone-3 {
-        grid-column: 1 / -1;
-    }
-}
-
-/* Wide: 1fr | 1fr | 1fr */
-@container macro-view (min-width: 1900px) {
-    .layout-trinity {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .layout-trinity .zone-3 {
-        grid-column: auto;
-    }
-}
-
-/* --- MACRO 4: STATIC DYNAMIC (1000px | Fluid) --- */
-/* Default: Stacked (Mobile/Tablet) */
-.layout-static-dynamic {
-    grid-template-columns: 1fr;
-}
-
-/* Desktop Wide: 1000px | 1fr */
-@container macro-view (min-width: 1400px) {
-    .layout-static-dynamic {
-        grid-template-columns: 1000px 1fr;
-    }
-}
-
-/* FOOTER */
-footer {
-    border-top: 1px solid var(--c-border);
-    padding: 0 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: 700;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    background: var(--c-bg);
-    z-index: 50;
+/* UTILITY: Dark Border Only */
+.zone.border-dark {
+    border-color: var(--mono-02);
 }

@@ -13,11 +13,11 @@
     /* TYPOGRAPHY SCALES */
     --type-base: 1rem;
 
-    /* H3 = Base (Bold) */
-    --type-h3: var(--type-base);
+    /* H3 = Base * Scale (Fluid: 1.31rem -> 1.62rem) */
+    --type-h3: clamp(1.31rem, 1rem + 1cqw, 1.62rem);
 
-    /* H2 = Base * Scale (Fluid: 1.31rem -> 1.62rem) */
-    --type-h2: clamp(1.31rem, 1rem + 1cqw, 1.62rem);
+    /* H2 = Base * Scale^2 (Fluid: 1.71rem -> 2.62rem) */
+    --type-h2: clamp(1.71rem, 1rem + 2cqw, 2.62rem);
 
     /* H1 S = Base * Scale^2 (Fluid: 1.71rem -> 2.62rem) */
     --type-h1-s: clamp(1.71rem, 1rem + 2cqw, 2.62rem);
@@ -36,7 +36,8 @@
     --type-display-lg: var(--type-h1-l);
 
     /* Summary L: Base * Scale */
-    --type-summary-l: calc(var(--type-base) * var(--scale));
+    /* Summary L: Base (Mobile) / Base * Scale (Desktop) */
+    --type-summary-l: var(--type-base);
 
     --type-caption: calc(var(--type-base) / var(--scale));
     --type-micro: calc(var(--type-caption) / var(--scale));
@@ -322,6 +323,7 @@ small,
 @media (min-width: 1000px) {
     :root {
         --scale: 1.618;
+        --type-summary-l: calc(var(--type-base) * var(--scale));
     }
 
     .shell-body {

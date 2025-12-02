@@ -95,7 +95,7 @@ class MediaGallery extends HTMLElement {
         /* ELEMENTS */
         .media-img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        h3 { margin: 0; font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 1.5rem; }
+        h3 { margin: 0; font-family: 'DM Serif Display', serif; font-weight: 400; }
 
         /* ZONES DEFAULT STYLING */
         .title-zone { 

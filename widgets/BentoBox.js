@@ -19,6 +19,8 @@ class BentoBox extends HTMLElement {
 
   setupAccordion() {
     const items = this.shadowRoot.querySelectorAll('.bento-item');
+    const grid = this.shadowRoot.querySelector('.grid-container');
+
     items.forEach(item => {
       // Clone to remove old listeners
       const newClone = item.cloneNode(true);
@@ -29,9 +31,29 @@ class BentoBox extends HTMLElement {
         if (window.innerWidth >= 1000) return;
 
         // Toggle active class
-        newClone.classList.toggle('active');
+        const isActive = newClone.classList.toggle('active');
+
+        if (isActive) {
+          // Get Grid Metrics
+          const style = getComputedStyle(grid);
+          const rowH = parseFloat(style.gridAutoRows);
+          const gap = parseFloat(style.rowGap) || 0;
+
+          if (rowH) {
+            // Force layout update to get correct scrollHeight
+            const contentH = newClone.scrollHeight;
+
+            // Calculate Span: s = (H + g) / (h + g)
+            // We add a small buffer (1px) to avoid sub-pixel clipping
+            const span = Math.ceil((contentH + gap + 1) / (rowH + gap));
+            newClone.style.gridRowEnd = `span ${span}`;
+          }
+        } else {
+          newClone.style.gridRowEnd = ''; // Revert to CSS default
+        }
+
         // Update labels/rulers because height changed
-        setTimeout(() => this.updateLabels(), 0);
+        setTimeout(() => this.updateLabels(), 300);
       });
     });
     // Re-run labels after attaching listeners (and potentially cloning)
@@ -153,25 +175,36 @@ class BentoBox extends HTMLElement {
           .item-9 { display: none; }
           .item-10 { display: none; }
         `;
-      } else {
-        // Mobile/Tablet (< 963px) - Accordion Style
+      } else if (bp.cols === 50 || bp.cols === 26) {
+        // Mobile/Tablet (50 & 26 Cols) - Explicit "Lego Board" Logic
+        const rowH = `calc(100cqw / ${bp.cols} / 1.618)`;
+
         css += `
           .grid-container {
-            /* Override fixed row height to allow expansion */
-            grid-auto-rows: min-content;
+            --row-h: ${rowH};
+            grid-template-columns: repeat(${bp.cols}, 1fr);
+            grid-auto-rows: minmax(var(--row-h), auto);
+            /* No gap property, using explicit rows */
             gap: 0;
           }
           
           .bento-item { 
             grid-column: 3 / -3; 
-            grid-row: auto; 
-            min-height: 80px; 
             height: auto;
             margin-bottom: 0;
-            border-bottom: none;
             cursor: pointer;
           }
-          
+
+          /* Explicit Row Placement (Height 4, Gap 2) */
+          .item-1 { grid-row: 3 / 7; }
+          .item-2 { grid-row: 9 / 13; }
+          .item-3 { grid-row: 15 / 19; }
+          .item-4 { grid-row: 21 / 25; }
+          .item-5 { grid-row: 27 / 31; }
+          .item-6 { grid-row: 33 / 37; }
+          .item-7 { grid-row: 39 / 43; }
+          .item-8 { grid-row: 45 / 49; }
+
           /* Content Toggle Logic */
           .bento-content {
             display: none;
@@ -180,11 +213,12 @@ class BentoBox extends HTMLElement {
           
           .bento-item.active .bento-content {
             display: block;
-            /* Pries open the container */
           }
           
           .bento-item.active {
              background: #ffffff;
+             /* Ensure it stays on top if overlapping happens */
+             z-index: 2; 
           }
 
           .bento-item .chevron {
@@ -195,16 +229,15 @@ class BentoBox extends HTMLElement {
           .bento-item.active .chevron {
             transform: rotate(-135deg);
           }
-
-          /* Last item needs bottom border */
-          .item-8 { border-bottom: 1px solid var(--c-card-border); }
-          
-          /* Reset aspect ratio from previous mobile style */
-          .item-1 { aspect-ratio: auto; }
           
           .item-9 { display: none; }
           .item-10 { display: none; }
         `;
+      } else {
+        // Fallback for 13 cols or others
+        css += `
+           .grid-container { display: none; }
+         `;
       }
 
       css += `}`;
@@ -278,7 +311,6 @@ class BentoBox extends HTMLElement {
           padding: 1rem;
           z-index: 1;
           position: relative;
-          border-radius: 4px; /* Slight radius like Pantone */
           box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
@@ -412,25 +444,43 @@ class BentoBox extends HTMLElement {
       // Check if item is displayed
       if (style.display === 'none') return;
 
-      const colStart = style.gridColumnStart;
-      const colEnd = style.gridColumnEnd;
-      const rowStart = style.gridRowStart;
-      const rowEnd = style.gridRowEnd;
+      // Resolve negative indices
+      const resolveIndex = (val, max) => {
+        const i = parseInt(val);
+        if (isNaN(i)) return 'auto';
+        return i < 0 ? max + i + 1 : i;
+      };
 
-      // Update maxRow
-      const rEndVal = parseInt(rowEnd);
-      if (!isNaN(rEndVal) && rEndVal > maxRow) {
-        maxRow = rEndVal;
+      // Get current column count from container style
+      const container = this.shadowRoot.querySelector('.grid-container');
+      const colCount = parseInt(getComputedStyle(container).getPropertyValue('--col-count')) || 146;
+
+      const colStart = resolveIndex(style.gridColumnStart, colCount);
+      const colEnd = resolveIndex(style.gridColumnEnd, colCount);
+
+      // Handle Auto Rows (Mobile)
+      let rStart, rEnd, height;
+      if (style.gridRowStart === 'auto') {
+        rStart = 'Auto';
+
+        if (style.gridRowEnd.startsWith('span')) {
+          const span = parseInt(style.gridRowEnd.split(' ')[1]);
+          height = span;
+          rEnd = `Span ${span}`;
+        } else {
+          rEnd = 'Auto';
+          height = 'Auto';
+        }
+      } else {
+        rStart = parseInt(style.gridRowStart) - 1;
+        rEnd = parseInt(style.gridRowEnd) - 1;
+        height = rEnd - rStart;
+
+        // Update maxRow only for explicit rows
+        if (rEnd > maxRow) maxRow = rEnd;
       }
 
-      // Adjust row index because Grid Row 1 is Ruler
-      // Content Row 1 = Grid Row 2.
-      // So Content Row = Grid Row - 1.
-      const rStart = parseInt(rowStart) - 1;
-      const rEnd = parseInt(rowEnd) - 1;
-
-      const width = parseInt(colEnd) - parseInt(colStart);
-      const height = rEnd - rStart;
+      const width = colEnd - colStart;
 
       const eyebrow = item.querySelector('.eyebrow');
       if (eyebrow) {

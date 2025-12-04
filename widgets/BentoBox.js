@@ -27,8 +27,8 @@ class BentoBox extends HTMLElement {
       item.parentNode.replaceChild(newClone, item);
 
       newClone.addEventListener('click', () => {
-        // Only toggle if < 1000px
-        if (window.innerWidth >= 1000) return;
+        // Only toggle if container is smaller than 74-col breakpoint (963px)
+        if (this.offsetWidth >= 963) return;
 
         // Toggle active class
         const isActive = newClone.classList.toggle('active');

@@ -68,6 +68,8 @@ class MediaGallery extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>
+        * { box-sizing: border-box; }
+
         :host {
           display: block;
           width: 100%;
@@ -118,7 +120,7 @@ class MediaGallery extends HTMLElement {
           top: 0; left: 0; width: 100%;
           background: rgba(14, 14, 14, 0.9);
           backdrop-filter: blur(10px);
-          padding: 1.5rem;
+          padding: 1.5rem calc(2 * var(--col-w));
           transform: translateY(${showMobileCaption ? '0' : '-100%'});
           transition: transform 0.3s ease-in-out;
           z-index: 10;
@@ -253,7 +255,6 @@ class MediaGallery extends HTMLElement {
           /* Info: 55-72 (Gap 53-54, Right Gap 73-74) */
           .info-zone { 
               grid-column: 55 / 73; grid-row: 1 / 3; 
-              border-left: 1px solid var(--c-accent); padding-left: 1rem;
           }
           /* Thumbs: 3-50 (Indented 2 cols) */
           .thumbs-zone { 
@@ -284,7 +285,6 @@ class MediaGallery extends HTMLElement {
           /* Info: 73-96 (Gap 71-72, Right Gap 97-98) */
           .info-zone { 
               grid-column: 73 / 97; grid-row: 1 / 3; 
-              border-left: 1px solid var(--c-accent); padding-left: 1rem;
           }
           /* Thumbs: 3-68 (Indented 2 cols) */
           .thumbs-zone { 

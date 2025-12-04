@@ -52,7 +52,7 @@ class SectionHeader extends HTMLElement {
           --scale: 1.309;
           --type-base: 1rem;
           /* H2 uses global fluid clamp */
-          --type-summary-l: calc(var(--type-base) * var(--scale) * var(--scale));
+          --type-summary-l: calc(var(--type-base) * var(--scale));
         }
 
         /* Desktop Typography Override */

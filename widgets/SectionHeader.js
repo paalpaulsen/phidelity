@@ -38,7 +38,7 @@ class SectionHeader extends HTMLElement {
           color: var(--c-text);
           padding-top: 4rem;
           padding-bottom: 4rem; /* Restored vertical space */
-          border-bottom: 1px solid rgba(255,255,255,0.1);
+        
           position: relative;
           
           /* Container Context for Grid Logic */

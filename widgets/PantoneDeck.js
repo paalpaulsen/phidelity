@@ -9,6 +9,13 @@ class PantoneDeck extends HTMLElement {
     this.buildDeck();
   }
 
+  scrollToSection(id) {
+    const section = this.shadowRoot.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   render() {
     this.shadowRoot.innerHTML = `
       <style>

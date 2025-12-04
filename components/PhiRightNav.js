@@ -1,15 +1,15 @@
 class PhiRightNav extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
 
-    connectedCallback() {
-        this.render();
-    }
+  connectedCallback() {
+    this.render();
+  }
 
-    render() {
-        this.shadowRoot.innerHTML = `
+  render() {
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: block;
@@ -18,17 +18,33 @@ class PhiRightNav extends HTMLElement {
           overflow-y: auto;
           white-space: nowrap;
           font-family: 'Inter', sans-serif;
+          
+          /* Container Context */
+          container-type: inline-size;
+          container-name: right-nav;
         }
+        
+        * { box-sizing: border-box; }
 
         ul {
           list-style: none;
           padding: 0;
           margin: 0;
+          
+          /* 26 Column Phidelity Grid */
+          display: grid;
+          grid-template-columns: repeat(26, 1fr);
+          width: 100%;
+          --col-w: calc(100% / 26);
+        }
+        
+        li {
+            grid-column: 1 / -1; /* Full Width */
         }
 
         .nav-l1 {
           display: block;
-          padding: 1rem 1.5rem;
+          padding: 1rem 1.5rem 1rem calc(2 * var(--col-w)); /* Start at Col 3 */
           font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.05em;
@@ -39,7 +55,7 @@ class PhiRightNav extends HTMLElement {
 
         .nav-l2 {
           display: block;
-          padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+          padding: 0.8rem 1.5rem 0.8rem calc(3 * var(--col-w)); /* Start at Col 4 */
           text-decoration: none;
           color: #9E9E9E; /* var(--c-text-muted) */
           font-weight: 500;
@@ -62,7 +78,7 @@ class PhiRightNav extends HTMLElement {
         </ul>
       </nav>
     `;
-    }
+  }
 }
 
 customElements.define('phi-right-nav', PhiRightNav);

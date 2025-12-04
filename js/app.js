@@ -32,3 +32,18 @@ if (phiMain) {
     }
   });
 }
+
+// Handle Color Navigation
+body.addEventListener('navigate-color', (e) => {
+  const { colorId } = e.detail;
+  const pantoneDeck = document.querySelector('phi-pantone-deck');
+
+  if (pantoneDeck) {
+    pantoneDeck.scrollToSection(colorId);
+  }
+
+  // Close mobile nav if open
+  if (window.innerWidth < 1000) {
+    body.classList.remove('mobile-left-open');
+  }
+});

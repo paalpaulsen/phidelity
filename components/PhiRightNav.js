@@ -6,6 +6,24 @@ class PhiRightNav extends HTMLElement {
 
   connectedCallback() {
     this.render();
+    this.setupAccordion();
+  }
+
+  setupAccordion() {
+    const groups = this.shadowRoot.querySelectorAll('.nav-group');
+    groups.forEach(group => {
+      const header = group.querySelector('.nav-l1.has-children');
+      if (!header) return;
+
+      header.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent bubbling
+        const isActive = group.classList.toggle('active');
+        const chevron = header.querySelector('.chevron');
+        if (chevron) {
+          chevron.style.transform = isActive ? 'rotate(-135deg)' : 'rotate(45deg)';
+        }
+      });
+    });
   }
 
   render() {
@@ -42,39 +60,92 @@ class PhiRightNav extends HTMLElement {
             grid-column: 1 / -1; /* Full Width */
         }
 
+        /* L1 ITEM (Eyebrow L) */
         .nav-l1 {
-          display: block;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           padding: 1rem 1.5rem 1rem calc(2 * var(--col-w)); /* Start at Col 3 */
-          font-weight: 800;
+          width: 100%; /* Ensure full width clickability */
+          
+          /* Eyebrow L Style */
+          font-size: var(--type-base, 1rem);
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 2px;
+          line-height: 1.2;
+          
           text-decoration: none;
           color: #252525; /* var(--c-text) */
           border-bottom: 1px solid #3C3C3C; /* var(--c-border) */
+          cursor: pointer;
+          transition: background 0.2s ease; /* Smooth hover */
+        }
+        
+        .nav-l1:hover {
+            background: #EAEAEA;
         }
 
+        /* L2 ITEM (Eyebrow S) */
         .nav-l2 {
           display: block;
           padding: 0.8rem 1.5rem 0.8rem calc(3 * var(--col-w)); /* Start at Col 4 */
+          width: 100%;
+          
+          /* Eyebrow S Style */
+          font-size: var(--type-caption, 0.8rem);
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+          line-height: 1.2;
+          
           text-decoration: none;
           color: #9E9E9E; /* var(--c-text-muted) */
-          font-weight: 500;
-          font-size: 0.9rem;
           border-bottom: 1px solid #DADADA; /* var(--c-border-light) */
+          background: #F9F9F9; /* Lighter bg for L2 */
+          transition: background 0.2s ease;
         }
 
         .nav-l2:hover {
-          background: #F9F9F9; /* var(--c-hover) */
-          color: #252525; /* var(--c-text) */
+          background: #FFFFFF;
+          color: #252525;
+        }
+        
+        /* CHEVRON */
+        .chevron {
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid #616161;
+            border-bottom: 2px solid #616161;
+            transform: rotate(45deg); /* Points down */
+            transition: transform 0.3s ease;
+            margin-right: 0.5rem;
+        }
+
+        /* SUB ITEMS (Accordion) */
+        .sub-items {
+            display: none;
+            width: 100%;
+        }
+        
+        .nav-group.active .sub-items {
+            display: block;
         }
       </style>
 
       <nav>
         <ul>
-          <li><span class="nav-l1">User</span></li>
-          <li><a href="#" class="nav-l2">Profile</a></li>
-          <li><a href="#" class="nav-l2">Account Settings</a></li>
-          <li><a href="#" class="nav-l2">Log Out</a></li>
+          <!-- User Menu (Accordion) -->
+          <li class="nav-group active">
+             <div class="nav-l1 has-children">
+                User <span class="chevron"></span>
+             </div>
+             <ul class="sub-items">
+                <li><a href="#" class="nav-l2">Profile</a></li>
+                <li><a href="#" class="nav-l2">Account Settings</a></li>
+                <li><a href="#" class="nav-l2">Log Out</a></li>
+             </ul>
+          </li>
         </ul>
       </nav>
     `;

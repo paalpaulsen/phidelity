@@ -46,7 +46,7 @@ class PhiLeftNav extends HTMLElement {
         :host {
           display: block;
           height: 100%;
-          background: #F1F1F1; /* var(--c-nav-bg) */
+          background: var(--mono-09); /* var(--c-nav-bg) */
           overflow-y: auto;
           white-space: nowrap;
           font-family: 'Inter', sans-serif;
@@ -90,14 +90,22 @@ class PhiLeftNav extends HTMLElement {
           line-height: 1.2;
           
           text-decoration: none;
-          color: #252525; /* var(--c-text) */
-          border-bottom: 1px solid #3C3C3C; /* var(--c-border) */
+          color: var(--mono-03); /* var(--c-text) */
+          border-bottom: 1px solid var(--mono-04); /* var(--c-border) */
           cursor: pointer;
           transition: background 0.2s ease; /* Smooth hover */
         }
         
         .nav-l1:hover {
-            background: #EAEAEA;
+            background: var(--mono-08);
+        }
+        
+        /* Non-interactive L1 (Spacer) */
+        span.nav-l1 {
+            cursor: default;
+        }
+        span.nav-l1:hover {
+            background: transparent;
         }
 
         /* L2 ITEM (Eyebrow S) */
@@ -114,23 +122,23 @@ class PhiLeftNav extends HTMLElement {
           line-height: 1.2;
           
           text-decoration: none;
-          color: #9E9E9E; /* var(--c-text-muted) */
-          border-bottom: 1px solid #DADADA; /* var(--c-border-light) */
-          background: #F9F9F9; /* Lighter bg for L2 */
+          color: var(--mono-06); /* var(--c-text-muted) */
+          border-bottom: 1px solid var(--mono-08); /* var(--c-border-light) */
+          background: var(--mono-10); /* Lighter bg for L2 */
           transition: background 0.2s ease;
         }
 
         .nav-l2:hover {
-          background: #FFFFFF;
-          color: #252525;
+          background: var(--mono-10);
+          color: var(--mono-03);
         }
         
         /* CHEVRON */
         .chevron {
             width: 8px;
             height: 8px;
-            border-right: 2px solid #616161;
-            border-bottom: 2px solid #616161;
+            border-right: 2px solid var(--mono-05);
+            border-bottom: 2px solid var(--mono-05);
             transform: rotate(45deg); /* Points down */
             transition: transform 0.3s ease;
             margin-right: 0.5rem;
@@ -150,6 +158,7 @@ class PhiLeftNav extends HTMLElement {
       <nav>
         <ul>
           <!-- Simple Links -->
+          <li><span class="nav-l1">&nbsp;</span></li>
           <li><a href="#intro" class="nav-l1">Introduction</a></li>
           <li><a href="#grid" class="nav-l1">Grid System</a></li>
           <li><a href="#bento" class="nav-l1">Bento Box</a></li>

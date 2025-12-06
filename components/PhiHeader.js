@@ -1,39 +1,39 @@
 class PhiHeader extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback() {
+    this.render();
+    this.addEventListeners();
+  }
+
+  addEventListeners() {
+    const btnLeft = this.shadowRoot.getElementById('btn-left');
+    const btnRight = this.shadowRoot.getElementById('btn-right');
+
+    if (btnLeft) {
+      btnLeft.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('toggle-left-nav', {
+          bubbles: true,
+          composed: true
+        }));
+      });
     }
 
-    connectedCallback() {
-        this.render();
-        this.addEventListeners();
+    if (btnRight) {
+      btnRight.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('toggle-right-nav', {
+          bubbles: true,
+          composed: true
+        }));
+      });
     }
+  }
 
-    addEventListeners() {
-        const btnLeft = this.shadowRoot.getElementById('btn-left');
-        const btnRight = this.shadowRoot.getElementById('btn-right');
-
-        if (btnLeft) {
-            btnLeft.addEventListener('click', () => {
-                this.dispatchEvent(new CustomEvent('toggle-left-nav', {
-                    bubbles: true,
-                    composed: true
-                }));
-            });
-        }
-
-        if (btnRight) {
-            btnRight.addEventListener('click', () => {
-                this.dispatchEvent(new CustomEvent('toggle-right-nav', {
-                    bubbles: true,
-                    composed: true
-                }));
-            });
-        }
-    }
-
-    render() {
-        this.shadowRoot.innerHTML = `
+  render() {
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: block;
@@ -54,9 +54,9 @@ class PhiHeader extends HTMLElement {
           text-transform: uppercase;
           letter-spacing: 1px;
           font-size: 0.8rem;
-          background: #FFFFFF; /* var(--c-bg) */
+          background: var(--mono-02);
           border-bottom: 1px solid #3C3C3C; /* var(--c-border) */
-          color: #252525; /* var(--c-text) */
+          color: var(--mono-10);
         }
 
         /* ICON BUTTONS */
@@ -93,7 +93,12 @@ class PhiHeader extends HTMLElement {
           </svg>
         </button>
 
-        <span>Phidelity</span>
+        <!-- Logo -->
+        <svg width="38" height="26" viewBox="0 0 38 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 18.5714H12.0178V26H0V18.5714Z" fill="#0E9EFF"/>
+            <path d="M23.2844 10.4H3.75556V15.6H15.0222V22.2857H23.2844V10.4Z" fill="#FF0000"/>
+            <path d="M37.5556 0H6.00889V7.42857H26.2889V19.3143H37.5556V0Z" fill="#00FF00"/>
+        </svg>
 
         <!-- Icon: User Profile -->
         <button id="btn-right" class="nav-btn" aria-label="User Profile">
@@ -105,7 +110,7 @@ class PhiHeader extends HTMLElement {
         </button>
       </header>
     `;
-    }
+  }
 }
 
 customElements.define('phi-header', PhiHeader);

@@ -43,37 +43,35 @@
     --type-micro: calc(var(--type-caption) / var(--scale));
     --leading-base: var(--scale);
 
-    /* --- COLOR DEFINITIONS (12 Steps per Scale) --- */
+    /* --- COLOR DEFINITIONS (Strict Phi Palette) --- */
 
-    /* 1. MONOCHROME */
+    /* 1. MONOCHROME (1-10) */
     --mono-01: #000000;
     --mono-02: #0E0E0E;
-    --mono-03: #1A1A1A;
-    --mono-04: #252525;
-    --mono-05: #3C3C3C;
-    --mono-06: #616161;
-    --mono-07: #9E9E9E;
-    --mono-08: #C3C3C3;
-    --mono-09: #DADADA;
-    --mono-10: #F1F1F1;
-    --mono-11: #F9F9F9;
-    --mono-12: #FFFFFF;
+    --mono-03: #252525;
+    --mono-04: #3C3C3C;
+    --mono-05: #616161;
+    --mono-06: #9E9E9E;
+    --mono-07: #C3C3C3;
+    --mono-08: #DADADA;
+    --mono-09: #F1F1F1;
+    --mono-10: #FFFFFF;
 
-    /* 2. PHI GREEN */
+    /* 2. PHI GREEN (1-12) */
     --green-01: #002500;
     --green-02: #003C00;
-    --green-03: #006100;
-    --green-04: #009E00;
-    --green-05: #00C300;
-    --green-06: #00DA00;
-    --green-07: #00F100;
-    --green-08: #00FF00;
-    --green-09: #00FF61;
-    --green-10: #61FF9E;
-    --green-11: #9EFFC3;
+    --green-03: #009E00;
+    --green-04: #00C300;
+    --green-05: #00DA00;
+    --green-06: #00F100;
+    --green-07: #00FF00;
+    --green-08: #00FF61;
+    --green-09: #61FF9E;
+    --green-10: #9EFFC3;
+    --green-11: #C3FFDA;
     --green-12: #DAFFF1;
 
-    /* 3. PHI BLUE */
+    /* 3. PHI BLUE (1-14) */
     --blue-01: #00003C;
     --blue-02: #000061;
     --blue-03: #000E9E;
@@ -85,37 +83,33 @@
     --blue-09: #00DAFF;
     --blue-10: #3CFFFF;
     --blue-11: #61FFFF;
-    --blue-12: #C3FFFF;
+    --blue-12: #9EFFFF;
+    --blue-13: #C3FFFF;
+    --blue-14: #DAFFFF;
 
-    /* 4. PHI PURPLE */
+    /* 4. PHI PURPLE (1-8) */
     --purple-01: #250E3C;
     --purple-02: #3C0061;
-    --purple-03: #4B0082;
-    --purple-04: #61009E;
-    --purple-05: #800080;
-    --purple-06: #9E3CC3;
-    --purple-07: #9E61C3;
-    --purple-08: #C39EFF;
-    --purple-09: #DAC3FF;
-    --purple-10: #E0D0FF;
-    --purple-11: #F1F1FF;
-    --purple-12: #F9F5FF;
+    --purple-03: #61009E;
+    --purple-04: #9E3CC3;
+    --purple-05: #9E61C3;
+    --purple-06: #C39EFF;
+    --purple-07: #DAC3FF;
+    --purple-08: #F1F1FF;
 
-    /* 5. PHI MAGENTA */
+    /* 5. PHI MAGENTA (1-10) */
     --magenta-01: #3C003C;
     --magenta-02: #610061;
-    --magenta-03: #8B008B;
-    --magenta-04: #9E009E;
-    --magenta-05: #C300C3;
-    --magenta-06: #DA00DA;
-    --magenta-07: #F100F1;
-    --magenta-08: #FF61FF;
-    --magenta-09: #FF9EFF;
-    --magenta-10: #FFDAFF;
-    --magenta-11: #FFE5FF;
-    --magenta-12: #FFF0FF;
+    --magenta-03: #9E009E;
+    --magenta-04: #C300C3;
+    --magenta-05: #DA00DA;
+    --magenta-06: #F100F1;
+    --magenta-07: #FF61FF;
+    --magenta-08: #FF9EFF;
+    --magenta-09: #FFDAFF;
+    --magenta-10: #FFF1FF;
 
-    /* 6. PHI RED */
+    /* 6. PHI RED (1-12) */
     --red-01: #250000;
     --red-02: #3C0000;
     --red-03: #610000;
@@ -129,24 +123,22 @@
     --red-11: #FFDADA;
     --red-12: #FFF1F1;
 
-    /* 7. PHI EARTH */
+    /* 7. PHI EARTH (1-10) */
     --earth-01: #250E0E;
     --earth-02: #3C250E;
     --earth-03: #613C25;
-    --earth-04: #8B4513;
-    --earth-05: #9E613C;
-    --earth-06: #A0522D;
-    --earth-07: #CD853F;
-    --earth-08: #FF9E61;
-    --earth-09: #FFC39E;
-    --earth-10: #FFDAC3;
-    --earth-11: #FFF1DA;
-    --earth-12: #FFFAF0;
+    --earth-04: #9E613C;
+    --earth-05: #FF9E61;
+    --earth-06: #FFC39E;
+    --earth-07: #FFDAC3;
+    --earth-08: #FFF1DA;
+    --earth-09: #FFFFDA;
+    --earth-10: #FFFFF1;
 
-    /* 8. PHI SOLAR */
+    /* 8. PHI SOLAR (1-12) */
     --solar-01: #F12500;
     --solar-02: #F13C00;
-    --solar-03: #FF8C00;
+    --solar-03: #F16100;
     --solar-04: #FF9E00;
     --solar-05: #FFC300;
     --solar-06: #FFDA00;
@@ -155,16 +147,16 @@
     --solar-09: #FFFF9E;
     --solar-10: #FFFFC3;
     --solar-11: #FFFFDA;
-    --solar-12: #FFFFF0;
+    --solar-12: #FFFFF1;
 
     /* UI MAPPINGS */
-    --c-bg: var(--mono-12);
-    --c-text: var(--mono-04);
-    --c-text-muted: var(--mono-07);
-    --c-border: var(--mono-05);
-    --c-border-light: var(--mono-09);
-    --c-nav-bg: var(--mono-10);
-    --c-hover: var(--mono-11);
+    --c-bg: var(--mono-10);
+    --c-text: var(--mono-03);
+    --c-text-muted: var(--mono-06);
+    --c-border: var(--mono-04);
+    --c-border-light: var(--mono-08);
+    --c-nav-bg: var(--mono-09);
+    --c-hover: var(--mono-10);
     --c-zone-bg: #f9f9f9;
 
     /* LAYOUT CONTROLLER */

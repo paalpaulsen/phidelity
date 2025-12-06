@@ -223,14 +223,14 @@ class PantoneDeck extends HTMLElement {
 
   buildDeck() {
     const scales = [
-      { id: 'mono', name: 'Monochrome', var: 'mono' },
-      { id: 'green', name: 'Phi Green', var: 'green' },
-      { id: 'blue', name: 'Phi Blue', var: 'blue' },
-      { id: 'purple', name: 'Phi Purple', var: 'purple' },
-      { id: 'magenta', name: 'Phi Magenta', var: 'magenta' },
-      { id: 'red', name: 'Phi Red', var: 'red' },
-      { id: 'earth', name: 'Phi Earth', var: 'earth' },
-      { id: 'solar', name: 'Phi Solar', var: 'solar' }
+      { id: 'mono', name: 'Monochrome', var: 'mono', count: 10 },
+      { id: 'green', name: 'Phi Green', var: 'green', count: 12 },
+      { id: 'blue', name: 'Phi Blue', var: 'blue', count: 14 },
+      { id: 'purple', name: 'Phi Purple', var: 'purple', count: 8 },
+      { id: 'magenta', name: 'Phi Magenta', var: 'magenta', count: 10 },
+      { id: 'red', name: 'Phi Red', var: 'red', count: 12 },
+      { id: 'earth', name: 'Phi Earth', var: 'earth', count: 10 },
+      { id: 'solar', name: 'Phi Solar', var: 'solar', count: 12 }
     ];
 
     const deckContainer = this.shadowRoot.getElementById('deck-container');
@@ -281,8 +281,8 @@ class PantoneDeck extends HTMLElement {
       const gallery = document.createElement('div');
       gallery.className = 'pantone-gallery';
 
-      // 3. Card Loop (12 Steps)
-      for (let i = 1; i <= 12; i++) {
+      // 3. Card Loop (Dynamic Steps)
+      for (let i = 1; i <= scale.count; i++) {
         // Format index (01, 02...)
         const idx = i.toString().padStart(2, '0');
         const varName = `--${scale.var}-${idx}`;
@@ -292,8 +292,9 @@ class PantoneDeck extends HTMLElement {
         card.className = 'pantone-card';
 
         // Highlight light cards for border visibility
-        if (scale.var === 'mono' && i >= 10) card.classList.add('is-light');
-        if (scale.var !== 'mono' && i === 12) card.classList.add('is-light');
+        // Logic: Last 20% of cards are likely light for color scales, last few for mono
+        if (scale.var === 'mono' && i >= scale.count - 1) card.classList.add('is-light');
+        if (scale.var !== 'mono' && i === scale.count) card.classList.add('is-light');
 
         // Construct Internal Grid Layout
         const swatch = document.createElement('div');

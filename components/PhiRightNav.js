@@ -137,9 +137,9 @@ class PhiRightNav extends HTMLElement {
         <ul>
           <!-- User Menu (Accordion) -->
           <li class="nav-group active">
-             <div class="nav-l1 has-children">
+             <a href="#" class="nav-l1 has-children">
                 User <span class="chevron"></span>
-             </div>
+             </a>
              <ul class="sub-items">
                 <li><a href="#" class="nav-l2">Profile</a></li>
                 <li><a href="#" class="nav-l2">Account Settings</a></li>

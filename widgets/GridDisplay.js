@@ -10,8 +10,8 @@ class GridDisplay extends HTMLElement {
   }
 
   disconnectedCallback() {
-    if (this._resizeHandler) {
-      window.removeEventListener('resize', this._resizeHandler);
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
     }
   }
 
@@ -153,10 +153,10 @@ class GridDisplay extends HTMLElement {
           .sixth1 { grid-column: 3 / 5; } .sixth2 { grid-column: 7 / 9; } .sixth3 { grid-column: 11 / 13; } .sixth4 { grid-column: 15 / 17; } .sixth5 { grid-column: 19 / 21; } .sixth6 { grid-column: 23 / 25; }
           .eighth1 { grid-column: 3 / 4; } .eighth2 { grid-column: 6 / 7; } .eighth3 { grid-column: 9 / 10; } .eighth4 { grid-column: 12 / 13; } .eighth5 { grid-column: 15 / 16; } .eighth6 { grid-column: 18 / 19; } .eighth7 { grid-column: 21 / 22; } .eighth8 { grid-column: 24 / 25; }
 
-          .hud-item:nth-child(1) { grid-column: 3 / 13; }
-          .hud-item:nth-child(2) { grid-column: 15 / 25; }
+          .hud-item:nth-child(1) { grid-column: 3 / 12; }
+          .hud-item:nth-child(2) { grid-column: 12 / 25; }
 
-          .hud-bp::after { content: "26 Cols [Start: 170px | End: 650px]"; }
+          .hud-bp::after { content: "26 Cols [170px - 650px]"; }
         }
 
         /* --- TABLET: 50 COLUMNS (651px - 962px) --- */
@@ -175,10 +175,10 @@ class GridDisplay extends HTMLElement {
           .eighth1 { grid-column: 3 / 7; } .eighth2 { grid-column: 9 / 13; } .eighth3 { grid-column: 15 / 19; } .eighth4 { grid-column: 21 / 25; } .eighth5 { grid-column: 27 / 31; } .eighth6 { grid-column: 33 / 37; } .eighth7 { grid-column: 39 / 43; } .eighth8 { grid-column: 45 / 49; }
           .twelfth1 { grid-column: 3 / 5; } .twelfth2 { grid-column: 7 / 9; } .twelfth3 { grid-column: 11 / 13; } .twelfth4 { grid-column: 15 / 17; } .twelfth5 { grid-column: 19 / 21; } .twelfth6 { grid-column: 23 / 25; } .twelfth7 { grid-column: 27 / 29; } .twelfth8 { grid-column: 31 / 33; } .twelfth9 { grid-column: 35 / 37; } .twelfth10 { grid-column: 39 / 41; } .twelfth11 { grid-column: 43 / 45; } .twelfth12 { grid-column: 47 / 49; }
 
-          .hud-item:nth-child(1) { grid-column: 7 / 17; }
-          .hud-item:nth-child(2) { grid-column: 19 / -7; }
+          .hud-item:nth-child(1) { grid-column: 7 / 21; }
+          .hud-item:nth-child(2) { grid-column: 23 / -7; }
 
-          .hud-bp::after { content: "50 Cols [Start: 651px | End: 962px]"; }
+          .hud-bp::after { content: "50 Cols [651px - 962px]"; }
         }
 
         /* --- DESKTOP: 74 COLUMNS (963px - 1274px) --- */
@@ -197,10 +197,10 @@ class GridDisplay extends HTMLElement {
           .eighth1 { grid-column: 3 / 10; } .eighth2 { grid-column: 12 / 19; } .eighth3 { grid-column: 21 / 28; } .eighth4 { grid-column: 30 / 37; } .eighth5 { grid-column: 39 / 46; } .eighth6 { grid-column: 48 / 55; } .eighth7 { grid-column: 57 / 64; } .eighth8 { grid-column: 66 / 73; }
           .twelfth1 { grid-column: 3 / 7; } .twelfth2 { grid-column: 9 / 13; } .twelfth3 { grid-column: 15 / 19; } .twelfth4 { grid-column: 21 / 25; } .twelfth5 { grid-column: 27 / 31; } .twelfth6 { grid-column: 33 / 37; } .twelfth7 { grid-column: 39 / 43; } .twelfth8 { grid-column: 45 / 49; } .twelfth9 { grid-column: 51 / 55; } .twelfth10 { grid-column: 57 / 61; } .twelfth11 { grid-column: 63 / 67; } .twelfth12 { grid-column: 69 / 73; }
 
-          .hud-item:nth-child(1) { grid-column: 7 / 17; }
-          .hud-item:nth-child(2) { grid-column: 19 / -7; }
+          .hud-item:nth-child(1) { grid-column: 7 / 21; }
+          .hud-item:nth-child(2) { grid-column: 23 / -7; }
 
-          .hud-bp::after { content: "74 Cols [Start: 963px | End: 1274px]"; }
+          .hud-bp::after { content: "74 Cols [963px - 1274px]"; }
         }
 
         /* --- LARGE: 98 COLUMNS (1275px - 1585px) --- */
@@ -222,7 +222,7 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 7 / 17; }
           .hud-item:nth-child(2) { grid-column: 19 / -7; }
 
-          .hud-bp::after { content: "98 Cols [Start: 1275px | End: 1585px]"; }
+          .hud-bp::after { content: "98 Cols [1275px - 1585px]"; }
         }
 
         /* --- XL: 122 COLUMNS (1586px - 1897px) --- */
@@ -244,7 +244,7 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 7 / 17; }
           .hud-item:nth-child(2) { grid-column: 19 / -7; }
 
-          .hud-bp::after { content: "122 Cols [Start: 1586px | End: 1897px]"; }
+          .hud-bp::after { content: "122 Cols [1586px - 1897px]"; }
         }
 
         /* --- CINEMA: 146 COLUMNS (1898px +) --- */
@@ -274,7 +274,7 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 7 / 17; }
           .hud-item:nth-child(2) { grid-column: 19 / -7; }
 
-          .hud-bp::after { content: "146 Cols [Start: 1898px]"; }
+          .hud-bp::after { content: "146 Cols [1898px+]"; }
         }
       </style>
 
@@ -283,7 +283,7 @@ class GridDisplay extends HTMLElement {
           
           <div class="hud">
             <div class="hud-item">
-              <span class="eyebrow">Active Viewport</span>
+              <span class="eyebrow">Active Container</span>
               <span class="paragraph" id="live-width">---</span>
             </div>
             <div class="hud-item">
@@ -363,11 +363,16 @@ class GridDisplay extends HTMLElement {
 
     // 2. Live Width Counter
     const widthDisplay = this.shadowRoot.getElementById('live-width');
-    this._resizeHandler = () => {
-      if (widthDisplay) widthDisplay.textContent = window.innerWidth + 'px';
-    };
-    window.addEventListener('resize', this._resizeHandler);
-    this._resizeHandler(); // Init
+
+    this._resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        if (widthDisplay) {
+          const width = Math.round(entry.contentRect.width);
+          widthDisplay.textContent = width + 'px';
+        }
+      }
+    });
+    this._resizeObserver.observe(this);
   }
 }
 

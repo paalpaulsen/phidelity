@@ -182,17 +182,7 @@ class PhiLeftNav extends HTMLElement {
              </ul>
           </li>
           
-          <!-- Layouts (Accordion) -->
-          <li class="nav-group">
-             <a href="#full" class="nav-l1 has-children">
-                Layouts <span class="chevron"></span>
-             </a>
-             <ul class="sub-items">
-                <li><a href="#full" class="nav-l2">Full Width</a></li>
-                <li><a href="#golden" class="nav-l2">Golden Ratio</a></li>
-                <li><a href="#trinity" class="nav-l2">Trinity</a></li>
-             </ul>
-          </li>
+
           
         </ul>
       </nav>

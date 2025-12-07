@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phidelity - Semantic Elements</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/macro.css">
+    <style>
+        .wireframe-zone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            background: #fdfdfd;
+            color: #999;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            height: 100%;
+            /* Ensure it takes full height of grid row if needed */
+        }
+
+        @media (max-width: 999px) {
+            .wireframe-zone {
+                display: block;
+                width: 100%;
+                height: auto;
+                min-height: 60px;
+                /* visual min height */
+                margin-bottom: 1rem;
+            }
+        }
+
+        .dev-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .dev-link {
+            text-decoration: none;
+            color: inherit;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .dev-link:hover {
+            background-color: #eee;
+            border-color: #ccc;
+        }
+    </style>
+</head>
+
+<body class="right-open">
+
+    <!-- HEADER -->
+    <div class="wireframe-zone">
+        <nav class="dev-nav">
+            <a href="index.html" class="dev-link">Phidelity</a>
+            <a href="semantic.html" class="dev-link">Semantic Elements</a>
+            <a href="sections.html" class="dev-link">Sections</a>
+            <a href="articles.html" class="dev-link">Articles</a>
+        </nav>
+    </div>
+
+    <div class="shell-body">
+
+        <!-- NAV -->
+        <div class="wireframe-zone">Nav</div>
+
+        <!-- MAIN -->
+        <div class="wireframe-zone">Main</div>
+
+        <!-- ASIDE -->
+        <div class="wireframe-zone">Aside</div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="wireframe-zone">Footer</div>
+
+    <!-- Logic (App/Nav logic not strictly needed for visual wireframe but keeping app.js for body class toggles if user interacts) -->
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>

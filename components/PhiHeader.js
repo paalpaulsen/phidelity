@@ -100,12 +100,12 @@ class PhiHeader extends HTMLElement {
             <path d="M37.5556 0H6.00889V7.42857H26.2889V19.3143H37.5556V0Z" fill="#00FF00"/>
         </svg>
 
-        <!-- Icon: User Profile -->
-        <button id="btn-right" class="nav-btn" aria-label="User Profile">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
+        <!-- Icon: Info (Project Information) -->
+        <button id="btn-right" class="nav-btn" aria-label="Project Information">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
         </button>
       </header>

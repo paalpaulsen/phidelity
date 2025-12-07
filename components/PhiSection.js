@@ -52,11 +52,17 @@ class PhiSection extends HTMLElement {
             .layout-golden {
                 grid-template-columns: 1.618fr 1fr;
             }
+            .layout-golden ::slotted(:nth-child(3)) {
+                grid-column: 1 / -1;
+            }
         }
         /* Wide: 1.618fr | 1fr | 1.618fr */
         @container (min-width: 1900px) {
             .layout-golden {
                 grid-template-columns: 1.618fr 1fr 1.618fr;
+            }
+            .layout-golden ::slotted(:nth-child(3)) {
+                grid-column: auto;
             }
         }
 
@@ -66,11 +72,17 @@ class PhiSection extends HTMLElement {
             .layout-trinity {
                 grid-template-columns: 1fr 1fr;
             }
+            .layout-trinity ::slotted(:nth-child(3)) {
+                grid-column: 1 / -1;
+            }
         }
         /* Wide: 1fr | 1fr | 1fr */
         @container (min-width: 1900px) {
             .layout-trinity {
                 grid-template-columns: 1fr 1fr 1fr;
+            }
+            .layout-trinity ::slotted(:nth-child(3)) {
+                grid-column: auto;
             }
         }
 
@@ -80,6 +92,22 @@ class PhiSection extends HTMLElement {
             .layout-static-dynamic {
                 grid-template-columns: 1000px 1fr;
             }
+        }
+
+        /* --- MACRO 5: HEXAD (Dashboard 1-6 Cols) --- */
+        /* Default: 1 Col (see general default) */
+        
+        /* 2 Cols */
+        @container (min-width: 1200px) {
+            .layout-hexad { grid-template-columns: 1fr 1fr; }
+        }
+        /* 3 Cols */
+        @container (min-width: 1800px) {
+            .layout-hexad { grid-template-columns: 1fr 1fr 1fr; }
+        }
+        /* 6 Cols */
+        @container (min-width: 3600px) {
+            .layout-hexad { grid-template-columns: repeat(6, 1fr); }
         }
       </style>
 

@@ -64,8 +64,8 @@ class TitleSummaryMeta extends HTMLElement {
           font-size: 0.875rem;
           text-transform: uppercase;
           letter-spacing: 0.1em;
-          font-weight: 700;
-          color: var(--mono-07);
+          font-weight: 400;
+          color: var(--mono-06);
           margin: 0 0 1rem 0;
         }
 
@@ -85,7 +85,7 @@ class TitleSummaryMeta extends HTMLElement {
           font-weight: 300;
           line-height: 1.309;
           margin: 0 0 2rem 0;
-          color: var(--mono-07);
+          color: var(--mono-06);
         }
 
         .meta {
@@ -109,7 +109,7 @@ class TitleSummaryMeta extends HTMLElement {
         }
 
         .name { font-weight: 700; font-size: 1rem; }
-        .role { font-weight: 400; font-size: 0.875rem; color: var(--mono-07); }
+        .role { font-weight: 400; font-size: 0.875rem; color: var(--mono-06); }
 
         /* --- PHIDELITY GRID LOGIC --- */
 

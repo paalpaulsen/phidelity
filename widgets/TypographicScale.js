@@ -7,9 +7,27 @@ class TypographicScale extends HTMLElement {
 
     connectedCallback() {
         this.render();
+        this.bindEvents(); // Add listeners
         this.resizeObserver.observe(this.shadowRoot.querySelector('.type-container'));
         // Initial update after render
         requestAnimationFrame(() => this.updateMetadata());
+    }
+
+    bindEvents() {
+        const toggle = this.shadowRoot.getElementById('mode-toggle');
+        const container = this.shadowRoot.querySelector('.type-container');
+
+        if (toggle && container) {
+            toggle.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    container.classList.add('mode-app');
+                } else {
+                    container.classList.remove('mode-app');
+                }
+                // Force metadata update after layout change
+                requestAnimationFrame(() => this.updateMetadata());
+            });
+        }
     }
 
     disconnectedCallback() {
@@ -64,8 +82,10 @@ class TypographicScale extends HTMLElement {
                     --col-count: ${bp.cols}; 
                     --col-w: calc(100cqw / ${bp.cols});
                 }
-                .cards-grid { 
+                .cards-grid, .control-bar { 
                     grid-template-columns: repeat(${bp.cols}, 1fr); 
+                }
+                .cards-grid {
                     row-gap: calc(2 * var(--col-w));
                 }
             `;
@@ -98,6 +118,7 @@ class TypographicScale extends HTMLElement {
                 css += `
                 .type-card:nth-child(${index + 1}) {
                     grid-column: ${startCol} / ${endCol};
+                    ${isDouble ? 'grid-template-columns: repeat(50, 1fr);' : ''}
                 }
                 `;
 
@@ -132,11 +153,11 @@ class TypographicScale extends HTMLElement {
           display: block;
           width: 100%;
           font-family: 'Inter', sans-serif;
-          --c-bg: #0E0E0E;
-          --c-card-bg: #FFFFFF;
-          --c-text: #0E0E0E;
-          --c-meta: #666;
-          --c-border: #E5E5E5;
+          --c-bg: var(--mono-02);
+          --c-card-bg: var(--mono-10);
+          --c-text: var(--mono-02);
+          --c-meta: var(--mono-05);
+          --c-border: var(--mono-09);
           --c-accent: rgba(255, 255, 255, 0.1);
           
           container-type: inline-size;
@@ -157,6 +178,9 @@ class TypographicScale extends HTMLElement {
             --base-size: 16px;
             --scale: 1.309;
             
+            /* Stable UI Font Size (Unnaffected by mode-app) */
+            --ui-fs-sm: calc(var(--base-size) / 1.309);
+
             --fs-sm: calc(var(--base-size) / var(--scale));
             --fs-base: var(--base-size);
             --fs-md: calc(var(--base-size) * var(--scale));
@@ -170,8 +194,78 @@ class TypographicScale extends HTMLElement {
             .type-container {
                 --base-size: 18px;
                 --scale: 1.618;
+                /* Stable UI Font Size for Desktop */
+                --ui-fs-sm: calc(var(--base-size) / 1.618);
             }
         }
+
+        /* APPLICATION MODE: Force Half-Phi */
+        .type-container.mode-app {
+            --scale: 1.309 !important;
+            /* Note: --ui-fs-sm is NOT overridden here, preserving UI consistency */
+        }
+
+        /* --- CONTROL BAR --- */
+        .control-bar {
+            display: grid;
+            /* Grid defined in query */
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--mono-04);
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+        
+        .control-inner {
+            grid-column: 3 / -3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bar-title {
+            color: var(--mono-10);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--mono-07);
+            font-size: 0.8rem;
+        }
+        
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--mono-04);
+            transition: .4s;
+            border-radius: 20px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--mono-10);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--blue-07); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         /* --- CARDS GRID --- */
         .cards-grid {
@@ -186,15 +280,18 @@ class TypographicScale extends HTMLElement {
         .type-card {
             background: var(--c-card-bg);
             color: var(--c-text);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            /* Phidelity Internal Grid: 26 Columns */
+            display: grid;
+            grid-template-columns: repeat(26, 1fr);
+            grid-template-rows: min-content 1fr min-content;
+            padding: 1.5rem 0; /* Vertical padding only, horizontal handled by grid */
+            
             border: 1px solid var(--c-border);
             border-radius: var(--radius-base, 0px);
         }
 
         .card-header {
+            grid-column: 3 / -3;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -209,39 +306,40 @@ class TypographicScale extends HTMLElement {
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
-            background: #F5F5F5;
+            background: var(--mono-09);
             padding: 4px 8px;
             border-radius: var(--radius-base, 0px);
-            color: #333;
+            color: var(--mono-04);
         }
 
         .type-preview {
+            grid-column: 3 / -3;
             margin: 0;
             flex-grow: 1;
             /* Ensure text doesn't overflow */
             overflow-wrap: break-word; 
         }
 
-        /* Metadata Typography (Caption) */
-        .caption {
-            font-family: 'Inter', sans-serif;
-            font-size: var(--fs-sm); /* Base / phi */
-            line-height: 1.4;
-            color: var(--c-meta);
-        }
-
-        .card-footer {
-            margin-top: 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            border-top: 1px solid var(--c-border);
-            padding-top: 0.75rem;
-        }
-
         .meta-item { display: flex; flex-direction: column; gap: 2px; }
-        .meta-label { opacity: 0.5; font-size: 0.65rem; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
-        .meta-value { font-weight: 500; }
+        
+        /* Meta Label -> Eyebrow S */
+        .meta-label { 
+            font-size: var(--ui-fs-sm); /* Stabilized */
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            font-weight: 600; 
+            line-height: 1.2;
+            color: var(--mono-06);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Meta Value -> Caption */
+        .meta-value { 
+            font-size: var(--ui-fs-sm); /* Stabilized */
+            line-height: 1.4; 
+            color: var(--c-text);
+            font-weight: 400;
+        }
 
         /* Specific Styles */
         .h1-l { font-family: 'DM Serif Display', serif; font-size: var(--fs-xxl); line-height: 1.1; }
@@ -254,20 +352,45 @@ class TypographicScale extends HTMLElement {
         .h2 { font-family: 'DM Serif Display', serif; font-size: var(--fs-md); line-height: 1.3; }
         .h3 { font-family: 'DM Serif Display', serif; font-size: var(--fs-base); line-height: 1.4; font-weight: 700; }
         
-        .p-body { font-size: var(--fs-base); line-height: 1.6; color: #444; }
+        .p-body { font-size: var(--fs-base); line-height: 1.6; color: var(--mono-04); }
         
-        .caption { font-size: var(--fs-sm); line-height: 1.4; color: #666; }
+        .caption { font-size: var(--fs-sm); line-height: 1.4; color: var(--mono-05); }
 
         .eyebrow-l { font-size: var(--fs-base); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; line-height: 1.2; }
         .eyebrow-s { font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; line-height: 1.2; }
 
+        .card-footer {
+            grid-column: 3 / -3;
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 1.5rem; /* Distinct "row of spacing" */
+            column-gap: 0.5rem;
+            border-top: 1px solid var(--c-border);
+            padding-top: 0.75rem;
+        }
 
         /* --- PHIDELITY GRID COORDINATES (LEGO Board) --- */
         ${this.generateGridCSS(styles)}
 
       </style>
-
+      
       <div class="type-container">
+        
+        <!-- Control Bar -->
+        <div class="control-bar">
+            <div class="control-inner">
+                <span class="bar-title">Select scale</span>
+                <div class="toggle-wrapper">
+                    <span>Application mode</span>
+                    <label class="switch">
+                        <input type="checkbox" id="mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
         <div class="cards-grid">
             ${styles.map(s => `
                 <div class="type-card">

@@ -111,6 +111,25 @@
             gap: 1rem;
         }
 
+        .dev-select {
+            display: none;
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+        @media (max-width: 999px) {
+            .dev-nav {
+                display: none;
+            }
+
+            .dev-select {
+                display: block;
+            }
+        }
+
         .dev-link {
             text-decoration: none;
             color: inherit;
@@ -135,8 +154,14 @@
             <a href="index.html" class="dev-link">Phidelity</a>
             <a href="semantic.html" class="dev-link">Semantic Elements</a>
             <a href="sections.html" class="dev-link">Sections</a>
-            <a href="articles.html" class="dev-link">Articles</a>
+            <a href="widgets.html" class="dev-link">Widgets</a>
         </nav>
+        <select class="dev-select" onchange="if (this.value) window.location.href=this.value">
+            <option value="index.html">Phidelity</option>
+            <option value="semantic.html">Semantic Elements</option>
+            <option value="sections.html" selected>Sections</option>
+            <option value="widgets.html">Widgets</option>
+        </select>
     </div>
 
     <div class="shell-body">

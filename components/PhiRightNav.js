@@ -147,7 +147,7 @@ class PhiRightNav extends HTMLElement {
           <li><span class="nav-l1">&nbsp;</span></li>
           <li><a href="semantic.html" class="nav-l1">Semantic Elements</a></li>
           <li><a href="sections.html" class="nav-l1">Sections</a></li>
-          <li><a href="articles.html" class="nav-l1">Articles</a></li>
+          <li><a href="widgets.html" class="nav-l1">Widgets</a></li>
 
           <!-- Layouts (Accordion) 
           <li class="nav-group">

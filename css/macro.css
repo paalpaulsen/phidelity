@@ -1,10 +1,17 @@
 /* =========================================
-   1. VARIABLES
+   1. VARIABLES & ROOT
    ========================================= */
-:root {
+html {
+    background-color: var(--mono-09);
+    /* LEVEL 1: ROOT CONTAINER */
+    container-type: inline-size;
+    container-name: phi-root;
+}
+
+body {
+    /* DEFAULT VARIABLES (Mobile First) */
     --phi: 1.618033988;
     --scale: 1.309;
-    /* Mobile Default */
     --nav-width: 362px;
     --header-height: 60px;
     --font-sans: 'Inter', sans-serif;
@@ -162,20 +169,8 @@
     /* LAYOUT CONTROLLER */
     --max-width: 3000px;
     --radius-base: 0px;
-}
 
-* {
-    box-sizing: border-box;
-}
-
-/* =========================================
-   2. BASE STYLES
-   ========================================= */
-html {
-    background-color: var(--mono-09);
-}
-
-body {
+    /* BODY LAYOUT */
     margin: 0 auto;
     /* Centered */
     padding: 0;
@@ -193,8 +188,15 @@ body {
     font-weight: 400;
     /* Inter Regular */
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
-    /* Optional: Visual separation on huge screens */
 }
+
+* {
+    box-sizing: border-box;
+}
+
+/* =========================================
+   2. BASE STYLES
+   ========================================= */
 
 p {
     margin: 0 0 1rem 0;
@@ -311,11 +313,16 @@ small,
     /* Viewport - Header - Footer */
 }
 
-/* DESKTOP LOGIC (>1000px) */
-@media (min-width: 1000px) {
-    :root {
+/* DESKTOP LOGIC (Container > 1000px) */
+@container phi-root (min-width: 1000px) {
+    body {
         --scale: 1.618;
         --type-summary-l: calc(var(--type-base) * var(--scale));
+    }
+
+    /* APPLICATION MODE: Force Half-Phi on Desktop */
+    body.mode-app {
+        --scale: 1.309;
     }
 
     .shell-body {
@@ -358,8 +365,8 @@ small,
     }
 }
 
-/* MOBILE LOGIC (<1000px) */
-@media (max-width: 999px) {
+/* MOBILE LOGIC (Container < 1000px) */
+@container phi-root (max-width: 999px) {
     .shell-body {
         display: block;
         position: relative;

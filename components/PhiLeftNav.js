@@ -159,7 +159,8 @@ class PhiLeftNav extends HTMLElement {
         <ul>
           <!-- Simple Links -->
           <li><span class="nav-l1">&nbsp;</span></li>
-          <li><a href="#intro" class="nav-l1">Introduction</a></li>
+          <li><a href="#story-block" class="nav-l1">Introduction</a></li>
+          <li><a href="#gallery" class="nav-l1">Media Gallery</a></li>
           <li><a href="#grid" class="nav-l1">Grid System</a></li>
           <li><a href="#bento" class="nav-l1">Bento Box</a></li>
           <li><a href="#typography" class="nav-l1">Typographic Scale</a></li>

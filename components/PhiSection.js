@@ -67,19 +67,21 @@ class PhiSection extends HTMLElement {
         }
 
         /* --- MACRO 3: TRINITY (1:1:1) --- */
-        /* Desktop: 1fr | 1fr */
-        @container (min-width: 768px) {
+        /* Desktop: 1fr | 1fr (Starts at 2000px as requested) */
+        @container (min-width: 2000px) {
             .layout-trinity {
                 grid-template-columns: 1fr 1fr;
+                column-gap: 0; /* No vertical lines */
             }
             .layout-trinity ::slotted(:nth-child(3)) {
                 grid-column: 1 / -1;
             }
         }
         /* Wide: 1fr | 1fr | 1fr */
-        @container (min-width: 1900px) {
+        @container (min-width: 2400px) {
             .layout-trinity {
                 grid-template-columns: 1fr 1fr 1fr;
+                column-gap: 0;
             }
             .layout-trinity ::slotted(:nth-child(3)) {
                 grid-column: auto;
@@ -108,6 +110,21 @@ class PhiSection extends HTMLElement {
         /* 6 Cols */
         @container (min-width: 3600px) {
             .layout-hexad { grid-template-columns: repeat(6, 1fr); }
+        }
+
+        /* --- MACRO 6: TETRA (4 Blocks 2x2) --- */
+        /* Desktop: 1fr | 1fr */
+        @container (min-width: 1600px) {
+            .layout-tetra {
+                grid-template-columns: 1fr 1fr;
+                gap: 1px 0;
+            }
+        }
+        /* Ultra Wide: 1fr | 1fr | 1fr | 1fr */
+        @container (min-width: 2800px) {
+            .layout-tetra {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+            }
         }
       </style>
 

@@ -19,6 +19,8 @@ body {
 
     /* TYPOGRAPHY SCALES */
     --type-base: 1rem;
+    --tracking-heading: 0.02em;
+    --tracking-base: 0em;
 
     /* H3 = Base * Scale (Fluid: 1.31rem -> 1.62rem) */
     --type-h3: clamp(1.31rem, 1rem + 1cqw, 1.62rem);
@@ -43,8 +45,7 @@ body {
     --type-display-lg: var(--type-h1-l);
 
     /* Summary L: Base * Scale */
-    /* Summary L: Base (Mobile) / Base * Scale (Desktop) */
-    --type-summary-l: var(--type-base);
+    --type-summary-l: calc(var(--type-base) * var(--scale));
 
     --type-caption: calc(var(--type-base) / var(--scale));
     --type-micro: calc(var(--type-caption) / var(--scale));
@@ -201,6 +202,7 @@ body {
 p {
     margin: 0 0 1rem 0;
     font-weight: 400;
+    letter-spacing: var(--tracking-base);
 }
 
 /* HEADERS: DM Serif Display */
@@ -211,12 +213,13 @@ h3 {
     font-family: var(--font-serif);
     font-weight: 400;
     /* DM Serif Display is typically 400 */
-    letter-spacing: -0.02em;
+    letter-spacing: var(--tracking-heading);
 }
 
 h1 {
     font-size: var(--type-h1);
     line-height: 1.1;
+    letter-spacing: var(--tracking-heading);
 }
 
 h2 {

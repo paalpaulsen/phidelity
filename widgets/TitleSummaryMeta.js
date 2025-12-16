@@ -16,6 +16,68 @@ class TitleSummaryMeta extends HTMLElement {
     this.render();
   }
 
+  generateGridCSS() {
+    const breakpoints = [
+      { id: '13', query: '(max-width: 169px)', cols: 13 },
+      { id: '26', query: '(min-width: 170px) and (max-width: 650px)', cols: 26 },
+      { id: '50', query: '(min-width: 651px) and (max-width: 962px)', cols: 50 },
+      { id: '74', query: '(min-width: 963px) and (max-width: 1274px)', cols: 74 },
+      { id: '98', query: '(min-width: 1275px) and (max-width: 1585px)', cols: 98 },
+      { id: '122', query: '(min-width: 1586px) and (max-width: 1897px)', cols: 122 },
+      { id: '146', query: '(min-width: 1898px)', cols: 146 }
+    ];
+
+    const LAYOUT_CONFIG = {
+      '13': {
+        textGroup: '1 / 2 / auto / -2'
+      },
+      '26': {
+        textGroup: '4 / 3 / 34 / -3'
+      },
+      '50': {
+        rowCount: 50,
+        textGroup: '6 / 6 / 51 / -6'
+      },
+      '74': {
+        rowCount: 74,
+        textGroup: '6 / 6 / 75 / -6'
+      },
+      '98': {
+        rowCount: 98,
+        textGroup: '6 / 6 / 99 / -6'
+      },
+      '122': {
+        textGroup: '5 / 7 / 60 / -7'
+      },
+      '146': {
+        textGroup: '1 / 7 / 71 / -7'
+      }
+    };
+
+    return breakpoints.map(bp => {
+      const cols = bp.cols;
+      const config = LAYOUT_CONFIG[bp.id] || LAYOUT_CONFIG['98'];
+      const rowHeight = `minmax(calc(100cqw / ${cols} / 1.618), auto)`;
+
+      const explicitRows = config.rowCount
+        ? `grid-template-rows: repeat(${config.rowCount}, ${rowHeight});`
+        : '';
+
+      return `
+            @container title-meta ${bp.query} {
+                .container {
+                    grid-template-columns: repeat(${cols}, 1fr);
+                    grid-auto-rows: ${rowHeight};
+                    ${explicitRows}
+                }
+
+                .text-group { grid-area: ${config.textGroup}; }
+                .text-group { align-self: start; }
+            }
+            `;
+    }).join('\n');
+  }
+
   render() {
     const eyebrow = this.getAttribute('eyebrow') || 'Eyebrow Text';
     const title = this.getAttribute('title') || 'Page Title';
@@ -25,154 +87,101 @@ class TitleSummaryMeta extends HTMLElement {
     const image = this.getAttribute('image') || 'https://via.placeholder.com/150';
 
     this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          display: block;
-          font-family: 'Inter', sans-serif;
-          color: var(--c-text, #111);
-          --font-serif: 'DM Serif Display', serif;
-          
-          /* Container Context */
-          container-type: inline-size;
-          container-name: title-meta;
-        }
+            <style>
+                :host {
+                  display: block;
+                  font-family: var(--font-sans, 'Inter', sans-serif);
+                  color: var(--c-text, #111);
+                  container-type: inline-size;
+                  container-name: title-meta;
+                }
 
-        .container {
-          display: grid;
-          /* Grid defined in queries */
-          padding-top: 4rem;
-          padding-bottom: 4rem;
-          
-          /* Local Typography Defaults (Mobile) */
-          --scale: 1.309;
-          --type-base: 1rem;
-          /* H1 M uses global fluid clamp */
-          --type-summary-l: calc(var(--type-base) * var(--scale));
-        }
+                .container {
+                  display: grid;
+                  grid-template-columns: repeat(26, 1fr);
+                  gap: 0;
+                  padding-block: 3rem;
+                }
 
-        /* Desktop Typography Override */
-        @container title-meta (min-width: 963px) {
-          .container {
-            --scale: 1.618;
-            --type-summary-l: calc(var(--type-base) * var(--scale));
-          }
-        }
+                .text-group {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 1.5rem; /* Consistent vertical rhythm */
+                }
 
-        /* Elements */
-        .eyebrow {
-          grid-column: 1 / -1;
-          font-size: 0.875rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          font-weight: 400;
-          color: var(--mono-06);
-          margin: 0 0 1rem 0;
-        }
+                /* Typography */
+                .eyebrow {
+                  font-family: var(--font-sans);
+                  font-size: 0.875rem;
+                  text-transform: uppercase;
+                  letter-spacing: 0.1em;
+                  font-weight: 700;
+                  color: var(--mono-06);
+                  margin: 0;
+                }
 
-        h1 {
-          grid-column: 1 / -1;
-          font-family: var(--font-serif);
-          font-size: var(--type-h1-m);
-          font-weight: 400;
-          line-height: 1.1;
-          margin: 0 0 1.5rem 0;
-          letter-spacing: -0.02em;
-        }
+                h1 {
+                  font-family: var(--font-serif);
+                  font-size: var(--type-h1);
+                  font-weight: 400;
+                  line-height: 1.1;
+                  margin: 0;
+                  letter-spacing: var(--tracking-heading, 0.02em);
+                  color: var(--c-text);
+                }
 
-        .lead {
-          grid-column: 1 / -1;
-          font-size: var(--type-summary-l);
-          font-weight: 300;
-          line-height: 1.309;
-          margin: 0 0 2rem 0;
-          color: var(--mono-06);
-        }
+                .lead {
+                  font-family: var(--font-sans);
+                  font-size: var(--type-summary-l, 1.25rem);
+                  font-weight: 300;
+                  line-height: 1.5;
+                  margin: 0;
+                  color: var(--mono-06);
+                }
 
-        .meta {
-          grid-column: 1 / -1;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
+                .meta {
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  font-family: var(--font-sans);
+                  font-size: 0.875rem; 
+                }
 
-        .avatar {
-          width: 64px;
-          height: 64px;
-          border-radius: 50%;
-          object-fit: cover;
-          background-color: #eee;
-        }
+                .avatar {
+                  width: 64px;
+                  height: 64px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                  background-color: #eee;
+                }
 
-        .user-info {
-          display: flex;
-          flex-direction: column;
-        }
+                .user-info {
+                  display: flex;
+                  flex-direction: column;
+                }
 
-        .name { font-weight: 700; font-size: 1rem; }
-        .role { font-weight: 400; font-size: 0.875rem; color: var(--mono-06); }
+                .name { font-weight: 700; font-size: 1rem; }
+                .role { font-weight: 400; font-size: 0.875rem; color: var(--mono-06); }
 
-        /* --- PHIDELITY GRID LOGIC --- */
+                ${this.generateGridCSS()}
+            </style>
 
-        /* 13 Cols (< 170px) */
-        @container title-meta (max-width: 169px) {
-          .container { grid-template-columns: repeat(13, 1fr); }
-          .eyebrow, h1, .lead, .meta { grid-column: 2 / -2; }
-          h1 { font-size: 2rem; }
-        }
-
-        /* 26 Cols (170px - 650px) */
-        @container title-meta (min-width: 170px) and (max-width: 650px) {
-          .container { grid-template-columns: repeat(26, 1fr); }
-          .eyebrow, h1, .lead, .meta { grid-column: 3 / -3; } /* Standard Mobile Margin */
-          h1 { font-size: 2.5rem; }
-        }
-
-        /* 50 Cols (651px - 962px) */
-        @container title-meta (min-width: 651px) and (max-width: 962px) {
-          .container { grid-template-columns: repeat(50, 1fr); }
-          .eyebrow, h1, .lead, .meta { grid-column: 4 / -4; }
-        }
-
-        /* 74 Cols (963px - 1274px) */
-        @container title-meta (min-width: 963px) and (max-width: 1274px) {
-          .container { grid-template-columns: repeat(74, 1fr); }
-          .eyebrow, h1, .lead, .meta { grid-column: 7 / -7; } /* Indented for larger screens */
-        }
-
-        /* 98 Cols (1275px - 1585px) */
-        @container title-meta (min-width: 1275px) and (max-width: 1585px) {
-          .container { grid-template-columns: repeat(98, 1fr); }
-          .eyebrow, h1, .lead, .meta { grid-column: 7 / -7; }
-        }
-
-        /* 122 Cols (1586px - 1897px) */
-        @container title-meta (min-width: 1586px) and (max-width: 1897px) {
-          .container { grid-template-columns: repeat(122, 1fr); }
-          .eyebrow, h1, .lead, .meta { grid-column: 7 / -7; }
-        }
-
-        /* 146 Cols (> 1898px) */
-        @container title-meta (min-width: 1898px) {
-          .container { grid-template-columns: repeat(146, 1fr); }
-          .eyebrow, h1, .lead, .meta { grid-column: 7 / -7; }
-        }
-
-      </style>
-
-      <div class="container">
-        <div class="eyebrow">${eyebrow}</div>
-        <h1>${title}</h1>
-        ${summary ? `<div class="lead">${summary}</div>` : ''}
-        
-        <div class="meta">
-          <img class="avatar" src="${image}" alt="${name}">
-          <div class="user-info">
-            <span class="name">${name}</span>
-            <span class="role">${role}</span>
-          </div>
-        </div>
-      </div>
-    `;
+            <div class="container">
+                <div class="text-group">
+                    <div class="eyebrow">${eyebrow}</div>
+                    <h1>${title}</h1>
+                    ${summary ? `<div class="lead">${summary}</div>` : ''}
+                    
+                    <div class="meta">
+                        <img class="avatar" src="${image}" alt="${name}">
+                        <div class="user-info">
+                            <span class="name">${name}</span>
+                            <span class="role">${role}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
   }
 }
 

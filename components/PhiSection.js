@@ -100,15 +100,15 @@ class PhiSection extends HTMLElement {
         /* Default: 1 Col (see general default) */
         
         /* 2 Cols */
-        @container (min-width: 1200px) {
+        @container (min-width: 1720px) {
             .layout-hexad { grid-template-columns: 1fr 1fr; }
         }
         /* 3 Cols */
-        @container (min-width: 1800px) {
+        @container (min-width: 3000px) {
             .layout-hexad { grid-template-columns: 1fr 1fr 1fr; }
         }
         /* 6 Cols */
-        @container (min-width: 3600px) {
+        @container (min-width: 4000px) {
             .layout-hexad { grid-template-columns: repeat(6, 1fr); }
         }
 

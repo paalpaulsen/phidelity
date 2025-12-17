@@ -286,6 +286,10 @@ small,
     min-height: 1em;
     /* Reduced from 300px to prevent gaps */
 
+    /* Flex Container for Height Filling */
+    display: flex;
+    flex-direction: column;
+
     /* Container Query Context */
     container-type: inline-size;
     container-name: macro-zone;

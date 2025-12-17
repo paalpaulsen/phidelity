@@ -101,7 +101,7 @@ class PhiHero extends HTMLElement {
 
                 h1 {
                     font-family: var(--font-serif);
-                    font-size: var(--type-h1, 3rem); 
+                    font-size: var(--type-h1-l, 4rem);   
                     line-height: 1.1;
                     margin: 0 0 1.5rem 0;
                     font-weight: 400;

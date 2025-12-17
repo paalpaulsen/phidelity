@@ -1,4 +1,4 @@
-class PhiArticleColumns extends HTMLElement {
+class PhiArticleFlow extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
@@ -21,12 +21,11 @@ class PhiArticleColumns extends HTMLElement {
         return breakpoints.map(bp => {
             const cols = bp.cols;
 
-            // ArticleColumns is a text-flow widget. It MUST be flexible to accomodate content height.
-            // Using minmax(Phi, auto) triggers expansion.
+            // ArticleFlow MUST be flexible
             const rowHeight = `minmax(calc(100cqw / ${cols} / 1.618), auto)`;
 
             return `
-            @container article-columns ${bp.query} {
+            @container article-flow ${bp.query} {
                 .container {
                     grid-template-columns: repeat(${cols}, 1fr);
                     grid-auto-rows: ${rowHeight};
@@ -36,9 +35,8 @@ class PhiArticleColumns extends HTMLElement {
                     column-count: ${bp.textCols};
                 }
 
-                /* Grid Zones from snippet (Simplified to 'full' for this basic widget) */
-                .full {
-                    grid-area: auto / 3 / auto / -3;
+                .content-wrapper {
+                    grid-column: 3 / -3;
                 }
             }
             `;
@@ -58,7 +56,7 @@ class PhiArticleColumns extends HTMLElement {
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text);
                     container-type: inline-size;
-                    container-name: article-columns;
+                    container-name: article-flow;
                 }
 
                 .container {
@@ -71,14 +69,14 @@ class PhiArticleColumns extends HTMLElement {
 
                 /* Typography */
 
-
                 h2 {
                     font-family: var(--font-serif);
                     font-size: var(--type-h2);
                     line-height: 1.1;
-                    margin: 0 0 1rem 0;
+                    margin: 0 0 2rem 0;
                     font-weight: 400;
                     letter-spacing: var(--tracking-heading, 0.02em);
+                    width: 100%;
                 }
 
                 h3 {
@@ -95,6 +93,7 @@ class PhiArticleColumns extends HTMLElement {
                     font-size: var(--type-base, 1rem);
                     line-height: var(--leading-base, 1.618);
                     color: var(--c-text);
+                    margin-top: 0;
                     margin-bottom: 1rem;
                 }
 
@@ -104,8 +103,9 @@ class PhiArticleColumns extends HTMLElement {
                     font-weight: 300;
                     line-height: 1.5;
                     color: var(--c-text);
+                    margin-top: 0;
                     margin-bottom: 2rem;
-                    max-width: 65ch;
+                    /* No max-width restriction here as it is column-flow */
                 }
 
                 a { color: inherit; }
@@ -115,11 +115,12 @@ class PhiArticleColumns extends HTMLElement {
                     column-gap: 4cqw;
                     column-rule: 1px solid var(--c-border-light, #dadada);
                     margin-top: 2rem;
+                    width: 100%;
                 }
 
                 .image-span {
                     width: 100%;
-                    margin: 0 0 2rem 0; /* Top aligned */
+                    margin: 2rem 0 0 0;
                     break-inside: avoid;
                     page-break-inside: avoid;
                 }
@@ -142,16 +143,13 @@ class PhiArticleColumns extends HTMLElement {
             </style>
 
             <div class="container">
-                <div class="full">
-
+                <!-- Content Wrapper (Restricted Width) -->
+                <div class="content-wrapper">
                     <h2>${title}</h2>
-                    <p class="summary">${summary}</p>
-                    
+
                     <div class="multi-column">
-                        <figure class="image-span">
-                            <img src="https://images.unsplash.com/photo-1599270613570-a620f2e59f75?q=80&w=3540&auto=format&fit=crop" alt="Sunflowers">
-                            <figcaption>The seeds of the sunflower are distributed on the flower head according to the golden ratio.</figcaption>
-                        </figure>
+                        <!-- Summary integrated into columns -->
+                        ${summary ? `<p class="summary">${summary}</p>` : ''}
 
                         <p>Every column, row, type scale, and spacing unit is mathematically calculated from the golden ratio. This means every layout flows with natural visual balance — no guesswork, no arbitrary numbers.</p>
                         
@@ -163,6 +161,13 @@ class PhiArticleColumns extends HTMLElement {
                         <p>On large screens, layouts expand horizontally like a gallery or dashboard. On small screens, they flow vertically like a classic article. No breakpoints needed — just space-awareness.</p>
                         
                         <p>Phidelity structures content using the natural progression of the golden ratio. From Fibonacci-based bento layouts to responsive container queries, it lets your interface breathe and scale like living systems. Modular, fluid, and inherently beautiful — your grid becomes a rhythm, not a restriction.</p>
+
+
+                        <!-- Image after paragraph text -->
+                        <figure class="image-span">
+                            <img src="https://images.unsplash.com/photo-1599270613570-a620f2e59f75?q=80&w=3540&auto=format&fit=crop" alt="Sunflowers">
+                            <figcaption>The seeds of the sunflower are distributed on the flower head according to the golden ratio.</figcaption>
+                        </figure>
                     </div>
                 </div>
             </div>
@@ -170,4 +175,4 @@ class PhiArticleColumns extends HTMLElement {
     }
 }
 
-customElements.define('phi-article-columns', PhiArticleColumns);
+customElements.define('phi-article-flow', PhiArticleFlow);

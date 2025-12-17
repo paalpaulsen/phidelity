@@ -30,7 +30,7 @@
     <phi-main>
 
       <!-- NEW: Article Columns Grid -->
-      <phi-section layout="tetra" id="intro-article">
+      <phi-section layout="hexad" id="intro-article">
         <div class="zone"
           style="background-image: url('assets/images/hero_bg.jpg'); background-size: cover; background-position: center; color: white;">
           <phi-hero title="Phidelity" eyebrow="A Paradigm Shift"
@@ -44,10 +44,30 @@
           <phi-article-columns title="Mathematical Harmony"></phi-article-columns>
         </div>
         <div class="zone">
-          <phi-article-columns title="Container Queries"></phi-article-columns>
+          <phi-article-quote quote="The golden ratio is the signature of the divine in nature." name="Pål Eirik Paulsen"
+            role="Creator"></phi-article-quote>
+        </div>
+        <div class="zone">
+          <phi-article-flow title="Article Flow" summary=""></phi-article-flow>
+        </div>
+        <div class="zone">
+          <phi-article-image></phi-article-image>
         </div>
       </phi-section>
 
+      <!-- FULL WIDTH (For Wide Content) -->
+      <phi-section layout="full" id="full-bottom">
+
+        <div class="zone dark">
+          <phi-section-header title="Full Width Content"
+            lead="Images in the content flow can take up the entire width of the container."></phi-section-header>
+        </div>
+        <div class="zone border-dark">
+          <phi-article-image-content
+            images-set='{"mobile": "assets/images/phidelity_vs_tailwind_mobile.svg", "desktop": "assets/images/phidelity_vs_tailwind_desktop.svg"}'
+            caption="Paradigm Shift: While traditional frameworks snap rigidly to screen widths (Left), Phidelity content adapts mathematically to any container context (Right)."></phi-article-image-content>
+        </div>
+      </phi-section>
 
 
       <!-- MEDIA GALLERY -->
@@ -87,28 +107,7 @@
         </div>
       </phi-section>
 
-
-
-      <!-- HEADER: GRID SYSTEM -->
-      <phi-section layout="full" id="grid">
-        <div class="zone dark">
-          <phi-section-header title="Grid Geometry"
-            lead="This is where the magic happens. A responsive, mathematical framework built on the Golden Ratio. Observe how the columns adapt fluidly across different widths.">
-          </phi-section-header>
-        </div>
-      </phi-section>
-
-      <!-- . FULL WIDTH (For Wide Content) -->
-      <phi-section layout="full" id="full-bottom">
-        <div class="zone border-dark">
-          <!-- Full Width Zone -->
-          <phi-grid-display></phi-grid-display>
-        </div>
-      </phi-section>
-
-
-
-      <!-- 2. BENTO BOX -->
+      <!-- BENTO BOX -->
       <phi-section layout="full" id="bento">
         <div class="zone">
           <phi-section-header title="Bento Box"
@@ -116,6 +115,25 @@
           <phi-bento-box></phi-bento-box>
         </div>
       </phi-section>
+
+      <!-- HEADER: GRID SYSTEM -->
+      <phi-section layout="full" id="grid">
+        <div class="zone dark">
+          <phi-section-header title="Grid Geometry"
+            lead="This is where the magic happens. A responsive, mathematical framework built on the Golden Ratio. Observe how the columns adapt fluidly across different widths.">
+          </phi-section-header>
+          <div class="zone border-dark">
+            <!-- Full Width Zone -->
+            <phi-grid-display></phi-grid-display>
+          </div>
+        </div>
+      </phi-section>
+
+
+
+
+
+
 
       <!-- HEADER: TYPOGRAPHIC SCALE -->
       <phi-section layout="full" id="typography">
@@ -194,6 +212,11 @@
   <script src="widgets/Hero.js"></script>
   <script src="widgets/ArticleTextOnly.js"></script>
   <script src="widgets/ArticleColumns.js"></script>
+  <script src="widgets/ArticleFlow.js"></script>
+
+  <script src="widgets/ArticleImage.js"></script>
+  <script src="widgets/ArticleImageContent.js"></script>
+  <script src="widgets/ArticleQuote.js"></script>
   <script src="js/app.js"></script>
 
 

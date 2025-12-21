@@ -254,11 +254,11 @@ class BentoBox extends HTMLElement {
           container-type: inline-size;
           container-name: bento-box;
           font-family: 'JetBrains Mono', monospace;
-          --c-bg: #F5F5F5;
-          --c-card-bg: #FFFFFF;
-          --c-card-border: #999999;
-          --c-text-dark: #111111;
-          --c-text-grey: #999999;
+          --c-bg: var(--mono-09);
+          --c-card-bg: var(--mono-10);
+          --c-card-border: var(--mono-06);
+          --c-text-dark: var(--mono-02);
+          --c-text-grey: var(--mono-06);
           --c-grid-line: rgba(0,0,0,0.1);
         }
 
@@ -279,7 +279,7 @@ class BentoBox extends HTMLElement {
         .col-index {
           grid-row: 1;
           border-left: 1px solid var(--c-grid-line);
-          font-size: 8px;
+          font-size: 0.5rem;
           color: var(--c-text-grey);
           display: flex;
           justify-content: center;
@@ -294,7 +294,7 @@ class BentoBox extends HTMLElement {
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 8px;
+            font-size: 0.5rem;
             color: var(--c-text-grey);
             border-top: 1px solid var(--c-grid-line);
         }
@@ -323,7 +323,7 @@ class BentoBox extends HTMLElement {
         
         .eyebrow {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
+            font-size: var(--type-micro);
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--c-text-grey);

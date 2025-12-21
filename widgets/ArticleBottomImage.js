@@ -1,4 +1,4 @@
-class PhiArticleColumns extends HTMLElement {
+class PhiArticleBottomImage extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
@@ -9,20 +9,17 @@ class PhiArticleColumns extends HTMLElement {
     }
 
     generateGridCSS() {
-        // Standard Phidelity Breakpoints
+        // Standard Phidelity Breakpoints (Same as ArticleColumns)
         const breakpoints = [
             { id: '13', query: '(max-width: 169px)', cols: 13, textCols: 1 },
             { id: '26', query: '(min-width: 170px) and (max-width: 768px)', cols: 26, textCols: 1 },
-            { id: '50', query: '(min-width: 769px) and (max-width: 1280px)', cols: 50, textCols: 2 },
-            { id: '74', query: '(min-width: 1281px) and (max-width: 1688px)', cols: 74, textCols: 3 },
+            { id: '50', query: '(min-width: 769px) and (max-width: 1280px)', cols: 50, textCols: 1 }, /* User requested 1 col here */
+            { id: '74', query: '(min-width: 1281px) and (max-width: 1688px)', cols: 74, textCols: 2 }, /* Reduced to 2 cols */
             { id: '98', query: '(min-width: 1689px)', cols: 98, textCols: 4 }
         ];
 
         return breakpoints.map(bp => {
             const cols = bp.cols;
-
-            // ArticleColumns is a text-flow widget. It MUST be flexible to accomodate content height.
-            // Using minmax(Phi, auto) triggers expansion.
             const rowHeight = `minmax(calc(100cqw / ${cols} / 1.618), auto)`;
 
             return `
@@ -36,7 +33,6 @@ class PhiArticleColumns extends HTMLElement {
                     column-count: ${bp.textCols};
                 }
 
-                /* Grid Zones from snippet (Simplified to 'full' for this basic widget) */
                 .full {
                     grid-area: auto / 3 / auto / -3;
                 }
@@ -46,34 +42,55 @@ class PhiArticleColumns extends HTMLElement {
     }
 
     render() {
-        const title = this.getAttribute('title') || 'A new paradigm';
+        const title = this.getAttribute('title') || 'Nature’s Foundation';
         const summary = this.getAttribute('summary') || '';
-
+        const image = this.getAttribute('image') || 'assets/images/bottom.jpg';
 
         this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="css/macro.css">
             <style>
                 :host {
-                    display: block;
+                    display: flex;
+                    flex-direction: column;
                     width: 100%;
+                    height: 100%; /* Fill the grid cell if stretched */
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text);
-                    background: var(--mono-10); /* Standard White Background */
+                    background: var(--mono-10);
                     container-type: inline-size;
                     container-name: article-columns;
+                    position: relative; 
+                    overflow: hidden; 
                 }
 
                 .container {
                     display: grid;
                     width: 100%;
-                    padding-block: 3rem; /* Standard Padding */
+                    padding-top: 3rem; 
+                    padding-bottom: 0;
                     box-sizing: border-box;
                     gap: 0;
+                    position: relative;
+                    flex: 1 0 auto; /* Grow to fill space, but don't shrink below content */
+                }
+
+                /* Bottom Image Container */
+                .bottom-image-wrapper {
+                    width: 100%;
+                    display: block;
+                    margin-top: auto; /* Push to bottom */
+                    line-height: 0; /* Remove descender gap */
+                    flex-shrink: 0;
+                }
+
+                .bottom-image-wrapper img {
+                    width: 100%;
+                    max-width: 100%;
+                    height: auto;
+                    display: block;
+                    object-fit: cover;
                 }
 
                 /* Typography */
-
-
                 h2 {
                     font-family: var(--font-serif);
                     font-size: var(--type-h2);
@@ -110,45 +127,64 @@ class PhiArticleColumns extends HTMLElement {
                     max-width: 65ch;
                 }
 
-                a { color: inherit; }
-
                 /* Multi Column Layout */
                 .multi-column {
                     column-gap: 4cqw;
                     column-rule: 1px solid var(--c-border-light);
                     margin-top: 2rem;
                 }
-
-                .image-span {
-                    width: 100%;
-                    margin: 0 0 2rem 0; /* Top aligned */
-                    break-inside: avoid;
-                    page-break-inside: avoid;
-                }
-
-                .image-span img {
-                    width: 100%;
-                    height: auto;
-                    display: block;
-                    background: #f0f0f0;
-                }
+                
+                /* Override Grid Area: Centered or standard? 
+                   User previously asked for constraints (left-half) to overlap image. 
+                   With image BELOW, we might want to revert to standard width, OR keep the interesting constraints?
+                   "Let's just have it ... below the text container." 
+                   Usually implies standard text block then image.
+                   I will remove the specific overrides that forced empty columns, as that was for the "background overlap" design.
+                   Standard behavior (defined in generateGridCSS) is likely preferred if they are distinct blocks.
+                */
 
                 ${this.generateGridCSS()}
+
+                /* OVERRIDES for Left-Weighted Layout */
+                
+                /* Tablet (50 cols): Span left ~66% */
+                @container article-columns (min-width: 769px) and (max-width: 1280px) {
+                    .full {
+                        grid-area: auto / 3 / auto / 36 !important; /* Ends at ~70% */
+                    }
+                }
+                
+                /* Desktop (74 cols): Span left ~60% */
+                @container article-columns (min-width: 1281px) and (max-width: 1688px) {
+                    .full {
+                         grid-area: auto / 3 / auto / 48 !important; /* ~60% width */
+                    }
+                }
+
+                /* Large (98 cols): Span left ~50% */
+                @container article-columns (min-width: 1689px) {
+                    .full {
+                         grid-area: auto / 3 / auto / 52 !important; /* ~50% width */
+                    }
+                }
             </style>
 
             <div class="container">
                 <div class="full">
-
                     <h2>${title}</h2>
                     <p class="summary">${summary}</p>
                     
                     <div class="multi-column">
-                        <slot></slot>
+                         <slot></slot>
                     </div>
                 </div>
+            </div>
+
+            <div class="bottom-image-wrapper">
+                <img src="${image}" alt="Decorative Bottom Background">
             </div>
         `;
     }
 }
 
-customElements.define('phi-article-columns', PhiArticleColumns);
+customElements.define('phi-article-bottom-image', PhiArticleBottomImage);

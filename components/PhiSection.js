@@ -51,6 +51,7 @@ class PhiSection extends HTMLElement {
         @container (min-width: 999px) {
             .layout-golden {
                 grid-template-columns: 1.618fr 1fr;
+                gap: 1px;
             }
             .layout-golden ::slotted(:nth-child(3)) {
                 grid-column: 1 / -1;
@@ -60,6 +61,7 @@ class PhiSection extends HTMLElement {
         @container (min-width: 1900px) {
             .layout-golden {
                 grid-template-columns: 1.618fr 1fr 1.618fr;
+                gap: 1px;
             }
             .layout-golden ::slotted(:nth-child(3)) {
                 grid-column: auto;
@@ -71,7 +73,8 @@ class PhiSection extends HTMLElement {
         @container (min-width: 2000px) {
             .layout-trinity {
                 grid-template-columns: 1fr 1fr;
-                column-gap: 0; /* No vertical lines */
+                column-gap: 0; /* No vertical lines requested? Preserving existing logic */
+                gap: 1px;
             }
             .layout-trinity ::slotted(:nth-child(3)) {
                 grid-column: 1 / -1;
@@ -93,6 +96,7 @@ class PhiSection extends HTMLElement {
         @container (min-width: 1500px) {
             .layout-static-dynamic {
                 grid-template-columns: 1000px 1fr;
+                gap: 1px;
             }
         }
 
@@ -101,15 +105,24 @@ class PhiSection extends HTMLElement {
         
         /* 2 Cols */
         @container (min-width: 1720px) {
-            .layout-hexad { grid-template-columns: 1fr 1fr; }
+            .layout-hexad { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 1px;
+            }
         }
         /* 3 Cols */
         @container (min-width: 3000px) {
-            .layout-hexad { grid-template-columns: 1fr 1fr 1fr; }
+            .layout-hexad { 
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 1px;
+            }
         }
         /* 6 Cols */
         @container (min-width: 4000px) {
-            .layout-hexad { grid-template-columns: repeat(6, 1fr); }
+            .layout-hexad { 
+                grid-template-columns: repeat(6, 1fr);
+                gap: 1px;
+            }
         }
 
         /* --- MACRO 6: TETRA (4 Blocks 2x2) --- */

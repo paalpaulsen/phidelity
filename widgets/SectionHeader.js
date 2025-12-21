@@ -27,8 +27,8 @@ class SectionHeader extends HTMLElement {
         :host {
           display: block;
           width: 100%;
-          --c-bg: var(--mono-02, #0E0E0E);
-          --c-text: #fff;
+          --c-bg: var(--mono-02);
+          --c-text: var(--mono-10);
           --font-serif: 'DM Serif Display', serif;
           --font-sans: 'Inter', sans-serif;
         }
@@ -50,7 +50,7 @@ class SectionHeader extends HTMLElement {
           display: grid;
           /* Local Typography Defaults (Mobile) */
           --scale: 1.309;
-          --type-base: 1rem;
+          --type-base: var(--type-base);
           /* H2 uses global fluid clamp */
           --type-summary-l: calc(var(--type-base) * var(--scale));
         }

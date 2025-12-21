@@ -21,7 +21,7 @@ class GridDisplay extends HTMLElement {
         :host {
           display: block;
           font-family: 'Inter', sans-serif;
-          color: var(--c-text, #111);
+          color: var(--c-text);
         }
 
         * { box-sizing: border-box; }
@@ -29,16 +29,16 @@ class GridDisplay extends HTMLElement {
         /* VARIABLES (Scoped to component, falling back to global if available) */
         .wrapper {
           --phi: 1.618033988;
-          --c-grid-line: #E0E0E0;
-          --c-grid-text: #999;
-          --c-margin: rgba(255, 0, 0, 0.05);
-          --c-margin-text: #D32F2F;
-          --c-block-bg: #F5F5F5;
-          --c-block-border: #E0E0E0;
-          --c-text: #111;
-          --c-hud-bg: #111;
-          --c-hud-text: #fff;
-          --c-accent: #00E0FF;
+          --c-grid-line: var(--mono-07);
+          --c-grid-text: var(--mono-06);
+          --c-margin: rgba(255, 0, 0, 0.05); /* Technical red remains */
+          --c-margin-text: var(--red-06);
+          --c-block-bg: var(--mono-09);
+          --c-block-border: var(--mono-08);
+          --c-text: var(--mono-01);
+          --c-hud-bg: var(--mono-01);
+          --c-hud-text: var(--mono-10);
+          --c-accent: var(--blue-08);
         }
 
         /* 1. CONTAINER CONTEXT */
@@ -72,7 +72,7 @@ class GridDisplay extends HTMLElement {
         /* TYPOGRAPHY */
         .eyebrow {
             font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
+            font-size: var(--type-micro);
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 700;
@@ -82,13 +82,13 @@ class GridDisplay extends HTMLElement {
 
         .paragraph {
             font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            font-size: var(--type-base);
             font-weight: 400;
             margin: 0;
         }
         
         /* Live Width Color */
-        #live-width { color: var(--mono-12, #fff); font-weight: 700; }
+        #live-width { color: var(--mono-10); font-weight: 700; }
         
         /* Breakpoint info injected via CSS */
         .hud-bp::after { content: "Initializing..."; }
@@ -101,7 +101,7 @@ class GridDisplay extends HTMLElement {
         .col-index {
           display: none; /* Hidden by default */
           border-left: 1px solid var(--c-grid-line);
-          font-family: 'JetBrains Mono', monospace; font-size: 8px;
+          font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
           justify-content: center; align-items: center; color: var(--c-grid-text);
         }
         /* Margins */
@@ -114,7 +114,7 @@ class GridDisplay extends HTMLElement {
           background: var(--c-block-bg); border: 1px solid var(--c-block-border);
           padding: 0.2rem; text-align: center;
           display: flex; flex-direction: column; justify-content: center;
-          min-height: 40px; font-size: 10px; font-weight: 600;
+          min-height: 40px; font-size: 0.625rem; font-weight: 600;
           margin-bottom: 1em;
           white-space: nowrap; overflow: hidden; font-family: 'JetBrains Mono', monospace;
         }

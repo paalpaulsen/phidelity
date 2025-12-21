@@ -26,6 +26,7 @@ class PhiArticleImage extends HTMLElement {
         const credit = this.getAttribute('credit') || 'Photo: Nature Collection';
 
         this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="css/macro.css">
             <style>
                 :host {
                     display: flex; /* Changed from block to flex to fill parent zone directly */
@@ -35,6 +36,7 @@ class PhiArticleImage extends HTMLElement {
                     flex: 1; /* Grow to fill zone */
                     min-height: 0; /* Allow scaling down to parent grid height */
                     font-family: var(--font-sans, 'Inter', sans-serif);
+                    background: var(--mono-10);
                     container-type: inline-size;
                     container-name: article-image;
                 }
@@ -81,7 +83,7 @@ class PhiArticleImage extends HTMLElement {
                 .icon-i {
                     font-family: var(--font-sans); 
                     font-weight: 700;
-                    font-size: 1.5rem;
+                    font-size: var(--type-h3);
                     font-style: normal;
                     line-height: 1;
                 }
@@ -140,23 +142,22 @@ class PhiArticleImage extends HTMLElement {
 
                 p {
                     margin: 0;
-                    font-size: 0.9rem;
-                    line-height: 1.5;
-                    color: var(--c-text, #333);
+                    /* Typography handled by global .caption from macro.css */
                 }
+                p.caption { margin-top: 0; }
 
                 .credit {
                     display: block;
                     margin-top: 0.5rem;
-                    font-size: 0.75rem;
-                    color: var(--c-text-muted, #777);
+                    font-size: var(--type-micro);
+                    color: var(--c-text-muted);
                     text-transform: uppercase;
                     letter-spacing: 0.05em;
                 }
 
                 /* Close x state for button when expanded? */
                 .container.expanded .toggle-btn {
-                    background-color: var(--c-text, #333);
+                    background-color: var(--c-text);
                     transform: rotate(45deg); /* Optional: turn i into x style if using plus, but for 'i' maybe just color change */
                 }
                 
@@ -196,7 +197,7 @@ class PhiArticleImage extends HTMLElement {
                 
                 <div class="caption-overlay">
                     <div class="caption-content">
-                        <p>${caption}</p>
+                        <p class="caption">${caption}</p>
                         <span class="credit">${credit}</span>
                     </div>
                 </div>

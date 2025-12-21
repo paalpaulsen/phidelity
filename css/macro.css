@@ -1,6 +1,20 @@
 /* =========================================
    1. VARIABLES & ROOT
    ========================================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img,
+svg,
+video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 html {
     background-color: var(--mono-09);
     /* LEVEL 1: ROOT CONTAINER */
@@ -18,7 +32,7 @@ body {
     --font-serif: 'DM Serif Display', serif;
 
     /* TYPOGRAPHY SCALES */
-    --type-base: 1rem;
+    --type-base: 1.063rem;
     --tracking-heading: 0.02em;
     --tracking-base: 0em;
 
@@ -165,7 +179,8 @@ body {
     --c-border-light: var(--mono-08);
     --c-nav-bg: var(--mono-09);
     --c-hover: var(--mono-10);
-    --c-zone-bg: #f9f9f9;
+    --c-zone-bg: var(--mono-10);
+    /* Updated to White per user request */
 
     /* LAYOUT CONTROLLER */
     --max-width: 3000px;
@@ -186,7 +201,7 @@ body {
     font-family: var(--font-sans);
     font-size: var(--type-base);
     line-height: var(--leading-base);
-    font-weight: 400;
+    font-weight: 300;
     /* Inter Regular */
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
 }
@@ -201,7 +216,7 @@ body {
 
 p {
     margin: 0 0 1rem 0;
-    font-weight: 400;
+    font-weight: 300;
     letter-spacing: var(--tracking-base);
 }
 
@@ -263,13 +278,54 @@ h3 {
     margin-bottom: 1rem;
 }
 
-small,
-.caption {
+.summary-l {
+    font-family: var(--font-sans);
+    font-size: var(--type-summary-l);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--c-text);
+}
+
+.summary-s {
+    font-family: var(--font-sans);
+    font-size: var(--type-base);
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--c-text);
+}
+
+small {
     font-family: var(--font-sans);
     font-size: var(--type-caption);
     color: var(--c-text-muted);
     display: block;
     margin-bottom: 0.5rem;
+}
+
+.caption {
+    font-family: var(--font-sans);
+    font-size: var(--type-base);
+    font-weight: 300;
+    color: var(--mono-06);
+    display: block;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+}
+
+.name {
+    font-family: var(--font-sans);
+    font-size: var(--type-base);
+    font-weight: 700;
+    color: var(--c-text);
+    margin: 0;
+}
+
+.role {
+    font-family: var(--font-sans);
+    font-size: var(--type-base);
+    font-weight: 300;
+    color: var(--mono-05);
+    margin: 0;
 }
 
 .type-micro {
@@ -278,6 +334,24 @@ small,
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 700;
+}
+
+.eyebrow-l {
+    font-family: var(--font-sans);
+    font-size: var(--type-base);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.eyebrow-s {
+    font-family: var(--font-sans);
+    font-size: var(--type-micro);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 .zone {

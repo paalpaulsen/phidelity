@@ -22,7 +22,8 @@ class PantoneDeck extends HTMLElement {
         :host {
           display: block;
           font-family: 'Inter', sans-serif;
-          color: var(--c-text, #111);
+          color: var(--c-text);
+          padding-bottom: 4rem;
         }
 
         * { box-sizing: border-box; }
@@ -38,9 +39,9 @@ class PantoneDeck extends HTMLElement {
         
         .zone-label { 
           display: block; margin-bottom: 1rem; margin-top: 4rem;
-          font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; 
-          font-weight: 700; color: var(--c-text-muted, #999); 
-          border-bottom: 1px solid var(--c-border-light, #eee); 
+          font-size: var(--type-micro); text-transform: uppercase; letter-spacing: 1px; 
+          font-weight: 700; color: var(--c-text-muted); 
+          border-bottom: 1px solid var(--c-border-light); 
           padding-bottom: 0.5rem;
         }
 
@@ -160,8 +161,8 @@ class PantoneDeck extends HTMLElement {
           /* THE CORE: Each card is a container */
           container-type: inline-size; 
           
-          background: var(--mono-white, #fff);
-          border: 1px solid var(--c-border-light, #eee);
+          background: var(--mono-10);
+          border: 1px solid var(--c-border-light);
           aspect-ratio: 2/3;
           
           /* INTERNAL GRID: 26 Columns (Standard Mobile Resolution) */
@@ -177,7 +178,7 @@ class PantoneDeck extends HTMLElement {
         .color-swatch {
           grid-column: 1 / -1; 
           grid-row: 1 / 2;
-          border-bottom: 1px solid var(--c-border-light, #eee);
+          border-bottom: 1px solid var(--c-border-light);
         }
 
         /* CONTENT: Uses internal 26-col grid */
@@ -197,22 +198,22 @@ class PantoneDeck extends HTMLElement {
         /* Text alignment: Starts at Col 3, Ends at Col 25 (2 col margin) */
         .color-name {
           grid-column: 3 / 25; 
-          font-weight: 700; font-size: 0.85rem; color: var(--mono-04, #333);
+          font-weight: 700; font-size: 0.85rem; color: var(--mono-04);
           margin-bottom: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
         .val-group {
           grid-column: 3 / 25;
           display: flex; justify-content: space-between;
-          font-family: var(--font-mono, monospace); font-size: 0.6rem; color: var(--c-text-muted, #999);
-          border-bottom: 1px solid var(--c-border-light, #eee); padding-bottom: 2px;
+          font-family: var(--font-mono, monospace); font-size: var(--type-micro); color: var(--c-text-muted);
+          border-bottom: 1px solid var(--c-border-light); padding-bottom: 2px;
         }
         .val-group:last-child { border-bottom: none; }
         
-        .val-hex { color: var(--mono-03, #222); font-weight: 600; }
+        .val-hex { color: var(--mono-03); font-weight: 600; }
 
         /* Light card border fix */
-        .pantone-card.is-light { border-color: var(--mono-08, #ccc); }
+        .pantone-card.is-light { border-color: var(--mono-08); }
       </style>
 
       <div class="wrapper">
@@ -223,7 +224,7 @@ class PantoneDeck extends HTMLElement {
 
   buildDeck() {
     const scales = [
-      { id: 'mono', name: 'Monochrome', var: 'mono', count: 10 },
+      { id: 'mono', name: 'Phi Mono', var: 'mono', count: 10 },
       { id: 'green', name: 'Phi Green', var: 'green', count: 12 },
       { id: 'blue', name: 'Phi Blue', var: 'blue', count: 14 },
       { id: 'purple', name: 'Phi Purple', var: 'purple', count: 8 },

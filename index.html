@@ -31,28 +31,77 @@
 
       <!-- NEW: Article Columns Grid -->
       <phi-section layout="hexad" id="intro-article">
-        <div class="zone"
-          style="background-image: url('assets/images/hero_bg.jpg'); background-size: cover; background-position: center; color: white;">
-          <phi-hero title="Phidelity" eyebrow="A Paradigm Shift"
+        <div class="zone">
+          <phi-hero title="Phidelity" eyebrow="Paradigm Shift"
             summary="Moving away from arbitrary breakpoints and viewports toward a mathematical, container-based canvas where creativity can grow naturally."
             name="Pål Eirik Paulsen" role="Creator" image="assets/images/creator.jpg"></phi-hero>
         </div>
         <div class="zone">
-          <phi-article-text-only></phi-article-text-only>
+          <phi-article-text-only>
+            <p>Every column, row, type scale, and spacing unit is mathematically calculated from the golden ratio. This
+              means every layout flows with natural visual balance — no guesswork, no arbitrary numbers.</p>
+            <p>Grids use column counts like 26, 50, 74, and 98 — intentionally divisible by 2, 3, 4, 6, and beyond.
+              Combine fractions like 1/2, 1/3, 1/4, 1/6 effortlessly. Build layouts like stacking bricks — flexible but
+              structured.</p>
+            <p>Phidelity uses container queries to make modules adapt to their space — meaning you can mount content
+              side-by-side or vertically, based on available room, not device width.</p>
+            <p>On large screens, layouts expand horizontally like a gallery or dashboard. On small screens, they flow
+              vertically like a classic article. No breakpoints needed — just space-awareness.</p>
+            <p>Phidelity structures content using the natural progression of the golden ratio. From Fibonacci-based
+              bento layouts to responsive container queries, it lets your interface breathe and scale like living
+              systems. Modular, fluid, and inherently beautiful — your grid becomes a rhythm, not a restriction.</p>
+          </phi-article-text-only>
         </div>
         <div class="zone">
-          <phi-article-columns title="Mathematical Harmony"></phi-article-columns>
+          <phi-article-bottom-image title="Mathematical Harmony"
+            summary="Geometry is not just a tool, but the language of the universe."
+            image="assets/images/succulent.jpg">
+            <p>The Golden Ratio (1.618) appears everywhere in the natural world: in the spiral of a nautilus shell, the
+              arrangement of seeds in a sunflower, and the proportions of the human body. It is a universal constant of
+              beauty and efficiency.</p>
+            <p>Phidelity adopts this ratio not as a rigid rule, but as a guiding principle. Our type scales, spacing
+              units, and layout grids are all derived from this singular proportion, ensuring that every element feels
+              harmoniously related to the whole.</p>
+            <h3>A Universal Language</h3>
+            <p>By bypassing arbitrary pixel values in favor of proportional relationships, we create interfaces that
+              feel "right" at a subconscious level. The math disappears, leaving only the feeling of balance.</p>
+          </phi-article-bottom-image>
+        </div>
+        <div class="zone">
+          <phi-article-bottom-image title="Nature’s Foundation"
+            summary="The unseen structure that allows creativity to flourish.">
+            <p>Just as the roots of a tree anchor it firmly to the earth, the foundational grid of Phidelity provides
+              stability to your design. It is the unseen structure that allows creativity to flourish without chaos.</p>
+            <p>The bottom image you see here anchors this section, providing a visual weight that balances the lightness
+              of the typography above. In Phidelity, we consider the "visual center of gravity" in every composition.
+            </p>
+            <h3>Gravity and Growth</h3>
+            <p>Elements in nature grow upwards, towards the light, but are held by gravity. Our layouts mimic this
+              tension. Content flows naturally, while strict grid lines maintain the gravitational pull of order.</p>
+            <p>By using full-width imagery at the boundaries of sections, we create "stops" or "pauses" in the reading
+              flow, allowing the user to digest information before moving to the next concept.</p>
+          </phi-article-bottom-image>
         </div>
         <div class="zone">
           <phi-article-quote quote="The golden ratio is the signature of the divine in nature." name="Pål Eirik Paulsen"
             role="Creator"></phi-article-quote>
         </div>
         <div class="zone">
-          <phi-article-flow title="Article Flow" summary=""></phi-article-flow>
+          <phi-article-flow title="Article Flow" summary="Content that adapts to its container, not the screen.">
+            <p>Phidelity uses container queries to make modules adapt to their space — meaning you can mount content
+              side-by-side or vertically, based on available room, not device width.</p>
+            <h3>Built for horizontal and vertical stacking</h3>
+            <p>On large screens, layouts expand horizontally like a gallery or dashboard. On small screens, they flow
+              vertically like a classic article. No breakpoints needed — just space-awareness.</p>
+            <figure class="image-span">
+              <img src="https://images.unsplash.com/photo-1599270613570-a620f2e59f75?q=80&w=3540&auto=format&fit=crop"
+                alt="Sunflowers">
+              <figcaption class="caption">The seeds of the sunflower are distributed on the flower head according to the
+                golden ratio.</figcaption>
+            </figure>
+          </phi-article-flow>
         </div>
-        <div class="zone">
-          <phi-article-image></phi-article-image>
-        </div>
+
       </phi-section>
 
       <!-- FULL WIDTH (For Wide Content) -->
@@ -169,21 +218,25 @@
         </div>
       </phi-section>
 
-      <!-- HEADER: GOLDEN RATIO -->
-      <phi-section layout="golden" id="golden">
-        <div class="zone zone-1"></div>
-        <div class="zone zone-2"></div>
-        <div class="zone zone-3"></div>
+
+
+
+
+      <!-- HEADER: MASONRY DECK -->
+      <phi-section layout="full" id="masonry">
+        <div class="zone dark">
+          <phi-section-header title="Elastic Masonry"
+            lead="Strict 26/50 column cards that elastically justify to fill the container edge-to-edge.">
+          </phi-section-header>
+        </div>
       </phi-section>
 
-      <!-- HEADER: TRINITY (1:1:1) -->
-      <phi-section layout="trinity" id="trinity">
-        <div class="zone zone-1"></div>
-        <div class="zone zone-2"></div>
-        <div class="zone zone-3"></div>
+      <!-- MASONRY DECK -->
+      <phi-section layout="full">
+        <div class="zone border-dark">
+          <phi-masonry-deck id="masonry-demo"></phi-masonry-deck>
+        </div>
       </phi-section>
-
-
 
     </phi-main>
 
@@ -212,7 +265,24 @@
   <script src="widgets/Hero.js"></script>
   <script src="widgets/ArticleTextOnly.js"></script>
   <script src="widgets/ArticleColumns.js"></script>
+  <script src="widgets/ArticleBottomImage.js"></script>
   <script src="widgets/ArticleFlow.js"></script>
+  <script src="widgets/MasonryDeck.js"></script>
+  <script src="data/masonry_data.js"></script>
+
+  <script>
+    // Initialize Masonry Deck with External Data (No Fetch needed for local file support)
+    document.addEventListener('DOMContentLoaded', () => {
+      const deck = document.getElementById('masonry-demo');
+      // window.MASONRY_DATA is defined in data/masonry_data.js
+      if (deck && window.MASONRY_DATA) {
+        console.log('MasonryDeck: Loaded data from global variable');
+        deck.setAttribute('items', JSON.stringify(window.MASONRY_DATA));
+      } else if (deck) {
+        console.warn('MasonryDeck: No items found in window.MASONRY_DATA');
+      }
+    });
+  </script>
 
   <script src="widgets/ArticleImage.js"></script>
   <script src="widgets/ArticleImageContent.js"></script>

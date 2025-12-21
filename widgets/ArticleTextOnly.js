@@ -50,6 +50,7 @@ class PhiArticleTextOnly extends HTMLElement {
                     height: 100%;
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text);
+                    background: var(--mono-10);
                     container-type: inline-size;
                     container-name: article-text-only;
                 }
@@ -67,8 +68,8 @@ class PhiArticleTextOnly extends HTMLElement {
                 p {
                     font-family: var(--font-sans);
                     font-weight: 400;
-                    font-size: var(--type-base, 1rem);
-                    line-height: var(--leading-base, 1.618);
+                    font-size: var(--type-base);
+                    line-height: var(--leading-base);
                     color: var(--c-text);
                     margin-top: 0;
                     margin-bottom: 1rem;
@@ -78,7 +79,7 @@ class PhiArticleTextOnly extends HTMLElement {
                 /* Multi Column Layout */
                 .multi-column {
                     column-gap: 4cqw;
-                    column-rule: 1px solid var(--c-border-light, #dadada);
+                    column-rule: 1px solid var(--c-border-light);
                 }
 
                 ${this.generateGridCSS()}
@@ -87,15 +88,7 @@ class PhiArticleTextOnly extends HTMLElement {
             <div class="container">
                 <div class="full">
                      <div class="multi-column">
-                        <p>Every column, row, type scale, and spacing unit is mathematically calculated from the golden ratio. This means every layout flows with natural visual balance — no guesswork, no arbitrary numbers.</p>
-                        
-                        <p>Grids use column counts like 26, 50, 74, and 98 — intentionally divisible by 2, 3, 4, 6, and beyond. Combine fractions like 1/2, 1/3, 1/4, 1/6 effortlessly. Build layouts like stacking bricks — flexible but structured.</p>
-                        
-                        <p>Phidelity uses container queries to make modules adapt to their space — meaning you can mount content side-by-side or vertically, based on available room, not device width.</p>
-                        
-                        <p>On large screens, layouts expand horizontally like a gallery or dashboard. On small screens, they flow vertically like a classic article. No breakpoints needed — just space-awareness.</p>
-                        
-                        <p>Phidelity structures content using the natural progression of the golden ratio. From Fibonacci-based bento layouts to responsive container queries, it lets your interface breathe and scale like living systems. Modular, fluid, and inherently beautiful — your grid becomes a rhythm, not a restriction.</p>
+                        <slot></slot>
                     </div>
                 </div>
             </div>

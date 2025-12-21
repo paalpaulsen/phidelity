@@ -55,6 +55,7 @@ class PhiArticleQuote extends HTMLElement {
         const image = this.getAttribute('image') || 'assets/images/author.jpg';
 
         this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="css/macro.css">
             <style>
                 :host {
                     display: flex;
@@ -64,6 +65,7 @@ class PhiArticleQuote extends HTMLElement {
                     height: 100%;
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text);
+                    background: var(--mono-10);
                     container-type: inline-size;
                     container-name: article-quote;
                 }
@@ -89,9 +91,10 @@ class PhiArticleQuote extends HTMLElement {
                 /* Huge Quote Mark */
                 .quote-mark {
                     font-family: var(--font-serif);
-                    font-size: 8rem;
+                    /* font-size: 8rem; -> No direct variable for 8rem. Using display-lg or keeping custom big */
+                    font-size: var(--type-display-lg); /* 6.85rem max, close enough and fluid */
                     line-height: 0.5;
-                    color: var(--mono-08, #DADADA); 
+                    color: var(--mono-08); 
                     margin-bottom: 0; /* Decrease space up to quote symbol (to text) by 1em */
                     user-select: none;
                 }
@@ -114,7 +117,7 @@ class PhiArticleQuote extends HTMLElement {
                     align-items: center;
                     gap: 1rem;
                     font-family: var(--font-sans);
-                    font-size: 0.875rem;
+                    font-size: var(--type-caption);
                 }
 
                 .avatar {
@@ -132,20 +135,8 @@ class PhiArticleQuote extends HTMLElement {
                     text-align: left; /* Force left align relative to avatar */
                     align-items: flex-start;
                 }
-
-                .name { 
-                    font-weight: 700; 
-                    font-size: 1rem; 
-                    line-height: 1.2;
-                    color: var(--c-text);
-                }
                 
-                .role { 
-                    font-weight: 400; 
-                    font-size: 0.875rem; 
-                    color: var(--c-text-muted);
-                    line-height: 1.2;
-                }
+                /* Typography handled by macro.css (.name, .role) */
 
                 ${this.generateGridCSS()}
             </style>
@@ -158,8 +149,8 @@ class PhiArticleQuote extends HTMLElement {
                     <div class="meta">
                         <img class="avatar" src="${image}" alt="${name}">
                         <div class="user-info">
-                            <span class="name">${name}</span>
-                            <span class="role">${role}</span>
+                            <p class="name">${name}</p>
+                            <p class="role">${role}</p>
                         </div>
                     </div>
                 </div>

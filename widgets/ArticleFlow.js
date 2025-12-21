@@ -49,12 +49,14 @@ class PhiArticleFlow extends HTMLElement {
 
 
         this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="css/macro.css">
             <style>
                 :host {
                     display: block;
                     width: 100%;
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text);
+                    background: var(--mono-10);
                     container-type: inline-size;
                     container-name: article-flow;
                 }
@@ -62,7 +64,8 @@ class PhiArticleFlow extends HTMLElement {
                 .container {
                     display: grid;
                     width: 100%;
-                    padding-block: 3rem; /* Standard Padding */
+                    padding-top: 3rem;
+                    padding-bottom: 0; /* Reduced to avoid double gap */
                     box-sizing: border-box;
                     gap: 0;
                 }
@@ -90,8 +93,8 @@ class PhiArticleFlow extends HTMLElement {
                 p {
                     font-family: var(--font-sans);
                     font-weight: 400;
-                    font-size: var(--type-base, 1rem);
-                    line-height: var(--leading-base, 1.618);
+                    font-size: var(--type-base);
+                    line-height: var(--leading-base);
                     color: var(--c-text);
                     margin-top: 0;
                     margin-bottom: 1rem;
@@ -99,7 +102,7 @@ class PhiArticleFlow extends HTMLElement {
 
                 p.summary {
                     font-family: var(--font-sans);
-                    font-size: var(--type-summary-l, 1.25rem);
+                    font-size: var(--type-summary-l);
                     font-weight: 300;
                     line-height: 1.5;
                     color: var(--c-text);
@@ -113,7 +116,7 @@ class PhiArticleFlow extends HTMLElement {
                 /* Multi Column Layout */
                 .multi-column {
                     column-gap: 4cqw;
-                    column-rule: 1px solid var(--c-border-light, #dadada);
+                    column-rule: 1px solid var(--c-border-light);
                     margin-top: 2rem;
                     width: 100%;
                 }
@@ -132,12 +135,21 @@ class PhiArticleFlow extends HTMLElement {
                     background: #f0f0f0;
                 }
 
-                .image-span figcaption {
-                    color: var(--c-text-muted);
-                    margin-top: 0.5rem;
-                    font-size: 0.875rem;
-                    font-weight: 300;
+                /* Handle Slotted Images in Columns */
+                ::slotted(figure) {
+                    width: 100%;
+                    margin: 2rem 0;
+                    break-inside: avoid;
+                    page-break-inside: avoid;
+                    display: block;
                 }
+                ::slotted(figure img) {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                }
+
+                /* Typography handled by macro.css */
 
                 ${this.generateGridCSS()}
             </style>
@@ -150,24 +162,8 @@ class PhiArticleFlow extends HTMLElement {
                     <div class="multi-column">
                         <!-- Summary integrated into columns -->
                         ${summary ? `<p class="summary">${summary}</p>` : ''}
-
-                        <p>Every column, row, type scale, and spacing unit is mathematically calculated from the golden ratio. This means every layout flows with natural visual balance — no guesswork, no arbitrary numbers.</p>
                         
-                        <p>Grids use column counts like 26, 50, 74, and 98 — intentionally divisible by 2, 3, 4, 6, and beyond. Combine fractions like 1/2, 1/3, 1/4, 1/6 effortlessly. Build layouts like stacking bricks — flexible but structured.</p>
-                        
-                        <p>Phidelity uses container queries to make modules adapt to their space — meaning you can mount content side-by-side or vertically, based on available room, not device width.</p>
-                        
-                        <h3>Built for horizontal and vertical stacking</h3>      
-                        <p>On large screens, layouts expand horizontally like a gallery or dashboard. On small screens, they flow vertically like a classic article. No breakpoints needed — just space-awareness.</p>
-                        
-                        <p>Phidelity structures content using the natural progression of the golden ratio. From Fibonacci-based bento layouts to responsive container queries, it lets your interface breathe and scale like living systems. Modular, fluid, and inherently beautiful — your grid becomes a rhythm, not a restriction.</p>
-
-
-                        <!-- Image after paragraph text -->
-                        <figure class="image-span">
-                            <img src="https://images.unsplash.com/photo-1599270613570-a620f2e59f75?q=80&w=3540&auto=format&fit=crop" alt="Sunflowers">
-                            <figcaption>The seeds of the sunflower are distributed on the flower head according to the golden ratio.</figcaption>
-                        </figure>
+                        <slot></slot>
                     </div>
                 </div>
             </div>

@@ -74,11 +74,13 @@ class PhiArticleImageContent extends HTMLElement {
         }
 
         this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="css/macro.css">
             <style>
                 :host {
                     display: block;
                     width: 100%;
                     font-family: var(--font-sans, 'Inter', sans-serif);
+                    background: var(--mono-10);
                     container-type: inline-size;
                     container-name: article-image-content;
                 }
@@ -124,8 +126,8 @@ class PhiArticleImageContent extends HTMLElement {
                     width: 3rem;
                     height: 3rem;
                     border-radius: 50%;
-                    background-color: var(--blue-07, #009EFF);
-                    color: white;
+                    background-color: var(--blue-07);
+                    color: var(--mono-10);
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -145,7 +147,7 @@ class PhiArticleImageContent extends HTMLElement {
                 .icon-i {
                     font-family: var(--font-sans); 
                     font-weight: 700;
-                    font-size: 1.5rem;
+                    font-size: var(--type-h3);
                     font-style: normal;
                     line-height: 1;
                 }
@@ -197,24 +199,24 @@ class PhiArticleImageContent extends HTMLElement {
                     transform: translateY(0);
                 }
 
-                p {
-                    margin: 0;
-                    font-size: 0.9rem;
-                    line-height: 1.5;
-                    color: var(--c-text, #333);
+                /* Typography handled by global .caption from macro.css */
+                p { margin: 0; }
+                p.caption {
+                    /* Inherits from macro.css */
+                    margin-top: 0;
                 }
 
                 .credit {
                     display: block;
                     margin-top: 0.5rem;
-                    font-size: 0.75rem;
-                    color: var(--c-text-muted, #777);
+                    font-size: var(--type-micro);
+                    color: var(--c-text-muted);
                     text-transform: uppercase;
                     letter-spacing: 0.05em;
                 }
                 
                 .container.expanded .toggle-btn {
-                    background-color: var(--c-text, #333);
+                    background-color: var(--c-text);
                     transform: rotate(45deg); 
                 }
 
@@ -227,7 +229,7 @@ class PhiArticleImageContent extends HTMLElement {
                     
                     <div class="caption-overlay">
                         <div class="caption-content">
-                            <p>${caption}</p>
+                            <p class="caption">${caption}</p>
                             <span class="credit">${credit}</span>
                         </div>
                     </div>

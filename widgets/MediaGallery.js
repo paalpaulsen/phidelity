@@ -67,6 +67,7 @@ class MediaGallery extends HTMLElement {
     const { showMobileCaption } = this.state;
 
     this.shadowRoot.innerHTML = `
+      <link rel="stylesheet" href="css/macro.css">
       <style>
         * { box-sizing: border-box; }
 
@@ -75,8 +76,8 @@ class MediaGallery extends HTMLElement {
           width: 100%;
           height: 100%;
           font-family: 'Inter', sans-serif;
-          --c-bg: #0E0E0E;
-          --c-text: #fff;
+          --c-bg: var(--mono-02);
+          --c-text: var(--mono-10);
           --c-accent: rgba(255, 255, 255, 0.1);
           
           container-type: inline-size;
@@ -106,7 +107,7 @@ class MediaGallery extends HTMLElement {
             z-index: 5; width: 100%;
         }
         .media-zone { 
-            position: relative; width: 100%; background: #000; 
+            position: relative; width: 100%; background: var(--mono-01); 
             aspect-ratio: 16 / 9; overflow: hidden; 
         }
         .thumbs-zone { 
@@ -128,14 +129,19 @@ class MediaGallery extends HTMLElement {
         }
         
         /* STATIC CAPTION (Desktop/XL) */
-        .static-caption {
-            font-size: 0.9rem; line-height: 1.5; color: rgba(255,255,255,0.9); margin: 0;
+        .static-caption { display: block; }
+        
+        /* Local Override for Dark Theme */
+        .caption { 
+            color: var(--mono-10); 
+            opacity: 0.9;
         }
-        .caption-text { font-size: 0.9rem; line-height: 1.5; color: rgba(255,255,255,0.9); margin: 0; }
+        /* Remove margin in overlay bubble */
+        .caption-overlay .caption { margin-top: 0; }
 
         /* CAPTION TOGGLE */
         .caption-toggle {
-            background: transparent; border: none; color: #fff; cursor: pointer; 
+            background: transparent; border: none; color: var(--mono-10); cursor: pointer; 
             padding: 8px; display: flex; align-items: center; justify-content: center;
             transition: transform 0.3s;
             transform: rotate(${showMobileCaption ? '180deg' : '0deg'});
@@ -154,16 +160,16 @@ class MediaGallery extends HTMLElement {
             object-fit: cover; cursor: pointer; opacity: 0.5; 
             border: 1px solid transparent; flex-shrink: 0; transition: opacity 0.2s;
         }
-        .thumb.active { opacity: 1; border-color: #fff; }
+        .thumb.active { opacity: 1; border-color: var(--mono-10); }
         .thumb:hover { opacity: 1; }
 
         .nav-btn {
             background: transparent; border: 1px solid rgba(255,255,255,0.3); 
-            color: #fff; cursor: pointer; width: 32px; height: 32px; 
+            color: var(--mono-10); cursor: pointer; width: 32px; height: 32px; 
             display: flex; align-items: center; justify-content: center; 
             transition: all 0.2s; flex-shrink: 0;
         }
-        .nav-btn:hover { background: #fff; color: #000; }
+        .nav-btn:hover { background: var(--mono-10); color: var(--mono-01); }
 
 
         /* --- PHIDELITY GRID COORDINATES --- */
@@ -384,7 +390,7 @@ class MediaGallery extends HTMLElement {
             
             <!-- Static Caption (Desktop/XL) -->
             <div class="static-caption">
-                 <p class="caption-text">
+                 <p class="caption">
                     ${current.description}
                     <br><br>
                     <small style="opacity: 0.7; text-transform: uppercase;">${current.credits}</small>
@@ -398,7 +404,7 @@ class MediaGallery extends HTMLElement {
           
           <!-- Caption Overlay (Mobile Only) -->
           <div class="caption-overlay">
-             <p class="caption-text">
+             <p class="caption">
                 ${current.description}
                 <br><br>
                 <small style="opacity: 0.7; text-transform: uppercase;">${current.credits}</small>

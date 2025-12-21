@@ -67,14 +67,20 @@ class PhiHero extends HTMLElement {
         const image = this.getAttribute('image') || '';
 
         this.shadowRoot.innerHTML = `
+            <link rel="stylesheet" href="css/macro.css">
             <style>
                 :host {
                     display: block;
                     width: 100%;
+                    height: 100%; /* Force fill of parent Zone */
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text); 
                     container-type: inline-size;
                     container-name: hero;
+                    background-image: url('assets/images/hero_bg.jpg');
+                    background-size: cover;
+                    background-position: center; /* Restore requested alignment */
+                    background-repeat: no-repeat;
                 }
 
                 .container {
@@ -84,47 +90,18 @@ class PhiHero extends HTMLElement {
                     box-sizing: border-box;
                     gap: 0;
                     height: 100%; 
-                    align-content: end; 
+                    align-content: start; /* Align to top like ArticleColumns */
                 }
 
-                /* Typography */
-                .eyebrow {
-                    font-family: var(--font-sans);
-                    font-size: 0.875rem;
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    font-weight: 700;
-                    color: var(--mono-05); 
-                    opacity: 0.9;
-                    margin: 0 0 1rem 0;
-                }
+                /* Local overrides only - Typography handled by macro.css */
+                h1 { margin: 0 0 1.5rem 0; }
+                .summary-l { margin-bottom: 2rem; max-width: 55ch; color: var(--mono-05); }
 
-                h1 {
-                    font-family: var(--font-serif);
-                    font-size: var(--type-h1-l, 4rem);   
-                    line-height: 1.1;
-                    margin: 0 0 1.5rem 0;
-                    font-weight: 400;
-                    letter-spacing: var(--tracking-heading, 0.02em);
-                }
-
-                p.summary {
-                    font-family: var(--font-sans);
-                    font-size: var(--type-summary-l, 1.25rem);
-                    font-weight: 300;
-                    line-height: 1.5;
-                    color: var(--mono-05);
-                    margin-bottom: 2rem;
-                    max-width: 55ch; 
-                }
-
-                /* Meta / Byline */
+                /* Layout & Structure (Preserved) */
                 .meta {
                     display: flex;
                     align-items: center;
                     gap: 1rem;
-                    font-family: var(--font-sans);
-                    font-size: 0.875rem;
                 }
 
                 .avatar {
@@ -132,7 +109,7 @@ class PhiHero extends HTMLElement {
                     height: 48px;
                     border-radius: 50%;
                     object-fit: cover;
-                    background-color: rgba(255,255,255,0.2);
+                    background-color: var(--mono-10);
                     border: 2px solid rgba(255,255,255,0.5);
                 }
 
@@ -140,18 +117,10 @@ class PhiHero extends HTMLElement {
                     display: flex;
                     flex-direction: column;
                 }
-
-                .name { 
-                    font-weight: 700; 
-                    font-size: 1rem; 
-                    line-height: 1.2;
-                }
                 
-                .role { 
-                    font-weight: 400; 
-                    font-size: 0.875rem; 
-                    opacity: 0.8; 
-                    line-height: 1.2;
+                .user-info {
+                    display: flex;
+                    flex-direction: column;
                 }
 
                 ${this.generateGridCSS()}
@@ -159,15 +128,15 @@ class PhiHero extends HTMLElement {
 
             <div class="container">
                 <div class="content-area">
-                    <p class="eyebrow">${eyebrow}</p>
+                    <p class="eyebrow-l" style="color: var(--mono-05);">${eyebrow}</p>
                     <h1>${title}</h1>
-                    <p class="summary">${summary}</p>
+                    <p class="summary-l">${summary}</p>
                     
                     <div class="meta">
                         <img class="avatar" src="${image}" alt="${name}">
                         <div class="user-info">
-                            <span class="name">${name}</span>
-                            <span class="role">${role}</span>
+                            <p class="name">${name}</p>
+                            <p class="role">${role}</p>
                         </div>
                     </div>
                 </div>

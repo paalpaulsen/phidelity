@@ -323,7 +323,7 @@ class BentoBox extends HTMLElement {
         
         .eyebrow {
             font-family: 'JetBrains Mono', monospace;
-            font-size: var(--type-micro);
+            font-size: var(--type-caption);
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--c-text-grey);

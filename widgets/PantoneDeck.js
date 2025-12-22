@@ -37,12 +37,16 @@ class PantoneDeck extends HTMLElement {
           width: 100%; 
         }
         
-        .zone-label { 
-          display: block; margin-bottom: 1rem; margin-top: 4rem;
-          font-size: var(--type-micro); text-transform: uppercase; letter-spacing: 1px; 
-          font-weight: 700; color: var(--c-text-muted); 
+        h3.zone-label { 
+          display: block; margin-bottom: 2rem; margin-top: 6rem;
+          /* Inherit standard H3 styles or override specific properties if needed */
+          font-family: var(--font-sans, 'Inter', sans-serif);
+          font-weight: 500;
+          font-size: var(--type-h3);
+          color: var(--c-text);
+          letter-spacing: -0.02em;
           border-bottom: 1px solid var(--c-border-light); 
-          padding-bottom: 0.5rem;
+          padding-bottom: 1rem;
         }
 
         /* 
@@ -205,7 +209,7 @@ class PantoneDeck extends HTMLElement {
         .val-group {
           grid-column: 3 / 25;
           display: flex; justify-content: space-between;
-          font-family: var(--font-mono, monospace); font-size: var(--type-micro); color: var(--c-text-muted);
+          font-family: var(--font-mono, monospace); font-size: var(--type-caption); color: var(--c-text-muted);
           border-bottom: 1px solid var(--c-border-light); padding-bottom: 2px;
         }
         .val-group:last-child { border-bottom: none; }
@@ -272,7 +276,7 @@ class PantoneDeck extends HTMLElement {
 
     scales.forEach(scale => {
       // 1. Section Header
-      const label = document.createElement('span');
+      const label = document.createElement('h3');
       label.className = 'zone-label';
       label.id = scale.id;
       label.textContent = scale.name;

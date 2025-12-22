@@ -67,10 +67,12 @@ class PhiArticleBottomImage extends HTMLElement {
                     width: 100%;
                     padding-top: 3rem; 
                     padding-bottom: 0;
+                    margin-bottom: -6rem; /* Create overlay with footer */
                     box-sizing: border-box;
                     gap: 0;
                     position: relative;
-                    flex: 1 0 auto; /* Grow to fill space, but don't shrink below content */
+                    z-index: 2; /* Text over image */
+                    flex: 1 0 auto; 
                 }
 
                 /* Bottom Image Container */
@@ -78,8 +80,11 @@ class PhiArticleBottomImage extends HTMLElement {
                     width: 100%;
                     display: block;
                     margin-top: auto; /* Push to bottom */
-                    line-height: 0; /* Remove descender gap */
+                    line-height: 0; 
                     flex-shrink: 0;
+                    position: relative;
+                    z-index: 1; /* Image under text */
+                    pointer-events: none; /* Let clicks pass through if needed */
                 }
 
                 .bottom-image-wrapper img {
@@ -165,6 +170,13 @@ class PhiArticleBottomImage extends HTMLElement {
                 @container article-columns (min-width: 1689px) {
                     .full {
                          grid-area: auto / 3 / auto / 52 !important; /* ~50% width */
+                    }
+                }
+
+                /* Mobile (26 cols): No overlay */
+                @container article-columns (max-width: 768px) {
+                    .container {
+                        margin-bottom: 0;
                     }
                 }
             </style>

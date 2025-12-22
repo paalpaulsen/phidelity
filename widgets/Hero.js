@@ -40,7 +40,7 @@ class PhiHero extends HTMLElement {
             } else if (bp.id === '74') {
                 gridArea = 'auto / 5 / auto / 40';
             } else if (bp.id === '26') {
-                gridArea = 'auto / 3 / auto / 18';
+                gridArea = 'auto / 3 / auto / 25'; // Widen text area for mobile
             }
 
             return `
@@ -77,10 +77,6 @@ class PhiHero extends HTMLElement {
                     color: var(--c-text); 
                     container-type: inline-size;
                     container-name: hero;
-                    background-image: url('assets/images/hero_bg.jpg');
-                    background-size: cover;
-                    background-position: center; /* Restore requested alignment */
-                    background-repeat: no-repeat;
                 }
 
                 .container {
@@ -91,6 +87,24 @@ class PhiHero extends HTMLElement {
                     gap: 0;
                     height: 100%; 
                     align-content: start; /* Align to top like ArticleColumns */
+                    
+                    /* Background Moved Here for Container Query Support */
+                    background-image: url('assets/images/hero_bg.jpg');
+                    background-size: cover;
+                    background-position: center; 
+                    background-repeat: no-repeat;
+                }
+
+                /* Mobile Background Adjustment */
+                @container hero (max-width: 768px) {
+                    .container {
+                        background-color: #f1f1f1; 
+                        background-size: 70% auto; /* 70% width per request */
+                        background-position: bottom center; /* Image at bottom */
+                    }
+                    .content-area {
+                        margin-bottom: 5rem; /* Space under text */
+                    }
                 }
 
                 /* Local overrides only - Typography handled by macro.css */

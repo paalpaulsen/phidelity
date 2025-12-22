@@ -42,6 +42,9 @@ class PhiArticleTextOnly extends HTMLElement {
     }
 
     render() {
+        const title = this.getAttribute('title') || '';
+        const summary = this.getAttribute('summary') || '';
+
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
@@ -62,7 +65,6 @@ class PhiArticleTextOnly extends HTMLElement {
                     padding-block: 3rem; 
                     box-sizing: border-box;
                     gap: 0;
-                    align-content: center;
                 }
 
                 p {
@@ -76,6 +78,24 @@ class PhiArticleTextOnly extends HTMLElement {
                     letter-spacing: var(--tracking-base, 0em);
                 }
 
+                h2 {
+                    font-family: var(--font-serif);
+                    font-size: var(--type-h2);
+                    line-height: 1.1;
+                    margin: 0 0 1rem 0;
+                    font-weight: 400;
+                    letter-spacing: var(--tracking-heading, 0.02em);
+                }
+
+                p.summary {
+                    font-family: var(--font-sans);
+                    font-size: var(--type-summary-l);
+                    font-weight: 300;
+                    line-height: 1.5;
+                    color: var(--c-text);
+                    margin-bottom: 2rem;
+                }
+
                 /* Multi Column Layout */
                 .multi-column {
                     column-gap: 4cqw;
@@ -87,6 +107,8 @@ class PhiArticleTextOnly extends HTMLElement {
 
             <div class="container">
                 <div class="full">
+                    ${title ? `<h2>${title}</h2>` : ''}
+                    ${summary ? `<p class="summary">${summary}</p>` : ''}
                      <div class="multi-column">
                         <slot></slot>
                     </div>

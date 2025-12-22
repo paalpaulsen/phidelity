@@ -350,7 +350,7 @@ class TypographicScale extends HTMLElement {
         .summary-s { font-size: var(--fs-base); line-height: 1.5; font-weight: 300; }
         
         .h2 { font-family: 'DM Serif Display', serif; font-size: var(--fs-md); line-height: 1.3; }
-        .h3 { font-family: 'DM Serif Display', serif; font-size: var(--fs-base); line-height: 1.4; font-weight: 700; }
+        .h3 { font-family: 'Inter', sans-serif; font-size: var(--fs-base); line-height: 1.4; font-weight: 700; }
         
         .p-body { font-size: var(--fs-base); line-height: 1.6; color: var(--mono-04); }
         

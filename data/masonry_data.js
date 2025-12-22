@@ -15,7 +15,7 @@ window.MASONRY_DATA = [
     },
     {
         "id": 3,
-        "size": 1,
+        "size": 0,
         "title": "Natural Textures",
         "summary": "Incorporating organic materials into contemporary interior design.",
         "image": "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?auto=format&fit=crop&w=800&q=80"
@@ -36,7 +36,7 @@ window.MASONRY_DATA = [
     },
     {
         "id": 6,
-        "size": 0,
+        "size": 1,
         "title": "Color Theory",
         "summary": "Palette perception.",
         "image": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80"
@@ -57,16 +57,107 @@ window.MASONRY_DATA = [
     },
     {
         "id": 9,
-        "size": 1,
+        "size": 2,
         "title": "Digital Nomad",
         "summary": "Remote work setups and the freedom of location independence.",
         "image": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
     },
     {
         "id": 10,
-        "size": 1,
+        "size": 0,
         "title": "Coffee Culture",
         "summary": "The art of brewing the perfect cup and the spaces we enjoy it in.",
         "image": "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 11,
+        "size": 1,
+        "title": "Modernist Forms",
+        "summary": "Sculptural elements in contemporary concrete architecture.",
+        "image": "https://images.unsplash.com/photo-1534120247760-c44c3e4a62f1?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 12,
+        "size": 2,
+        "title": "Panoramic Cityscapes",
+        "summary": "Capturing the vast horizon of metropolitan skylines at dusk.",
+        "image": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+        "id": 13,
+        "size": 0,
+        "title": "Geometric Patterns",
+        "summary": "Repetitive structures found in everyday urban environments.",
+        "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 14,
+        "size": 1,
+        "title": "Vertical Gardens",
+        "summary": "Integrating lush greenery into high-rise facades.",
+        "image": "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 15,
+        "size": 2,
+        "title": "Industrial Design",
+        "summary": "Function meeting form in workspace tools and machinery.",
+        "image": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+        "id": 16,
+        "size": 0,
+        "title": "Ceramic Art",
+        "summary": "Handcrafted pottery textures and glazes.",
+        "image": "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 17,
+        "size": 1,
+        "title": "Glass Facades",
+        "summary": "Reflections and transparency in modern office towers.",
+        "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 18,
+        "size": 2,
+        "title": "Workspace Flow",
+        "summary": "Optimizing open-plan offices for collaboration and focus.",
+        "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+        "id": 19,
+        "size": 0,
+        "title": "Abstract Light",
+        "summary": "Shadows and highlights playing across surfaces.",
+        "image": "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 20,
+        "size": 1,
+        "title": "Spiral Staircases",
+        "summary": "Mathematical curves in architectural circulation.",
+        "image": "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 21,
+        "size": 2,
+        "title": "Desert Modernism",
+        "summary": "Architecture that blends with arid landscapes.",
+        "image": "https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+        "id": 22,
+        "size": 0,
+        "title": "Typographic Details",
+        "summary": "Close-up views of letterforms and signage.",
+        "image": "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        "id": 23,
+        "size": 1,
+        "title": "Zen Gardens",
+        "summary": "Finding peace in carefully raked gravel and stones.",
+        "image": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80"
     }
 ];

@@ -64,8 +64,7 @@ class PhiArticleFlow extends HTMLElement {
                 .container {
                     display: grid;
                     width: 100%;
-                    padding-top: 3rem;
-                    padding-bottom: 0; /* Reduced to avoid double gap */
+                    padding-block: 3rem; /* Standard Padding */
                     box-sizing: border-box;
                     gap: 0;
                 }

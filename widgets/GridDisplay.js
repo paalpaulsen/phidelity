@@ -46,7 +46,8 @@ class GridDisplay extends HTMLElement {
           container-type: inline-size;
           container-name: bento-box;
           width: 100%; 
-          max-width: 3200px; 
+          width: 100%; 
+          /* max-width removed */
           margin: 0 auto;
         }
 

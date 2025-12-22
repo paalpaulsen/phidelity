@@ -102,7 +102,7 @@ class PhiArticleQuote extends HTMLElement {
                 /* Quote Text */
                 .h2-quote {
                     font-family: var(--font-serif);
-                    font-size: var(--type-h1-m); /* H1 Medium */ 
+                    font-size: var(--type-h2); /* Reduced from H1-M */ 
                     font-style: italic;
                     line-height: 1.2;
                     margin: 0 0 2rem 0;

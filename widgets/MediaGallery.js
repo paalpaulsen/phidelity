@@ -66,7 +66,9 @@ class MediaGallery extends HTMLElement {
     const current = this.state.images[this.state.currentIndex];
     const { showMobileCaption } = this.state;
 
-    this.shadowRoot.innerHTML = `
+    // FIRST RENDER: Create DOM Structure
+    if (!this.shadowRoot.querySelector('.gallery-container')) {
+      this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="css/macro.css">
       <style>
         * { box-sizing: border-box; }
@@ -74,7 +76,8 @@ class MediaGallery extends HTMLElement {
         :host {
           display: block;
           width: 100%;
-          height: 100%;
+          height: auto;
+          max-height: 85vh; /* Constrain height to prevent oversized images */
           font-family: 'Inter', sans-serif;
           --c-bg: var(--mono-02);
           --c-text: var(--mono-10);
@@ -87,7 +90,7 @@ class MediaGallery extends HTMLElement {
         .gallery-container {
           display: grid;
           width: 100%;
-          height: 100%;
+          height: auto;
           background: var(--c-bg);
           color: var(--c-text);
           position: relative;
@@ -96,7 +99,7 @@ class MediaGallery extends HTMLElement {
         }
 
         /* ELEMENTS */
-        .media-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .media-img { width: 100%; height: 100%; object-fit: contain; display: block; background: #000; }
         
         h3 { margin: 0; font-family: var(--font-sans); font-weight: 700; }
 
@@ -108,7 +111,9 @@ class MediaGallery extends HTMLElement {
         }
         .media-zone { 
             position: relative; width: 100%; background: var(--mono-01); 
-            aspect-ratio: 16 / 9; overflow: hidden; 
+            aspect-ratio: 16 / 9; 
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: center; 
         }
         .thumbs-zone { 
             display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; 
@@ -122,11 +127,12 @@ class MediaGallery extends HTMLElement {
           background: rgba(14, 14, 14, 0.9);
           backdrop-filter: blur(10px);
           padding: 1.5rem calc(2 * var(--col-w));
-          transform: translateY(${showMobileCaption ? '0' : '-100%'});
+          transform: translateY(-100%);
           transition: transform 0.3s ease-in-out;
           z-index: 10;
           border-bottom: 1px solid rgba(255,255,255,0.2);
         }
+        .caption-overlay.show { transform: translateY(0); }
         
         /* STATIC CAPTION (Desktop/XL) */
         .static-caption { display: block; }
@@ -144,13 +150,13 @@ class MediaGallery extends HTMLElement {
             background: transparent; border: none; color: var(--mono-10); cursor: pointer; 
             padding: 8px; display: flex; align-items: center; justify-content: center;
             transition: transform 0.3s;
-            transform: rotate(${showMobileCaption ? '180deg' : '0deg'});
         }
+        .caption-toggle.active { transform: rotate(180deg); }
         .caption-toggle:hover { color: var(--c-accent); }
 
         /* THUMBNAILS */
         .thumbs-list { 
-            flex: 1; display: flex; gap: 0.5rem; overflow-x: auto; 
+            flex: 1; display: flex; gap: 0.5rem; overflow: auto; 
             scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth;
         }
         .thumbs-list::-webkit-scrollbar { display: none; }
@@ -186,7 +192,7 @@ class MediaGallery extends HTMLElement {
            }
            /* 1 Col Padding Sides: Content 2-12 */
            .info-zone   { grid-column: 2 / 13; grid-row: 1; border: none; padding: 0; }
-           .media-zone  { grid-column: 2 / 13; grid-row: 2; margin-bottom: calc(1 * var(--col-w)); }
+           .media-zone  { grid-column: 2 / 13; grid-row: 2; margin-bottom: calc(1 * var(--col-w)); aspect-ratio: 16/9; }
            .thumbs-zone { 
                grid-column: 2 / 13; grid-row: 3; 
                gap: calc(0.5 * var(--col-w)); /* Smaller gap to fit 3 thumbs */
@@ -210,7 +216,7 @@ class MediaGallery extends HTMLElement {
            }
            /* 2 Col Padding Sides: Content 3-24 */
            .info-zone   { grid-column: 3 / 25; grid-row: 1; border: none; padding: 0; }
-           .media-zone  { grid-column: 3 / 25; grid-row: 2; margin-bottom: calc(2 * var(--col-w)); }
+           .media-zone  { grid-column: 3 / 25; grid-row: 2; margin-bottom: calc(2 * var(--col-w)); aspect-ratio: 16/9; }
            .thumbs-zone { 
                grid-column: 3 / 25; grid-row: 3; 
                gap: calc(1 * var(--col-w)); 
@@ -234,7 +240,7 @@ class MediaGallery extends HTMLElement {
            }
            /* 2 Col Padding Sides: Content 3-48 */
            .info-zone   { grid-column: 3 / 49; grid-row: 1; border: none; padding: 0; }
-           .media-zone  { grid-column: 3 / 49; grid-row: 2; margin-bottom: calc(2 * var(--col-w)); }
+           .media-zone  { grid-column: 3 / 49; grid-row: 2; margin-bottom: calc(2 * var(--col-w)); aspect-ratio: 16/9; }
            .thumbs-zone { 
                grid-column: 3 / 49; grid-row: 3; 
                gap: calc(1 * var(--col-w)); 
@@ -257,7 +263,7 @@ class MediaGallery extends HTMLElement {
             --col-w: calc(100cqw / 74);
           }
           /* Media: 1-52 */
-          .media-zone { grid-column: 1 / 53; grid-row: 1; }
+          .media-zone { grid-column: 1 / 53; grid-row: 1; height: 100%; }
           /* Info: 55-72 (Gap 53-54, Right Gap 73-74) */
           .info-zone { 
               grid-column: 55 / 73; grid-row: 1 / 3; 
@@ -287,7 +293,7 @@ class MediaGallery extends HTMLElement {
             --col-w: calc(100cqw / 98);
           }
           /* Media: 1-70 */
-          .media-zone { grid-column: 1 / 71; grid-row: 1; }
+          .media-zone { grid-column: 1 / 71; grid-row: 1; height: 100%; }
           /* Info: 73-96 (Gap 71-72, Right Gap 97-98) */
           .info-zone { 
               grid-column: 73 / 97; grid-row: 1 / 3; 
@@ -313,11 +319,11 @@ class MediaGallery extends HTMLElement {
         @container media-gallery (min-width: 1586px) and (max-width: 1897px) {
           .gallery-container {
             grid-template-columns: repeat(122, 1fr);
-            grid-template-rows: 100%;
+            grid-template-rows: auto;
             --col-w: calc(100cqw / 122);
           }
           /* Media: 1-80 */
-          .media-zone { grid-column: 1 / 81; grid-row: 1 / -1; height: 100%; }
+          .media-zone { grid-column: 1 / 81; grid-row: 1 / -1; height: auto; aspect-ratio: 16/9; }
           /* Info: 83-102 (Gap 81-82) */
           .info-zone { 
               grid-column: 83 / 103; grid-row: 1 / -1; 
@@ -329,11 +335,27 @@ class MediaGallery extends HTMLElement {
               grid-column: 105 / -1; grid-row: 1 / -1; 
               flex-direction: column; border: none; 
               padding: calc(2 * var(--col-w)); /* 2 Col Padding All Sides */
-              gap: calc(2 * var(--col-w));
+              gap: calc(1 * var(--col-w));
+              overflow: hidden; /* Contain scrolling */
+              justify-content: space-between;
+              height: 0; min-height: 100%; /* Force height match */
           }
-          .thumbs-list { flex-direction: column; width: 100%; gap: calc(2 * var(--col-w)); }
+          .thumbs-list { 
+              flex-direction: column; 
+              width: 100%; 
+              gap: calc(1 * var(--col-w)); 
+              overflow-y: auto; /* Vertical Scroll */
+          }
           .thumb { width: 100%; height: auto; aspect-ratio: 16/9; }
-          .nav-btn { display: none; }
+          
+          /* Nav Buttons: Visible and Rotated */
+          .nav-btn { 
+              display: flex; 
+              width: 100%; 
+              height: 32px;
+          }
+          .nav-btn:first-child svg { transform: rotate(90deg); } /* Left Arrow -> Up */
+          .nav-btn:last-child svg { transform: rotate(90deg); } /* Right Arrow -> Down */
           
           .static-caption { display: block; }
           .caption-overlay { display: none; }
@@ -345,11 +367,11 @@ class MediaGallery extends HTMLElement {
         @container media-gallery (min-width: 1898px) {
           .gallery-container {
             grid-template-columns: repeat(146, 1fr);
-            grid-template-rows: 100%;
+            grid-template-rows: auto;
             --col-w: calc(100cqw / 146);
           }
           /* Media: 1-96 */
-          .media-zone { grid-column: 1 / 97; grid-row: 1 / -1; height: 100%; }
+          .media-zone { grid-column: 1 / 97; grid-row: 1 / -1; height: auto; aspect-ratio: 16/9; }
           /* Info: 99-122 (Gap 97-98) */
           .info-zone { 
               grid-column: 99 / 123; grid-row: 1 / -1; 
@@ -361,12 +383,29 @@ class MediaGallery extends HTMLElement {
               grid-column: 125 / -1; grid-row: 1 / -1; 
               flex-direction: column; border: none; 
               padding: calc(2 * var(--col-w)); /* 2 Col Padding All Sides */
-              gap: calc(2 * var(--col-w));
+              gap: calc(1 * var(--col-w));
+              overflow: hidden;
+              justify-content: space-between;
+              height: 0; min-height: 100%; /* Force height match */
           }
           
-          .thumbs-list { flex-direction: column; width: 100%; gap: calc(2 * var(--col-w)); }
+          .thumbs-list { 
+              flex-direction: column; 
+              width: 100%; 
+              gap: calc(1 * var(--col-w)); 
+              overflow-y: auto;
+          }
           .thumb { width: 100%; height: auto; aspect-ratio: 16/9; }
-          .nav-btn { display: none; }
+          
+          /* Nav Buttons: Visible and Rotated */
+          .nav-btn { 
+              display: flex; 
+              width: 100%; 
+              height: 32px;
+          }
+          .nav-btn:first-child svg { transform: rotate(90deg); }
+          .nav-btn:last-child svg { transform: rotate(90deg); }
+
           
           .static-caption { display: block; }
           .caption-overlay { display: none; }
@@ -380,34 +419,28 @@ class MediaGallery extends HTMLElement {
         <!-- INFO ZONE (Title + Static Caption) -->
         <div class="info-zone">
             <div class="title-zone">
-              <h3>${current.title}</h3>
+              <h3 id="gallery-title"></h3>
               
               <!-- Caption Toggle (Mobile Only) -->
-              <button class="caption-toggle" onclick="this.getRootNode().host.toggleMobileCaption()" aria-label="Toggle Caption">
+              <button id="cap-toggle" class="caption-toggle" onclick="this.getRootNode().host.toggleMobileCaption()" aria-label="Toggle Caption">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </button>
             </div>
             
             <!-- Static Caption (Desktop/XL) -->
             <div class="static-caption">
-                 <p class="caption">
-                    ${current.description}
-                    <br><br>
-                    <small style="opacity: 0.7; text-transform: uppercase;">${current.credits}</small>
+                 <p class="caption" id="gallery-desc">
                  </p>
             </div>
         </div>
         
         <!-- MEDIA ZONE -->
         <div class="media-zone">
-          <img class="media-img" src="${current.src}" alt="${current.title}">
+          <img id="gallery-img" class="media-img" src="" alt="">
           
           <!-- Caption Overlay (Mobile Only) -->
-          <div class="caption-overlay">
-             <p class="caption">
-                ${current.description}
-                <br><br>
-                <small style="opacity: 0.7; text-transform: uppercase;">${current.credits}</small>
+          <div id="gallery-overlay" class="caption-overlay">
+             <p class="caption" id="gallery-overlay-desc">
              </p>
           </div>
         </div>
@@ -418,10 +451,11 @@ class MediaGallery extends HTMLElement {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
           
-          <div class="thumbs-list">
+          <div class="thumbs-list" id="thumbs-list">
             ${this.state.images.map((img, idx) => `
-              <img class="thumb ${idx === this.state.currentIndex ? 'active' : ''}" 
+              <img class="thumb" 
                    src="${img.src}" 
+                   data-index="${idx}"
                    onclick="this.getRootNode().host.selectImage(${idx})">
             `).join('')}
           </div>
@@ -432,7 +466,56 @@ class MediaGallery extends HTMLElement {
         </div>
 
       </div>
+      `;
+    }
+
+    // UPDATE DYNAMIC CONTENT
+    // Reuse 'current' from top of scope
+
+    // Image
+    const img = this.shadowRoot.getElementById('gallery-img');
+    img.src = current.src;
+    img.alt = current.title;
+
+    // Title
+    this.shadowRoot.getElementById('gallery-title').textContent = current.title;
+
+    // Descriptions
+    const descHtml = `
+      ${current.description}
+      <br><br>
+      <small style="opacity: 0.7; text-transform: uppercase;">${current.credits}</small>
     `;
+    this.shadowRoot.getElementById('gallery-desc').innerHTML = descHtml;
+    this.shadowRoot.getElementById('gallery-overlay-desc').innerHTML = descHtml;
+
+    // Toggle State
+    const toggle = this.shadowRoot.getElementById('cap-toggle');
+    const overlay = this.shadowRoot.getElementById('gallery-overlay');
+
+    if (this.state.showMobileCaption) {
+      toggle.classList.add('active');
+      overlay.classList.add('show');
+    } else {
+      toggle.classList.remove('active');
+      overlay.classList.remove('show');
+    }
+
+    // Thumbnails Active State
+    const thumbs = this.shadowRoot.querySelectorAll('.thumb');
+    thumbs.forEach((t, i) => {
+      if (i === this.state.currentIndex) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+
+    this.scrollToActive();
+  }
+
+  scrollToActive() {
+    const activeThumb = this.shadowRoot.querySelector('.thumb.active');
+    if (activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
   }
 
   // Re-attach listeners if needed, or use inline onclicks as above for simplicity in shadow DOM

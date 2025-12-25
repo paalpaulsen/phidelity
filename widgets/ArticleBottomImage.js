@@ -45,6 +45,7 @@ class PhiArticleBottomImage extends HTMLElement {
         const title = this.getAttribute('title') || 'Nature’s Foundation';
         const summary = this.getAttribute('summary') || '';
         const image = this.getAttribute('image') || 'assets/images/bottom.jpg';
+        const caption = this.getAttribute('caption') || 'Fig. 1.0 — Phidelity Grid Structure';
 
         this.shadowRoot.innerHTML = `
             <style>
@@ -67,7 +68,7 @@ class PhiArticleBottomImage extends HTMLElement {
                     width: 100%;
                     padding-top: 3rem; 
                     padding-bottom: 0;
-                    margin-bottom: -6rem; /* Create overlay with footer */
+                    margin-bottom: auto; 
                     box-sizing: border-box;
                     gap: 0;
                     position: relative;
@@ -75,24 +76,183 @@ class PhiArticleBottomImage extends HTMLElement {
                     flex: 1 0 auto; 
                 }
 
-                /* Bottom Image Container */
-                .bottom-image-wrapper {
+                /* Bottom Zone (Grid Layout) */
+                .bottom-zone {
+                    display: grid;
                     width: 100%;
-                    display: block;
-                    margin-top: auto; /* Push to bottom */
-                    line-height: 0; 
+                    margin-top: -2rem; /* Negative margin to pull up */
                     flex-shrink: 0;
                     position: relative;
-                    z-index: 1; /* Image under text */
-                    pointer-events: none; /* Let clicks pass through if needed */
+                    z-index: 1;
+                    /* Grid definitions per breakpoint below */
                 }
 
-                .bottom-image-wrapper img {
-                    width: 100%;
+                /* Layer 1: Background */
+                .caption-bg {
+                    background: var(--mono-09);
+                    grid-column: 1 / -1;
+                    /* grid-row set in breakpoints */
+                    z-index: 0;
+                }
+
+                /* Layer 2: Text */
+                .caption-text {
+                    font-family: var(--font-sans);
+                    font-size: var(--type-base); /* Increased size */
+                    color: var(--mono-03);
+                    margin: 0;
+                    line-height: 1.5;
+                    z-index: 2; /* On top of bg */
+                    align-self: center; /* Center aligned */
+                    pointer-events: none; /* Layout only */
+                }
+
+                /* Layer 3: Image */
+                .image-zone {
+                    position: relative;
+                    line-height: 0;
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: flex-end; 
+                    z-index: 1; /* On top of bg, below text if overlapped */
+                    pointer-events: none;
+                }
+
+                .image-zone img {
+                    width: auto;
                     max-width: 100%;
-                    height: auto;
+                    max-height: 60vh;
+                    object-fit: contain;
                     display: block;
-                    object-fit: cover;
+                }
+
+                /* --- BREAKPOINTS & GRID COORDINATES --- */
+
+                /* 13 Cols (< 170px) */
+                @container article-columns (max-width: 169px) {
+                    .bottom-zone {
+                        grid-template-columns: repeat(13, 1fr);
+                        grid-template-rows: 1fr auto;
+                        gap: 0;
+                        margin-top: 0; /* Reset negative margin */
+                    }
+                    .caption-bg   { grid-row: 2; } 
+                    .caption-text { 
+                        grid-column: 2 / -2; 
+                        grid-row: 2; 
+                        align-self: center;
+                        padding: 2rem 0;
+                    }
+                    .image-zone   { 
+                        grid-column: 2 / -2; 
+                        grid-row: 1 / -1; 
+                        margin-bottom: 2rem; 
+                    }
+                }
+
+                /* 26 Cols (170px - 768px) - Mobile */
+                @container article-columns (min-width: 170px) and (max-width: 768px) {
+                    .bottom-zone {
+                        grid-template-columns: repeat(26, 1fr);
+                        grid-template-rows: 1fr auto;
+                        gap: 0;
+                        margin-top: 0; /* Reset negative margin */
+                    }
+                    .caption-bg   { grid-row: 2; }
+                    
+                    /* Text: Left Side (Col 3 - 17) Wider, indented */
+                    .caption-text { 
+                        grid-column: 3 / 18; 
+                        grid-row: 2;
+                        align-self: center;
+                        padding: 3rem 0;
+                    }
+
+                    /* Image: Right Side (9 Cols: 18 - 26) Narrower */
+                    .image-zone { 
+                        grid-column: 18 / -1; 
+                        grid-row: 1 / -1; 
+                        justify-content: flex-end;
+                        align-items: flex-end;
+                    }
+                }
+
+                /* 50 Cols (769px - 1280px) - Tablet */
+                @container article-columns (min-width: 769px) and (max-width: 1280px) {
+                    .bottom-zone {
+                        grid-template-columns: repeat(50, 1fr);
+                        grid-template-rows: 1fr auto;
+                        gap: 0;
+                        --col-w: calc(100cqw / 50);
+                    }
+                    .caption-bg { grid-row: 2; }
+                    
+                    /* Text: Col 4 - 28 */
+                    .caption-text { 
+                        grid-column: 4 / 29; 
+                        grid-row: 2;
+                        align-self: center;
+                        padding: 4rem 0; /* Creates height */
+                    }
+                    
+                    /* Image: Col 30 - 50 (No overlap) */
+                    .image-zone { 
+                        grid-column: 30 / -1; 
+                        grid-row: 1 / -1; 
+                        align-self: end;
+                    }
+                }
+
+                /* 74 Cols (1281px - 1688px) - Desktop */
+                @container article-columns (min-width: 1281px) and (max-width: 1688px) {
+                    .bottom-zone {
+                        grid-template-columns: repeat(74, 1fr);
+                        grid-template-rows: 1fr auto;
+                        gap: 0;
+                        --col-w: calc(100cqw / 74);
+                    }
+                    .caption-bg { grid-row: 2; }
+                    
+                    /* Text: Col 4 - 40 */
+                    .caption-text { 
+                        grid-column: 4 / 41; 
+                        grid-row: 2;
+                        align-self: center;
+                        padding: 4rem 0;
+                    }
+                    
+                    /* Image: Col 43 - 74 */
+                    .image-zone { 
+                        grid-column: 43 / -1; 
+                        grid-row: 1 / -1; 
+                        align-self: end;
+                    }
+                }
+
+                /* 98 Cols (> 1689px) - Large */
+                @container article-columns (min-width: 1689px) {
+                    .bottom-zone {
+                        grid-template-columns: repeat(98, 1fr);
+                        grid-template-rows: 1fr auto;
+                        gap: 0;
+                        --col-w: calc(100cqw / 98);
+                    }
+                    .caption-bg { grid-row: 2; }
+                    
+                    /* Text: Col 4 - 54 */
+                    .caption-text { 
+                        grid-column: 4 / 55; 
+                        grid-row: 2;
+                        align-self: center;
+                        padding: 4rem 0;
+                    }
+                    
+                    /* Image: Col 57 - 98 */
+                    .image-zone { 
+                        grid-column: 57 / -1; 
+                        grid-row: 1 / -1; 
+                        align-self: end;
+                    }
                 }
 
                 /* Typography */
@@ -104,7 +264,8 @@ class PhiArticleBottomImage extends HTMLElement {
                     font-weight: 400;
                     letter-spacing: var(--tracking-heading, 0.02em);
                 }
-
+                
+                /* ... (Rest of typography unchanged) ... */
                 h3 {
                     font-family: var(--font-sans);
                     font-size: var(--type-base);
@@ -140,45 +301,20 @@ class PhiArticleBottomImage extends HTMLElement {
                     margin-top: 2rem;
                 }
                 
-                /* Override Grid Area: Centered or standard? 
-                   User previously asked for constraints (left-half) to overlap image. 
-                   With image BELOW, we might want to revert to standard width, OR keep the interesting constraints?
-                   "Let's just have it ... below the text container." 
-                   Usually implies standard text block then image.
-                   I will remove the specific overrides that forced empty columns, as that was for the "background overlap" design.
-                   Standard behavior (defined in generateGridCSS) is likely preferred if they are distinct blocks.
-                */
-
                 ${this.generateGridCSS()}
 
                 /* OVERRIDES for Left-Weighted Layout */
-                
-                /* Tablet (50 cols): Span left ~66% */
                 @container article-columns (min-width: 769px) and (max-width: 1280px) {
-                    .full {
-                        grid-area: auto / 3 / auto / 36 !important; /* Ends at ~70% */
-                    }
+                    .full { grid-area: auto / 3 / auto / 36 !important; }
                 }
-                
-                /* Desktop (74 cols): Span left ~60% */
                 @container article-columns (min-width: 1281px) and (max-width: 1688px) {
-                    .full {
-                         grid-area: auto / 3 / auto / 48 !important; /* ~60% width */
-                    }
+                    .full { grid-area: auto / 3 / auto / 48 !important; }
                 }
-
-                /* Large (98 cols): Span left ~50% */
                 @container article-columns (min-width: 1689px) {
-                    .full {
-                         grid-area: auto / 3 / auto / 52 !important; /* ~50% width */
-                    }
+                    .full { grid-area: auto / 3 / auto / 52 !important; }
                 }
-
-                /* Mobile (26 cols): No overlay */
                 @container article-columns (max-width: 768px) {
-                    .container {
-                        margin-bottom: 0;
-                    }
+                    .container { margin-bottom: 0; }
                 }
             </style>
 
@@ -193,8 +329,12 @@ class PhiArticleBottomImage extends HTMLElement {
                 </div>
             </div>
 
-            <div class="bottom-image-wrapper">
-                <img src="${image}" alt="Decorative Bottom Background">
+            <div class="bottom-zone">
+                <div class="caption-bg"></div>
+                <p class="caption-text">${caption}</p>
+                <div class="image-zone">
+                    <img src="${image}" alt="${title} Figure">
+                </div>
             </div>
         `;
     }

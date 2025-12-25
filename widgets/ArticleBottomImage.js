@@ -100,7 +100,7 @@ class PhiArticleBottomImage extends HTMLElement {
                     font-family: var(--font-serif);
                     font-size: var(--type-h2);
                     line-height: 1.1;
-                    margin: 0 0 1rem 0;
+                    margin: 0;
                     font-weight: 400;
                     letter-spacing: var(--tracking-heading, 0.02em);
                 }
@@ -119,6 +119,7 @@ class PhiArticleBottomImage extends HTMLElement {
                     font-size: var(--type-base);
                     line-height: var(--leading-base);
                     color: var(--c-text);
+                    margin-top: 0;
                     margin-bottom: 1rem;
                 }
 

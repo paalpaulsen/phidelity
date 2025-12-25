@@ -122,7 +122,7 @@ class PhiLeftNav extends HTMLElement {
           line-height: 1.2;
           
           text-decoration: none;
-          color: var(--mono-06); /* var(--c-text-muted) */
+          color: var(--mono-05); /* var(--c-text-muted) */
           border-bottom: 1px solid var(--mono-08); /* var(--c-border-light) */
           background: var(--mono-10); /* Lighter bg for L2 */
           transition: background 0.2s ease;
@@ -159,13 +159,26 @@ class PhiLeftNav extends HTMLElement {
         <ul>
           <!-- Simple Links -->
           <li><span class="nav-l1">&nbsp;</span></li>
-          <li><a href="#story-block" class="nav-l1">Introduction</a></li>
-          <li><a href="#gallery" class="nav-l1">Media Gallery</a></li>
+          
+          <!-- Introduction (Accordion) -->
+          <li class="nav-group">
+             <a href="#intro-article" class="nav-l1 has-children">
+                Introduction <span class="chevron"></span>
+             </a>
+             <ul class="sub-items">
+                <li><a href="#origin" class="nav-l2">Origin</a></li>
+                <li><a href="#natures-math" class="nav-l2">Nature's Math</a></li>
+                <li><a href="#container-queries" class="nav-l2">Container Queries</a></li>
+                <li><a href="#three-level-architecture" class="nav-l2">Three level architecture</a></li>
+             </ul>
+          </li>
+
+          <li><a href="#full-bottom" class="nav-l1">Infographic</a></li>
           <li><a href="#grid" class="nav-l1">Grid System</a></li>
+          <li><a href="#gallery" class="nav-l1">Media Gallery</a></li>
           <li><a href="#bento" class="nav-l1">Bento Box</a></li>
           <li><a href="#typography" class="nav-l1">Typographic Scale</a></li>
 
-          
           <!-- Color System (Accordion) -->
           <li class="nav-group">
              <a href="#pantone" class="nav-l1 has-children">
@@ -183,7 +196,7 @@ class PhiLeftNav extends HTMLElement {
              </ul>
           </li>
           
-
+          <li><a href="#masonry" class="nav-l1">Elastic Masonry</a></li>
           
         </ul>
       </nav>

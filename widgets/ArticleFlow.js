@@ -75,7 +75,7 @@ class PhiArticleFlow extends HTMLElement {
                     font-family: var(--font-serif);
                     font-size: var(--type-h2);
                     line-height: 1.1;
-                    margin: 0 0 2rem 0;
+                    margin: 0 0 1rem 0;
                     font-weight: 400;
                     letter-spacing: var(--tracking-heading, 0.02em);
                     width: 100%;
@@ -116,7 +116,7 @@ class PhiArticleFlow extends HTMLElement {
                 .multi-column {
                     column-gap: 4cqw;
                     column-rule: 1px solid var(--c-border-light);
-                    margin-top: 2rem;
+                    margin-top: 1rem; /* Reduced from 2rem */
                     width: 100%;
                 }
 

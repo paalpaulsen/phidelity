@@ -82,7 +82,7 @@ class PhiArticleTextOnly extends HTMLElement {
                     font-family: var(--font-serif);
                     font-size: var(--type-h2);
                     line-height: 1.1;
-                    margin: 0 0 1rem 0;
+                    margin: 0;
                     font-weight: 400;
                     letter-spacing: var(--tracking-heading, 0.02em);
                 }

@@ -37,48 +37,68 @@
             name="Pål Eirik Paulsen" role="Creator" image="assets/images/creator.jpg"></phi-hero>
         </div>
         <div class="zone">
-          <phi-article-text-only title="Harmony" summary="Orchestrating elements for perfect resonance.">
-            <p>Imagine a design system that works like a well-conducted orchestra. Instead of forcing content into rigid
-              boxes, Phidelity lets it flow with a natural musicality. It provides the invisible guidelines—the tempo
-              and the key—that ensure harmony across your entire digital presence.</p>
-            <p>We don't just "put things on a page." We compose them. Whether it's a dense dashboard or a simple story,
-              the framework ensures that the relationships between elements remain balanced and proportionate.</p>
-            <h3>The Hidden Rhythm</h3>
-            <p>It’s not about pixel-perfect control; it’s about establishing a rhythm that feels right. This improved
-              composition allows your brand’s voice to come through clearly, without the noise of cluttered or awkward
-              layouts.</p>
-            <h3>Living Interfaces</h3>
-            <p>By mimicking the growth patterns found in nature, Phidelity ensures that your content adapts gracefully.
-              It doesn't shrink or stretch; it evolves to fit the space, just like a plant adjusting to its environment.
-              The result is an interface that feels alive, breathable, and instinctively correct.</p>
+          <phi-article-text-only id="origin" title="Origin" summary="How Phidelity evolved">
+            <p>I have been obsessing over Phi, «the golden ratio», 1:1.618, for years. In 2023, as I was nerding out in
+              my
+              cabin in Denmark, the land of LEGO, it suddenly occurred to me, that I could make a grid using only Phi
+              rectangles, like stacked little LEGO blocks. </p>
+
+            <h3>Visual thinking</h3>
+            <p>When I put the blocks next to each other, horizontally, I realized that I had come across a simple idea
+              for both grid columns and spaces between columns. No need for arbitrary gaps, gutters and margins. Only
+              Phi rectangles were necessary. Stacking them vertically gave me grid rows naturally.</p>
+
+            <h3>Counting columns</h3>
+            <p>When I started adding these rectangles in Figma, I discovered that a count of 13 would be a 12 column
+              grid (1 extra column added for margin). 26 rectangles would also give me 12 columns, only with 2
+              rectangles in stead for each column and gap. So I continued this 24+2 pattern with 50, 74, 98, 122, 146,
+              and so on - they all gave me 12 columns, but each with more width and granular resolution.</p>
+
+            <h3>Fibonacci in Figma</h3>
+            <p>Using a rectangle in Figma that was 13x8 pixels (both Fibonacci numbers), this gave me each break point;
+              13 columns = 169px. 26 columns = 338px. 50 columns = 650px. 74 columns = 962px. And so on. However,
+              realizing that the 13x8px rectangle is not precise enough (1:1.625), I understood that I needed to use
+              math to get closer to nature’s divine ratio. </p>
           </phi-article-text-only>
         </div>
         <div class="zone">
-          <phi-article-bottom-image title="Natural Balance" summary="Growth without chaos."
-            image="assets/images/succulent.jpg">
-            <p>Nature never measures in inches or pixels. A flower doesn't worry about the size of the garden; it
-              unfolds according to a universal language of proportion. Use this same logic for your interface.</p>
-            <p>By respecting these natural rules of space and scale, we create layouts that feel familiar and grounded.
-              The complexity is hidden, leaving only a sense of ease for the user. It is structure that feels like
-              freedom.</p>
-            <h3>A Universal Language</h3>
-            <p>When you bypass arbitrary values in favor of proportional relationships, you create interfaces that
-              connect on a subconscious level. The mechanics disappear, leaving only the feeling of balance.</p>
+          <phi-article-bottom-image id="natures-math" title="Nature's Math" summary="Enter the CSS Grid"
+            image="assets/images/sunflower.jpg">
+            <p>When I used CSS grid to divide any width by one of my column numbers (13, 26, 50, 74, 98, 122, 146, etc),
+              I could calculate the grid columns automatically. Since the shorter part of a golden ratio rectangle is
+              the long part divided by 1.618, I was able to use math and ‘grid-auto-rows’ to get the golden ratio grid
+              mesh I wanted. Exactly the same as in Figma, only that in the browser, it was dynamically adjusting to any
+              width. And mathematically correct.
+            </p>
+
+            <h3>Coordinates</h3>
+            <p>The Phidelity grid mesh is a canvas «map of divine coordinates» to align design elements against, for
+              natural distribution and growth. When I set up the break points I had discovered in Figma, I got a very
+              fluid transition between the grid column counts; 25 - 50 - 74 - 98 - 122 - 146. It was satisfying to see
+              how symmetrical partitions of the width (2, 3, 4, 6, 8, etc) flow almost unnoticably through the different
+              break points, as the canvas width expands.</p>
+
+            <h3>Unlimited design</h3>
+            <p>Using CSS grid coordinates, I realized that practically all designs were now possible through css grid
+              start rows / columns and end rows / columns. Even overlapping layers present no challenge. Power was
+              returned to the designer.</p>
           </phi-article-bottom-image>
         </div>
         <div class="zone">
-          <phi-article-bottom-image title="The Invisible Foundation"
-            summary="Stability allows for creativity to flourish.">
-            <p>Great composition needs a strong backbone. Underlying every fluid movement is a solid structure holding
-              it together. This framework acts as the anchor, ensuring that no matter how dynamic the content becomes,
-              the result remains elegant and orderly.</p>
-            <p>The bottom image you see here represents this grounding force. It provides the visual weight that
-              balances the lightness of the typography above. In Phidelity, we consider the "center of gravity" for
-              every page.</p>
-            <h3>Gravity and Order</h3>
-            <p>Elements in nature grow upwards towards the light but are held by gravity. Our layouts mimic this
-              tension. Content flows naturally, while strict underlying rhythms maintain the order. It is the solid
-              ground upon which your brand can safely dance.</p>
+          <phi-article-bottom-image id="container-queries" title="Container Queries" summary="Responsive content">
+            <p>CSS frameworks like Tailwind, Bootstrap and Foundation all use Media Queries to adapt to different screen
+              sizes. These traditional systems have the viewport as their responsive outlet; desktop, tablet and mobile
+              screens. </p>
+            <h3>Parents in charge</h3>
+            <p>Phidelity takes a different approach, and enables the newer and more refined container queries take
+              control. Container queries allow the parent container to decide how its children should behave. </p>
+
+            <h3>Content adapts</h3>
+            <p>The result is that we can design and develop solutions that have a much more flexible composition and
+              behavior. Using the Phidelity mesh we can forget pixels when designing and coding. We can concentrate on
+              making the content grow and shrink naturally from content break point to content break point. The limit is
+              now literally the designer’s creativity.
+            </p>
           </phi-article-bottom-image>
         </div>
         <div class="zone">
@@ -89,23 +109,42 @@
           </phi-article-quote>
         </div>
         <div class="zone">
-          <phi-article-flow title="The Calculated Canvas" summary="Only math. No pixels. No arbitrary gaps.">
-            <p>Phidelity rejects the chaos of arbitrary pixel values. Instead, it relies on a purely calculated grid
-              where every dimension is derived directly from the Golden Ratio.</p>
-            <h3>Zero Waste</h3>
-            <p>We eliminated the concept of "gutters" and standard "margins" as empty, wasted space. In this framework,
-              space is an active element, calculated with the same precision as the content itself. </p>
-            <p>It is a system defined by relationships, not rigid numbers. A design language spoken in pure mathematics,
-              ensuring that nothing is placed by chance.</p>
-            <h3>Designer Freedom</h3>
-            <p>Far from being restrictive, these mathematical guard rails liberate the designer. You are given a
-              flexible canvas where symmetry and natural proportions are baked in. The grid handles the math, giving you
-              the power to compose freely, knowing the result will always feel fundamentally correct.</p>
+          <phi-article-flow id="three-level-architecture" title="Three level architecture"
+            summary="Phidelity’s design paradigm is threefold">
+
+            <h3>Semantic elements</h3>
+            <p>First we draw the big outlines of Semantic elements. Typically Header, Left navigation, Main Area,
+              Aside/right navigation and footer. All using CSS Grid. These areas can be both based on fixed or dynamic
+              sizing (or both). For example, the left navigation can be set in pixels, while the main area can be set in
+              fractions.</p>
+
+            <h3>Sections</h3>
+            <p>Second, within the Main Area we go on to outline the Sections. Typically some large Zones with Content
+              Blocks. These can flow and restack themselves in different ways as the width of the Main Area increases.
+              All using fractions, pixels or rem and container queries.</p>
+
+            <h3>Widgets</h3>
+            <p>Third, we design the content for each block.
+              Inside the widget, we meet the true responsive magic of Phidelity: The calculated golden ratio mesh.
+              Designers can now draw on a much larger and more flexible canvas. Horizontally and vertically, utilising
+              the large screens people have, as well as the mobile displays. Using the mesh we can forget pixels when
+              designing and coding. We can concentrate on making the content grow naturally from break point to break
+              point.</p>
+
+            <p>Designing in three spatial levels, we first mark the elementary zones and Semantic regions using
+              fractions. Then using more fractions to split up the main areas into Sections to see how these big zones
+              may resize, move and reflow on big screens. Then finally zooming in on the content widgets which all get
+              their size by their parent container width, not by the browser viewport. We use the perfectly granular
+              mesh for all sizing and spacing.</p>
+
+            <h3>No more pixels</h3>
+            <p>Using the mesh we can forget pixels when designing and coding. We can concentrate on making the content
+              grow naturally from break point to break point.</p>
+
             <figure class="image-span">
-              <img src="https://images.unsplash.com/photo-1599270613570-a620f2e59f75?q=80&w=3540&auto=format&fit=crop"
-                alt="Sunflowers">
-              <figcaption class="caption">The spiral of seeds is the perfect visual representation of
-                efficiency—mathematics in its most beautiful form.</figcaption>
+              <img src="assets/images/phi-typo-color.jpg" alt="Typographic scale and color palette">
+              <figcaption class="caption">The typographic scale and color palette can also be based on the golden ratio.
+              </figcaption>
             </figure>
           </phi-article-flow>
         </div>
@@ -116,7 +155,7 @@
       <phi-section layout="full" id="full-bottom">
 
         <div class="zone dark">
-          <phi-section-header title="The Phidelity Infographic"
+          <phi-section-header title="Infographic"
             lead="A visual comparison of Phidelity versus older CSS frameworks."></phi-section-header>
         </div>
         <div class="zone border-dark">
@@ -125,6 +164,20 @@
             caption="Paradigm Shift: While traditional frameworks snap rigidly to screen widths (Left), Phidelity content adapts mathematically to any container context (Right)."></phi-article-image-content>
         </div>
       </phi-section>
+
+      <!-- HEADER: GRID SYSTEM -->
+      <phi-section layout="full" id="grid">
+        <div class="zone dark">
+          <phi-section-header title="Grid System"
+            lead="This is where the magic happens. A responsive, mathematical framework built on the Golden Ratio. Observe how the columns adapt fluidly across different widths.">
+          </phi-section-header>
+          <div class="zone border-dark">
+            <!-- Full Width Zone -->
+            <phi-grid-display></phi-grid-display>
+          </div>
+        </div>
+      </phi-section>
+
 
 
       <!-- MEDIA GALLERY -->
@@ -136,31 +189,55 @@
         </div>
         <div class="zone">
           <phi-media-gallery images='[
-            {
-              "src": "assets/images/gallery_1.jpg",
-              "title": "Golden Spiral",
-              "description": "A perfect example of the Fibonacci sequence in nature, demonstrating the mathematical harmony that underpins the Phidelity design system.",
-              "credits": "Photo: Nature Collection"
-            },
-            {
-              "src": "assets/images/gallery_2.jpg",
-              "title": "Fluid Dynamics",
-              "description": "The ocean wave represents the fluid responsiveness of our grid, adapting seamlessly to any container width.",
-              "credits": "Photo: Ocean Series"
-            },
-            {
-              "src": "assets/images/gallery_3.jpg",
-              "title": "Cosmic Spiral",
-              "description": "The galaxy illustrates the universal scale of the golden ratio.",
-              "credits": "Photo: Space Archive"
-            },
-            {
-              "src": "assets/images/gallery_4.jpg",
-              "title": "Fractal Succulent",
-              "description": "Natural geometry in flora showing precise repetition and scale.",
-              "credits": "Photo: Botanical Garden"
-            }
-          ]'></phi-media-gallery>
+            { "src": "assets/images/phi-images/Lysbilde1.jpeg", "title": "Phi in Spiral Galaxies", "description": "The spiral galaxy Messier 81 is one of the closest spiral galaxies to the Milky Way. It is located in the constellation Ursa Major, about 12 million light-years away from Earth. The galaxy is about 100,000 light-years in diameter and contains about 100 billion stars.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde2.jpeg", "title": "The Sunflower", "description": "The spiral distribution of seeds and petals on the sunflower is a natural example of the golden ratio in nature.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde3.jpeg", "title": "The Nautilus", "description": "The spiral growth in shells is a natural example of the golden ratio in nature.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde4.jpeg", "title": "The Aloe Succulent", "description": "The growth pattern of succulents is a natural example of the golden ratio in nature.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde5.jpeg", "title": "The Romanesco Broccoli", "description": "The fractal patterns of romanesco broccoli are a natural example of the golden ratio in vegetables.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde6.jpeg", "title": "The Human Hand", "description": "The measurements of the human hand are Fibonacci numbers. That’s the reason why we can make spirals with our own fingers", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde7.jpeg", "title": "Spirals in Nature", "description": "Shells, Chameleon tails, Pine Cones, Fiddleheads and Spiderwebs.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde8.jpeg", "title": "Phi Formula", "description": "The Phi Formula is a mathematical formula that describes the golden ratio.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde9.jpeg", "title": "The Golden Rectangle", "description": "The golden rectangle can be drawn using Fibonacci squares.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde10.jpeg", "title": "Phi Growth", "description": "The distribution of seeds in plants and flowers are densely packed. A seed every 137.5 degrees.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde11.jpeg", "title": "The Parthenon", "description": "Phidias ancient temple is full of golden ratios.", "credits": "Phidelity Presentation" },
+            { "src": "assets/images/phi-images/Lysbilde12.jpeg", "title": "Euclid&apos;s Discovery", "description"
+            : "Using a compass and a straightedge, Euclid discovered the golden ratio." , "credits"
+            : "Phidelity Presentation" }, { "src" : "assets/images/phi-images/Lysbilde13.jpeg" , "title"
+            : "Renaissance Art" , "description" : "Compositional secrets." , "credits" : "Phidelity Presentation" },
+            { "src" : "assets/images/phi-images/Lysbilde14.jpeg" , "title" : "Divine Proportion" , "description"
+            : "Pacioli treatise." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde15.jpeg" , "title" : "Sacred Geometry" , "description"
+            : "Universal patterns." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde16.jpeg" , "title" : "Architectural Balance" , "description"
+            : "Harmony in structure." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde17.jpeg" , "title" : "Modernism" , "description"
+            : "The new age of design." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde18.jpeg" , "title" : "Le Corbusier" , "description"
+            : "The Modulor system." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde19.jpeg" , "title" : "Functionalism" , "description"
+            : "Form follows function." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde20.jpeg" , "title" : "Typography" , "description"
+            : "The written word balanced." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde21.jpeg" , "title" : "Swiss Style" , "description"
+            : "Order and clarity." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde22.jpeg" , "title" : "Grid Systems" , "description"
+            : "Organizing information." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde23.jpeg" , "title" : "Digital Revolution" , "description"
+            : "Pixels and screens." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde24.jpeg" , "title" : "Responsive Design" , "description"
+            : "Adapting to devices." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde25.jpeg" , "title" : "CSS Grid" , "description"
+            : "The new layout engine." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde26.jpeg" , "title" : "Phidelity Concept" , "description"
+            : "Returning to natures math." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde27.jpeg" , "title" : "The 26 Column Grid" , "description"
+            : "A fluid foundation." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde28.jpeg" , "title" : "Fluid Scaling" , "description"
+            : "Typography that breathes." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde29.jpeg" , "title" : "Future of Design" , "description"
+            : "Algorithms and aesthetics." , "credits" : "Phidelity Presentation" }, { "src"
+            : "assets/images/phi-images/Lysbilde30.jpeg" , "title" : "Universal Harmony" , "description"
+            : "The timeless constant." , "credits" : "Phidelity Presentation" } ]'></phi-media-gallery>
         </div>
       </phi-section>
 
@@ -173,18 +250,7 @@
         </div>
       </phi-section>
 
-      <!-- HEADER: GRID SYSTEM -->
-      <phi-section layout="full" id="grid">
-        <div class="zone dark">
-          <phi-section-header title="Grid Geometry"
-            lead="This is where the magic happens. A responsive, mathematical framework built on the Golden Ratio. Observe how the columns adapt fluidly across different widths.">
-          </phi-section-header>
-          <div class="zone border-dark">
-            <!-- Full Width Zone -->
-            <phi-grid-display></phi-grid-display>
-          </div>
-        </div>
-      </phi-section>
+
 
 
 
@@ -277,17 +343,20 @@
   <script src="widgets/ArticleFlow.js"></script>
   <script src="widgets/MasonryDeck.js"></script>
   <script src="data/masonry_data.js"></script>
+  <script src="data/gallery_data.js"></script>
 
   <script>
-    // Initialize Masonry Deck with External Data (No Fetch needed for local file support)
     document.addEventListener('DOMContentLoaded', () => {
+      // Initialize Masonry Deck
       const deck = document.getElementById('masonry-demo');
-      // window.MASONRY_DATA is defined in data/masonry_data.js
       if (deck && window.MASONRY_DATA) {
-        console.log('MasonryDeck: Loaded data from global variable');
         deck.setAttribute('items', JSON.stringify(window.MASONRY_DATA));
-      } else if (deck) {
-        console.warn('MasonryDeck: No items found in window.MASONRY_DATA');
+      }
+
+      // Initialize Media Gallery
+      const gallery = document.getElementById('gallery-demo');
+      if (gallery && window.GALLERY_DATA) {
+        gallery.setAttribute('images', JSON.stringify(window.GALLERY_DATA));
       }
     });
   </script>

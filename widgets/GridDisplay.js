@@ -73,7 +73,7 @@ class GridDisplay extends HTMLElement {
         /* TYPOGRAPHY */
         .eyebrow {
             font-family: 'Inter', sans-serif;
-            font-size: var(--type-micro);
+            font-size: var(--type-caption);
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 700;

@@ -104,12 +104,23 @@ class MasonryDeck extends HTMLElement {
 
         .card-text p {
             grid-column: 3 / 25; /* 2-Col Margin Left/Right */
-            margin: 0;
+            margin: 0 0 1rem 0;
             font-family: var(--font-sans, 'Inter', sans-serif);
             font-weight: 400;
             font-size: var(--type-summary-s);
             line-height: 1.5;
             color: var(--c-text-muted);
+        }
+
+        .caption {
+            grid-column: 3 / 25;
+            font-family: var(--font-sans);
+            font-size: var(--type-base);
+            font-weight: 300;
+            color: var(--mono-06);
+            display: block;
+            margin-bottom: 0.5rem;
+            margin-top: 1rem;
         }
 
         /* RESPONSIVE LAYOUT */
@@ -146,13 +157,16 @@ class MasonryDeck extends HTMLElement {
           <div class="masonry-grid" id="masonry-grid">
              ${this.state.items.map((it, idx) => `
                 <div class="masonry-item" data-size="${it.size !== undefined ? it.size : 1}">
-                    <div class="card-img">
-                         ${it.image ? `<img src="${it.image}" alt="${it.title || 'Portfolio Image'}">` : `<div style="width:100%; height:100%; background: linear-gradient(45deg, #f3f3f3, #e8e8e8);"></div>`}
-                    </div>
-                    <div class="card-text">
-                        <h3>${it.title || 'Untitled'}</h3>
-                        <p>${it.summary || 'No description available.'}</p>
-                    </div>
+                    <a href="${it.image}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit; display: block;">
+                        <div class="card-img">
+                             ${it.image ? `<img src="${it.image}" alt="${it.title || 'Portfolio Image'}">` : `<div style="width:100%; height:100%; background: linear-gradient(45deg, #f3f3f3, #e8e8e8);"></div>`}
+                        </div>
+                        <div class="card-text">
+                            <h3>${it.title || 'Untitled'}</h3>
+                            <p>${it.summary || 'No description available.'}</p>
+                            <div class="caption">${it.credit || 'Unsplash'}</div>
+                        </div>
+                    </a>
                 </div>
              `).join('')}
           </div>

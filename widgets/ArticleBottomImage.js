@@ -45,7 +45,7 @@ class PhiArticleBottomImage extends HTMLElement {
         const title = this.getAttribute('title') || 'Nature’s Foundation';
         const summary = this.getAttribute('summary') || '';
         const image = this.getAttribute('image') || 'assets/images/bottom.jpg';
-        const caption = this.getAttribute('caption') || 'Fig. 1.0 — Phidelity Grid Structure';
+        const caption = this.getAttribute('caption') || 'Phidelity uses the divine math of the golden ratio to create a grid system that is both visually pleasing and responsive. Like the math nature uses to distribute seeds in a sunflower.';
 
         this.shadowRoot.innerHTML = `
             <style>
@@ -80,7 +80,7 @@ class PhiArticleBottomImage extends HTMLElement {
                 .bottom-zone {
                     display: grid;
                     width: 100%;
-                    margin-top: -2rem; /* Negative margin to pull up */
+                    margin-top: -3rem; /* Negative margin to pull up */
                     flex-shrink: 0;
                     position: relative;
                     z-index: 1;

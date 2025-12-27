@@ -248,8 +248,8 @@ class GridDisplay extends HTMLElement {
           .hud-bp::after { content: "122 Cols [1586px - 1897px]"; }
         }
 
-        /* --- CINEMA: 146 COLUMNS (1898px +) --- */
-        @container (min-width: 1898px) {
+        /* --- CINEMA: 146 COLUMNS (1898px - 2209px) --- */
+        @container (min-width: 1898px) and (max-width: 2209px) {
           .grid-ruler, .row, .hud { grid-template-columns: repeat(146, 1fr); }
           .col-index:nth-child(-n+146) { display: flex; }
           .col-index:nth-child(145), .col-index:nth-child(146) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
@@ -275,8 +275,70 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 7 / 17; }
           .hud-item:nth-child(2) { grid-column: 19 / -7; }
 
-          .hud-bp::after { content: "146 Cols [1898px+]"; }
+          .hud-bp::after { content: "146 Cols [1898px - 2209px]"; }
         }
+
+        /* --- IMAX: 170 COLUMNS (2210px - 2521px) --- */
+        @container (min-width: 2210px) and (max-width: 2521px) {
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(170, 1fr); }
+          .col-index:nth-child(-n+170) { display: flex; }
+          .col-index:nth-child(169), .col-index:nth-child(170) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
+          
+          .row.is-full, .row.is-half, .row.is-third, .row.is-fourth, .row.is-sixth, .row.is-eighth, .row.is-twelfth { display: grid; }
+
+          .full { grid-column: 3 / 169; }
+          .half1 { grid-column: 3 / 85; } .half2 { grid-column: 87 / 169; }
+          .third1 { grid-column: 3 / 57; } .third2 { grid-column: 59 / 113; } .third3 { grid-column: 115 / 169; }
+          .fourth1 { grid-column: 3 / 43; } .fourth2 { grid-column: 45 / 85; } .fourth3 { grid-column: 87 / 127; } .fourth4 { grid-column: 129 / 169; }
+          .sixth1 { grid-column: 3 / 29; } .sixth2 { grid-column: 31 / 57; } .sixth3 { grid-column: 59 / 85; } .sixth4 { grid-column: 87 / 113; } .sixth5 { grid-column: 115 / 141; } .sixth6 { grid-column: 143 / 169; }
+          .eighth1 { grid-column: 3 / 22; } .eighth2 { grid-column: 24 / 43; } .eighth3 { grid-column: 45 / 64; } .eighth4 { grid-column: 66 / 85; } .eighth5 { grid-column: 87 / 106; } .eighth6 { grid-column: 108 / 127; } .eighth7 { grid-column: 129 / 148; } .eighth8 { grid-column: 150 / 169; }
+          
+          /* Twelfths (12 cols wide) */
+          .twelfth1 { grid-column: 3 / 15; } .twelfth2 { grid-column: 17 / 29; } .twelfth3 { grid-column: 31 / 43; } .twelfth4 { grid-column: 45 / 57; } .twelfth5 { grid-column: 59 / 71; } .twelfth6 { grid-column: 73 / 85; } .twelfth7 { grid-column: 87 / 99; } .twelfth8 { grid-column: 101 / 113; } .twelfth9 { grid-column: 115 / 127; } .twelfth10 { grid-column: 129 / 141; } .twelfth11 { grid-column: 143 / 155; } .twelfth12 { grid-column: 157 / 169; }
+          
+          .hud-item:nth-child(1) { grid-column: 7 / 21; }
+          .hud-item:nth-child(2) { grid-column: 23 / -7; }
+
+          .hud-bp::after { content: "170 Cols [2210px - 2521px]"; }
+        }
+
+        /* --- OMNI: 194 COLUMNS (2522px +) --- */
+        @container (min-width: 2522px) {
+          .grid-ruler, .row, .hud { grid-template-columns: repeat(194, 1fr); }
+          .col-index:nth-child(-n+194) { display: flex; }
+          .col-index:nth-child(193), .col-index:nth-child(194) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
+          
+          .row.is-full, .row.is-half, .row.is-third, .row.is-fourth, .row.is-sixth, .row.is-eighth, .row.is-twelfth, .row.is-sixteenth { display: grid; }
+
+          .full { grid-column: 3 / 193; }
+          
+          /* Halves (94 cols) */
+          .half1 { grid-column: 3 / 97; } .half2 { grid-column: 99 / 193; }
+          
+          /* Thirds (62 cols) */
+          .third1 { grid-column: 3 / 65; } .third2 { grid-column: 67 / 129; } .third3 { grid-column: 131 / 193; }
+          
+          /* Fourths (46 cols) */
+          .fourth1 { grid-column: 3 / 49; } .fourth2 { grid-column: 51 / 97; } .fourth3 { grid-column: 99 / 145; } .fourth4 { grid-column: 147 / 193; }
+          
+          /* Sixths (30 cols) */
+          .sixth1 { grid-column: 3 / 33; } .sixth2 { grid-column: 35 / 65; } .sixth3 { grid-column: 67 / 97; } .sixth4 { grid-column: 99 / 129; } .sixth5 { grid-column: 131 / 161; } .sixth6 { grid-column: 163 / 193; }
+          
+          /* Eighths (22 cols) */
+          .eighth1 { grid-column: 3 / 25; } .eighth2 { grid-column: 27 / 49; } .eighth3 { grid-column: 51 / 73; } .eighth4 { grid-column: 75 / 97; } .eighth5 { grid-column: 99 / 121; } .eighth6 { grid-column: 123 / 145; } .eighth7 { grid-column: 147 / 169; } .eighth8 { grid-column: 171 / 193; }
+          
+          /* Twelfths (14 cols) */
+          .twelfth1 { grid-column: 3 / 17; } .twelfth2 { grid-column: 19 / 33; } .twelfth3 { grid-column: 35 / 49; } .twelfth4 { grid-column: 51 / 65; } .twelfth5 { grid-column: 67 / 81; } .twelfth6 { grid-column: 83 / 97; } .twelfth7 { grid-column: 99 / 113; } .twelfth8 { grid-column: 115 / 129; } .twelfth9 { grid-column: 131 / 145; } .twelfth10 { grid-column: 147 / 161; } .twelfth11 { grid-column: 163 / 177; } .twelfth12 { grid-column: 179 / 193; }
+          
+          /* Sixteenths (10 cols) */
+          .sixteenth1 { grid-column: 3 / 13; } .sixteenth2 { grid-column: 15 / 25; } .sixteenth3 { grid-column: 27 / 37; } .sixteenth4 { grid-column: 39 / 49; } .sixteenth5 { grid-column: 51 / 61; } .sixteenth6 { grid-column: 63 / 73; } .sixteenth7 { grid-column: 75 / 85; } .sixteenth8 { grid-column: 87 / 97; } .sixteenth9 { grid-column: 99 / 109; } .sixteenth10 { grid-column: 111 / 121; } .sixteenth11 { grid-column: 123 / 133; } .sixteenth12 { grid-column: 135 / 145; } .sixteenth13 { grid-column: 147 / 157; } .sixteenth14 { grid-column: 159 / 169; } .sixteenth15 { grid-column: 171 / 181; } .sixteenth16 { grid-column: 183 / 193; }
+
+          .hud-item:nth-child(1) { grid-column: 7 / 21; }
+          .hud-item:nth-child(2) { grid-column: 23 / -7; }
+
+          .hud-bp::after { content: "194 Cols [2522px+]"; }
+        }
+
       </style>
 
       <div class="wrapper">
@@ -352,7 +414,7 @@ class GridDisplay extends HTMLElement {
     // 1. Ruler Generation
     const ruler = this.shadowRoot.getElementById('ruler');
     if (ruler && ruler.children.length === 0) {
-      for (let i = 1; i <= 146; i++) {
+      for (let i = 1; i <= 194; i++) {
         const div = document.createElement('div');
         div.className = 'col-index';
         if (i <= 26) div.textContent = i;

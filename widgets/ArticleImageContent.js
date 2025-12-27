@@ -204,15 +204,18 @@ class PhiArticleImageContent extends HTMLElement {
                 p.caption {
                     /* Inherits from macro.css */
                     margin-top: 0;
+                    color: var(--mono-02); /* Darker text */
                 }
 
                 .credit {
                     display: block;
-                    margin-top: 0.5rem;
-                    font-size: var(--type-micro);
-                    color: var(--c-text-muted);
-                    text-transform: uppercase;
-                    letter-spacing: 0.05em;
+                    margin-top: 0.25rem;
+                    font-family: var(--font-sans);
+                    font-size: 1rem; /* Reset to base size to solve "significantly smaller" */
+                    font-weight: 400;
+                    color: var(--mono-02);
+                    text-transform: none;
+                    letter-spacing: normal;
                 }
                 
                 .container.expanded .toggle-btn {

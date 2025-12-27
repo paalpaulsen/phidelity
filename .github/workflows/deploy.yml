@@ -1,4 +1,4 @@
-name: Deploy to SFTP
+name: Deploy to SFTP (Debug)
 
 on:
   push:
@@ -6,28 +6,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  debug-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
       - name: Install LFTP
         run: sudo apt-get install -y lftp
 
-      - name: Deploy via LFTP
+      - name: List Remote Files
         env:
           SFTP_PASS: ${{ secrets.SFTP_PASSWORD }}
         run: |
-          # Generate a separate script file to avoid shell quoting issues
-          # variables like $SFTP_PASS are expanded by the shell into the file
-          echo "set sftp:auto-confirm yes" > deploy.lftp
-          echo "set ssl:verify-certificate no" >> deploy.lftp
-          echo "open sftp://${{ secrets.SFTP_SERVER }}" >> deploy.lftp
-          echo "user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"" >> deploy.lftp
-          echo "mkdir -p -f ${{ secrets.TARGET_DIR }}" >> deploy.lftp
-          echo "mirror -R --verbose --parallel=2 --exclude .git/ --exclude .github/ ./ ${{ secrets.TARGET_DIR }}" >> deploy.lftp
-          echo "bye" >> deploy.lftp
+          # Create a debug script to list files and folders
+          echo "set sftp:auto-confirm yes" > debug.lftp
+          echo "set ssl:verify-certificate no" >> debug.lftp
+          echo "open sftp://${{ secrets.SFTP_SERVER }}" >> debug.lftp
+          echo "user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"" >> debug.lftp
           
-          # Run lftp using the script file
-          lftp -f deploy.lftp
+          # List root directory to see structure
+          echo "echo 'listing / ...'" >> debug.lftp
+          echo "ls -l /" >> debug.lftp
+          
+          # List current directory (home)
+          echo "echo 'listing . ...'" >> debug.lftp
+          echo "ls -l" >> debug.lftp
+          
+          echo "bye" >> debug.lftp
+          
+          # Run lftp
+          lftp -f debug.lftp

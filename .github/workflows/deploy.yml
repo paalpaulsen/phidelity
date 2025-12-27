@@ -12,13 +12,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Deploy to Server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.SFTP_SERVER }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          protocol: sftp
-          port: 22
-          local-dir: ./
-          server-dir: ${{ secrets.TARGET_DIR }}
+      - name: Install LFTP
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy via LFTP
+        run: |
+          lftp -e "set sftp:auto-confirm yes; mirror -R --verbose --parallel=2 ./ ${{ secrets.TARGET_DIR }}; bye" \
+          -u "${{ secrets.SFTP_USERNAME }},${{ secrets.SFTP_PASSWORD }}" \
+          sftp://${{ secrets.SFTP_SERVER }}

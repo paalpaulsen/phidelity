@@ -1,4 +1,4 @@
-name: Deploy to SFTP (Debug)
+name: Deploy to SFTP
 
 on:
   push:
@@ -6,31 +6,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  debug-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
       - name: Install LFTP
         run: sudo apt-get install -y lftp
 
-      - name: List Remote Files
+      - name: Deploy via LFTP
         env:
           SFTP_PASS: ${{ secrets.SFTP_PASSWORD }}
         run: |
-          # Create a debug script to list files and folders
-          echo "set sftp:auto-confirm yes" > debug.lftp
-          echo "set ssl:verify-certificate no" >> debug.lftp
-          echo "open sftp://${{ secrets.SFTP_SERVER }}" >> debug.lftp
-          echo "user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"" >> debug.lftp
+          # Generate script file to avoid shell quoting issues
+          # We use relative paths now based on debug findings
+          echo "set sftp:auto-confirm yes" > deploy.lftp
+          echo "set ssl:verify-certificate no" >> deploy.lftp
+          echo "open sftp://${{ secrets.SFTP_SERVER }}" >> deploy.lftp
+          echo "user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"" >> deploy.lftp
           
-          # List root directory to see structure
-          echo "echo 'listing / ...'" >> debug.lftp
-          echo "ls -l /" >> debug.lftp
+          # Use -p to ensure folder exists (no error if it does)
+          echo "mkdir -p ${{ secrets.TARGET_DIR }}" >> deploy.lftp
           
-          # List current directory (home)
-          echo "echo 'listing . ...'" >> debug.lftp
-          echo "ls -l" >> debug.lftp
-          
-          echo "bye" >> debug.lftp
+          # Mirror local to remote
+          echo "mirror -R --verbose --parallel=2 --exclude .git/ --exclude .github/ ./ ${{ secrets.TARGET_DIR }}" >> deploy.lftp
+          echo "bye" >> deploy.lftp
           
           # Run lftp
-          lftp -f debug.lftp
+          lftp -f deploy.lftp

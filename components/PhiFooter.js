@@ -1,15 +1,15 @@
 class PhiFooter extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
 
-    connectedCallback() {
-        this.render();
-    }
+  connectedCallback() {
+    this.render();
+  }
 
-    render() {
-        this.shadowRoot.innerHTML = `
+  render() {
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: block;
@@ -35,10 +35,10 @@ class PhiFooter extends HTMLElement {
 
       <footer>
         <span>&copy; 2025 Phidelity</span>
-        <span>System Status: Active</span>
+        <span>Version: 1.0.0</span>
       </footer>
     `;
-    }
+  }
 }
 
 customElements.define('phi-footer', PhiFooter);

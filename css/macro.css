@@ -251,6 +251,11 @@ h3 {
     /* Bolder */
     margin: 2rem 0 0.5rem 0;
     letter-spacing: var(--tracking-heading);
+
+    /* Keep title with text */
+    break-after: avoid;
+    break-inside: avoid;
+    orphans: 3;
 }
 
 /* LEAD / SUMMARY TEXT */

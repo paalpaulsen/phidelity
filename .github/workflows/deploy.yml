@@ -22,4 +22,3 @@ jobs:
           local_path: './'
           remote_path: ${{ secrets.TARGET_DIR }}
           sftp_only: true
-          ignore_ssh_host_key: true

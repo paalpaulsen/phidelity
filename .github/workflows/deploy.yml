@@ -19,15 +19,15 @@ jobs:
         env:
           SFTP_PASS: ${{ secrets.SFTP_PASSWORD }}
         run: |
-          # Use Environment Variable for password to handle special chars safely
-          # Using lftp with explicit user/pass flags
+          # Generate a separate script file to avoid shell quoting issues
+          # variables like $SFTP_PASS are expanded by the shell into the file
+          echo "set sftp:auto-confirm yes" > deploy.lftp
+          echo "set ssl:verify-certificate no" >> deploy.lftp
+          echo "open sftp://${{ secrets.SFTP_SERVER }}" >> deploy.lftp
+          echo "user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"" >> deploy.lftp
+          echo "mkdir -p -f ${{ secrets.TARGET_DIR }}" >> deploy.lftp
+          echo "mirror -R --verbose --parallel=2 --exclude .git/ --exclude .github/ ./ ${{ secrets.TARGET_DIR }}" >> deploy.lftp
+          echo "bye" >> deploy.lftp
           
-          lftp -f "
-          set sftp:auto-confirm yes
-          set ssl:verify-certificate no
-          open sftp://${{ secrets.SFTP_SERVER }}
-          user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"
-          mkdir -p -f ${{ secrets.TARGET_DIR }}
-          mirror -R --verbose --parallel=2 --exclude .git/ --exclude .github/ ./ ${{ secrets.TARGET_DIR }}
-          bye
-          "
+          # Run lftp using the script file
+          lftp -f deploy.lftp

@@ -176,7 +176,7 @@ class PhiLeftNav extends HTMLElement {
           <li><a href="#full-bottom" class="nav-l1">Infographic</a></li>
           <li><a href="#grid" class="nav-l1">Grid System</a></li>
           <li><a href="#gallery" class="nav-l1">Phi Gallery</a></li>
-          <li><a href="#bento" class="nav-l1">Bento Box</a></li>
+          
           <li><a href="#typography" class="nav-l1">Typographic Scale</a></li>
 
           <!-- Color System (Accordion) -->
@@ -196,6 +196,7 @@ class PhiLeftNav extends HTMLElement {
              </ul>
           </li>
           
+          <li><a href="#bento" class="nav-l1">Bento Box</a></li>
           <li><a href="#masonry" class="nav-l1">Elastic Masonry</a></li>
           
         </ul>

@@ -513,8 +513,23 @@ class MediaGallery extends HTMLElement {
 
   scrollToActive() {
     const activeThumb = this.shadowRoot.querySelector('.thumb.active');
-    if (activeThumb) {
-      activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    const list = this.shadowRoot.getElementById('thumbs-list');
+
+    if (activeThumb && list) {
+      // Determine if layout is vertical or horizontal based on flex-direction
+      const isVertical = getComputedStyle(list).flexDirection === 'column';
+
+      if (isVertical) {
+        // Vertical Scroll (XL screens)
+        const top = activeThumb.offsetTop - list.offsetTop;
+        const center = top - (list.clientHeight / 2) + (activeThumb.clientHeight / 2);
+        list.scrollTo({ top: center, behavior: 'smooth' });
+      } else {
+        // Horizontal Scroll
+        const left = activeThumb.offsetLeft - list.offsetLeft;
+        const center = left - (list.clientWidth / 2) + (activeThumb.clientWidth / 2);
+        list.scrollTo({ left: center, behavior: 'smooth' });
+      }
     }
   }
 

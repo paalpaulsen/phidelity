@@ -24,15 +24,27 @@ class PhiArticleFlow extends HTMLElement {
             // ArticleFlow MUST be flexible
             const rowHeight = `minmax(calc(100cqw / ${cols} / 1.618), auto)`;
 
+            // ADDED: Margin on H2 instead of Container
+            const marginRule = cols >= 50
+                ? `margin-bottom: calc(2 * 100cqw / ${cols} / 1.618);`
+                : 'margin-bottom: 0;';
+
             return `
             @container article-flow ${bp.query} {
                 .container {
                     grid-template-columns: repeat(${cols}, 1fr);
                     grid-auto-rows: ${rowHeight};
                 }
+                
+                /* Apply calculated space to H2 */
+                h2 {
+                    ${marginRule}
+                }
 
                 .multi-column {
                     column-count: ${bp.textCols};
+                    /* No margin-top here to avoid H3 collapse issues */
+                    margin-top: 0; 
                 }
 
                 .content-wrapper {
@@ -75,7 +87,7 @@ class PhiArticleFlow extends HTMLElement {
                     font-family: var(--font-serif);
                     font-size: var(--type-h2);
                     line-height: 1.1;
-                    margin: 0 0 1rem 0;
+                    margin: 0;
                     font-weight: 400;
                     letter-spacing: var(--tracking-heading, 0.02em);
                     width: 100%;
@@ -109,6 +121,11 @@ class PhiArticleFlow extends HTMLElement {
                     margin-bottom: 2rem;
                     /* No max-width restriction here as it is column-flow */
                 }
+                
+                /* Hide empty summary */
+                p.summary:empty {
+                    display: none;
+                }
 
                 a { color: inherit; }
 
@@ -116,7 +133,7 @@ class PhiArticleFlow extends HTMLElement {
                 .multi-column {
                     column-gap: 4cqw;
                     column-rule: 1px solid var(--c-border-light);
-                    margin-top: 1rem; /* Reduced from 2rem */
+                    margin-top: 0;
                     width: 100%;
                 }
 
@@ -132,6 +149,17 @@ class PhiArticleFlow extends HTMLElement {
                     height: auto;
                     display: block;
                     background: #f0f0f0;
+                }
+                
+                /* Alignment Fix: Remove top margin from ALL H3s in columns */
+                ::slotted(h3) {
+                    margin-top: 0 !important;
+                    margin-block-start: 0 !important;
+                }
+
+                /* Move spacing to bottom of paragraphs */
+                ::slotted(p) {
+                    margin-bottom: 2rem;
                 }
 
                 /* Handle Slotted Images in Columns */

@@ -311,7 +311,7 @@ class PhiArticleBottomImage extends HTMLElement {
                     .full { grid-area: auto / 3 / auto / 48 !important; }
                 }
                 @container article-columns (min-width: 1689px) {
-                    .full { grid-area: auto / 3 / auto / 52 !important; }
+                    .full { grid-area: auto / 3 / auto / 81 !important; }
                 }
                 @container article-columns (max-width: 768px) {
                     .container { margin-bottom: 0; }

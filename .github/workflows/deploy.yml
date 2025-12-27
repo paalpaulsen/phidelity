@@ -12,19 +12,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Install SSHPass
-        run: sudo apt-get install -y sshpass rsync
+      - name: Install LFTP
+        run: sudo apt-get install -y lftp
 
-      - name: Deploy via Rsync
+      - name: Deploy via LFTP
+        env:
+          SFTP_PASS: ${{ secrets.SFTP_PASSWORD }}
         run: |
-          # Use sshpass to provide the password to rsync
-          # -a: archive mode (preserves permissions, times, etc.)
-          # -v: verbose
-          # --delete: delete files on destination that aren't in source (optional but good for clean deploy)
-          # -e: specify ssh options (disable host key checking for automation)
+          # Use Environment Variable for password to handle special chars safely
+          # Using lftp with explicit user/pass flags
           
-          sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -av --delete \
-            -e "ssh -o StrictHostKeyChecking=no -p 22" \
-            --exclude '.git*' \
-            --exclude '.github*' \
-            ./ ${{ secrets.SFTP_USERNAME }}@${{ secrets.SFTP_SERVER }}:${{ secrets.TARGET_DIR }}
+          lftp -f "
+          set sftp:auto-confirm yes
+          set ssl:verify-certificate no
+          open sftp://${{ secrets.SFTP_SERVER }}
+          user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"
+          mkdir -p -f ${{ secrets.TARGET_DIR }}
+          mirror -R --verbose --parallel=2 --exclude .git/ --exclude .github/ ./ ${{ secrets.TARGET_DIR }}
+          bye
+          "

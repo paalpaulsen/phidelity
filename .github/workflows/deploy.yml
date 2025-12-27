@@ -17,6 +17,10 @@ jobs:
 
       - name: Deploy via LFTP
         run: |
-          lftp -e "set sftp:auto-confirm yes; mirror -R --verbose --parallel=2 ./ ${{ secrets.TARGET_DIR }}; bye" \
-          -u "${{ secrets.SFTP_USERNAME }},${{ secrets.SFTP_PASSWORD }}" \
+          # Create .netrc for safe password handling (avoids issues with special chars)
+          echo "machine ${{ secrets.SFTP_SERVER }} login ${{ secrets.SFTP_USERNAME }} password ${{ secrets.SFTP_PASSWORD }}" > ~/.netrc
+          chmod 600 ~/.netrc
+          
+          # Run LFTP with verbose debug output
+          lftp -e "set sftp:auto-confirm yes; set ssl:verify-certificate no; mkdir -p ${{ secrets.TARGET_DIR }}; mirror -R --verbose --parallel=2 ./ ${{ secrets.TARGET_DIR }}; bye" \
           sftp://${{ secrets.SFTP_SERVER }}

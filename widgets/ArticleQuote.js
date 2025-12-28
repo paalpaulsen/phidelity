@@ -10,12 +10,17 @@ class PhiArticleQuote extends HTMLElement {
 
     generateGridCSS() {
         // Standard Phidelity Breakpoints
+        // Standard Phidelity Breakpoints (Figma Aligned)
         const breakpoints = [
-            { id: '13', query: '(max-width: 169px)', cols: 13 },
-            { id: '26', query: '(min-width: 170px) and (max-width: 768px)', cols: 26 },
-            { id: '50', query: '(min-width: 769px) and (max-width: 1280px)', cols: 50 },
-            { id: '74', query: '(min-width: 1281px) and (max-width: 1688px)', cols: 74 },
-            { id: '98', query: '(min-width: 1689px)', cols: 98 }
+            { id: '13', query: '(max-width: 337px)', cols: 13 },
+            { id: '26', query: '(min-width: 338px) and (max-width: 649px)', cols: 26 },
+            { id: '50', query: '(min-width: 650px) and (max-width: 961px)', cols: 50 },
+            { id: '74', query: '(min-width: 962px) and (max-width: 1273px)', cols: 74 },
+            { id: '98', query: '(min-width: 1274px) and (max-width: 1585px)', cols: 98 },
+            { id: '122', query: '(min-width: 1586px) and (max-width: 1897px)', cols: 122 },
+            { id: '146', query: '(min-width: 1898px) and (max-width: 2209px)', cols: 146 },
+            { id: '170', query: '(min-width: 2210px) and (max-width: 2521px)', cols: 170 },
+            { id: '194', query: '(min-width: 2522px)', cols: 194 }
         ];
 
         return breakpoints.map(bp => {

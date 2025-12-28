@@ -25,7 +25,13 @@ html {
 body {
     /* DEFAULT VARIABLES (Mobile First) */
     --phi: 1.618033988;
-    --scale: 1.309;
+
+    /* MODULAR SCALES */
+    --scale-up: 1.309;
+    /* Mobile: Moderate growth */
+    --scale-down: 1.309;
+    /* Mobile: Moderate shrink */
+
     --nav-width: 362px;
     --header-height: 60px;
     --font-sans: 'Inter', sans-serif;
@@ -36,20 +42,24 @@ body {
     --tracking-heading: 0.02em;
     --tracking-base: 0em;
 
-    /* H3 = Base * Scale (Fluid: 1.31rem -> 1.62rem) */
-    --type-h3: clamp(1.31rem, 1rem + 1cqw, 1.62rem);
+    /* Leading: Golden Ratio for Body */
+    --leading-base: 1.618;
+    /* Headings will use tighter line-heights manually */
 
-    /* H2 = Base * Scale^2 (Fluid: 1.71rem -> 2.62rem) */
-    --type-h2: clamp(1.71rem, 1rem + 2cqw, 2.62rem);
+    /* H3 = Base * Scale Up (Fluid) */
+    --type-h3: calc(var(--type-base) * var(--scale-up));
 
-    /* H1 S = Base * Scale^2 (Fluid: 1.71rem -> 2.62rem) */
-    --type-h1-s: clamp(1.71rem, 1rem + 2cqw, 2.62rem);
+    /* H2 = Base * Scale Up^2 */
+    --type-h2: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
 
-    /* H1 M = Base * Scale^3 (Fluid: 2.24rem -> 4.24rem) */
-    --type-h1-m: clamp(2.24rem, 1rem + 5cqw, 4.24rem);
+    /* H1 Standard/Small */
+    --type-h1-s: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
 
-    /* H1 L = Base * Scale^4 (Fluid: 2.93rem -> 6.85rem) */
-    --type-h1-l: clamp(2.93rem, 1rem + 8cqw, 6.85rem);
+    /* H1 Medium */
+    --type-h1-m: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+
+    /* H1 Large */
+    --type-h1-l: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up) * var(--scale-up));
 
     /* Default H1 mapping */
     --type-h1: var(--type-h1-m);
@@ -58,12 +68,12 @@ body {
     --type-display-med: var(--type-h1-m);
     --type-display-lg: var(--type-h1-l);
 
-    /* Summary L: Base * Scale */
-    --type-summary-l: calc(var(--type-base) * var(--scale));
+    /* Summary L: Base * Scale Up (Not Down) */
+    --type-summary-l: calc(var(--type-base) * var(--scale-up));
 
-    --type-caption: calc(var(--type-base) / var(--scale));
-    --type-micro: calc(var(--type-caption) / var(--scale));
-    --leading-base: var(--scale);
+    /* DOWNSCALING (Captions, Micro) - Uses Scale Down */
+    --type-caption: calc(var(--type-base) / var(--scale-down));
+    --type-micro: calc(var(--type-caption) / var(--scale-down));
 
     /* --- COLOR DEFINITIONS (Strict Phi Palette) --- */
 
@@ -407,13 +417,19 @@ small {
 /* DESKTOP LOGIC (Container > 1000px) */
 @container phi-root (min-width: 1000px) {
     body {
-        --scale: 1.618;
-        --type-summary-l: calc(var(--type-base) * var(--scale));
+        /* Desktop: Aggressive growth upwards (Phi), Gentle shrink downwards (Half-step) */
+        --scale-up: 1.618;
+        --scale-down: 1.309;
+
+        /* Re-calc variables that depend on scale-up (CSS vars don't auto-recalc if defined in body but logic is sound if these are just values) 
+           Actually, since we defined --type-h3 as calc(--scale-up), updating --scale-up here WILL update the result. 
+        */
     }
 
-    /* APPLICATION MODE: Force Half-Phi on Desktop */
+    /* APPLICATION MODE: Force Moderate Scale on Desktop */
     body.mode-app {
-        --scale: 1.309;
+        --scale-up: 1.309;
+        --scale-down: 1.309;
     }
 
     .shell-body {

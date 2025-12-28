@@ -124,8 +124,8 @@ class GridDisplay extends HTMLElement {
            THE MATH MATRIX & BREAKPOINT LABELS
         ========================================================================== */
 
-        /* --- WATCH: 13 COLUMNS (0 - 169px) --- */
-        @container (max-width: 169px) {
+        /* --- WATCH: 13 COLUMNS (0 - 337px) --- */
+        @container (max-width: 337px) {
           .grid-ruler, .row, .hud { grid-template-columns: repeat(13, 1fr); }
           .col-index:nth-child(-n+13) { display: flex; }
           .col-index:nth-child(12), .col-index:nth-child(13) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
@@ -136,11 +136,11 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 3 / 12; margin-bottom: 1rem; }
           .hud-item:nth-child(2) { grid-column: 3 / 12; }
 
-          .hud-bp::after { content: "13 Cols [0px - 169px]"; }
+          .hud-bp::after { content: "13 Cols [0px - 337px]"; }
         }
 
-        /* --- MOBILE: 26 COLUMNS (170px - 650px) --- */
-        @container (min-width: 170px) and (max-width: 650px) {
+        /* --- MOBILE: 26 COLUMNS (338px - 649px) --- */
+        @container (min-width: 338px) and (max-width: 649px) {
           .grid-ruler, .row, .hud { grid-template-columns: repeat(26, 1fr); }
           .col-index:nth-child(-n+26) { display: flex; }
           .col-index:nth-child(25), .col-index:nth-child(26) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
@@ -157,11 +157,11 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 3 / 12; }
           .hud-item:nth-child(2) { grid-column: 12 / 25; }
 
-          .hud-bp::after { content: "26 Cols [170px - 650px]"; }
+          .hud-bp::after { content: "26 Cols [338px - 649px]"; }
         }
 
-        /* --- TABLET: 50 COLUMNS (651px - 962px) --- */
-        @container (min-width: 651px) and (max-width: 962px) {
+        /* --- TABLET: 50 COLUMNS (650px - 961px) --- */
+        @container (min-width: 650px) and (max-width: 961px) {
           .grid-ruler, .row, .hud { grid-template-columns: repeat(50, 1fr); }
           .col-index:nth-child(-n+50) { display: flex; }
           .col-index:nth-child(49), .col-index:nth-child(50) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
@@ -179,11 +179,11 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 7 / 21; }
           .hud-item:nth-child(2) { grid-column: 23 / -7; }
 
-          .hud-bp::after { content: "50 Cols [651px - 962px]"; }
+          .hud-bp::after { content: "50 Cols [650px - 961px]"; }
         }
 
-        /* --- DESKTOP: 74 COLUMNS (963px - 1274px) --- */
-        @container (min-width: 963px) and (max-width: 1274px) {
+        /* --- DESKTOP: 74 COLUMNS (962px - 1273px) --- */
+        @container (min-width: 962px) and (max-width: 1273px) {
           .grid-ruler, .row, .hud { grid-template-columns: repeat(74, 1fr); }
           .col-index:nth-child(-n+74) { display: flex; }
           .col-index:nth-child(73), .col-index:nth-child(74) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
@@ -201,11 +201,11 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 7 / 21; }
           .hud-item:nth-child(2) { grid-column: 23 / -7; }
 
-          .hud-bp::after { content: "74 Cols [963px - 1274px]"; }
+          .hud-bp::after { content: "74 Cols [962px - 1273px]"; }
         }
 
-        /* --- LARGE: 98 COLUMNS (1275px - 1585px) --- */
-        @container (min-width: 1275px) and (max-width: 1585px) {
+        /* --- LARGE: 98 COLUMNS (1274px - 1585px) --- */
+        @container (min-width: 1274px) and (max-width: 1585px) {
           .grid-ruler, .row, .hud { grid-template-columns: repeat(98, 1fr); }
           .col-index:nth-child(-n+98) { display: flex; }
           .col-index:nth-child(97), .col-index:nth-child(98) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
@@ -223,7 +223,7 @@ class GridDisplay extends HTMLElement {
           .hud-item:nth-child(1) { grid-column: 7 / 17; }
           .hud-item:nth-child(2) { grid-column: 19 / -7; }
 
-          .hud-bp::after { content: "98 Cols [1275px - 1585px]"; }
+          .hud-bp::after { content: "98 Cols [1274px - 1585px]"; }
         }
 
         /* --- XL: 122 COLUMNS (1586px - 1897px) --- */

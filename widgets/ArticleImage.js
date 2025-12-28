@@ -179,13 +179,13 @@ class PhiArticleImage extends HTMLElement {
                     min-height: 100%;
                 }
                 /* Grid-based Responsive Height */
-                @container article-image (min-width: 1281px) {
+                @container article-image (min-width: 962px) {
                     .container {
                         min-height: 600px;
                     }
                 }
                 
-                @container article-image (min-width: 1689px) {
+                @container article-image (min-width: 1274px) {
                     .container {
                         min-height: 800px;
                     }

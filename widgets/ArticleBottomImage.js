@@ -10,12 +10,17 @@ class PhiArticleBottomImage extends HTMLElement {
 
     generateGridCSS() {
         // Standard Phidelity Breakpoints (Same as ArticleColumns)
+        // Standard Phidelity Breakpoints (Figma Aligned)
         const breakpoints = [
-            { id: '13', query: '(max-width: 169px)', cols: 13, textCols: 1 },
-            { id: '26', query: '(min-width: 170px) and (max-width: 768px)', cols: 26, textCols: 1 },
-            { id: '50', query: '(min-width: 769px) and (max-width: 1280px)', cols: 50, textCols: 1 }, /* User requested 1 col here */
-            { id: '74', query: '(min-width: 1281px) and (max-width: 1688px)', cols: 74, textCols: 2 }, /* Reduced to 2 cols */
-            { id: '98', query: '(min-width: 1689px)', cols: 98, textCols: 4 }
+            { id: '13', query: '(max-width: 337px)', cols: 13, textCols: 1 },
+            { id: '26', query: '(min-width: 338px) and (max-width: 649px)', cols: 26, textCols: 1 },
+            { id: '50', query: '(min-width: 650px) and (max-width: 961px)', cols: 50, textCols: 1 },
+            { id: '74', query: '(min-width: 962px) and (max-width: 1273px)', cols: 74, textCols: 2 },
+            { id: '98', query: '(min-width: 1274px) and (max-width: 1585px)', cols: 98, textCols: 4 },
+            { id: '122', query: '(min-width: 1586px) and (max-width: 1897px)', cols: 122, textCols: 4 },
+            { id: '146', query: '(min-width: 1898px) and (max-width: 2209px)', cols: 146, textCols: 6 },
+            { id: '170', query: '(min-width: 2210px) and (max-width: 2521px)', cols: 170, textCols: 6 },
+            { id: '194', query: '(min-width: 2522px)', cols: 194, textCols: 6 }
         ];
 
         return breakpoints.map(bp => {
@@ -304,16 +309,19 @@ class PhiArticleBottomImage extends HTMLElement {
                 ${this.generateGridCSS()}
 
                 /* OVERRIDES for Left-Weighted Layout */
-                @container article-columns (min-width: 769px) and (max-width: 1280px) {
+                @container article-columns (min-width: 650px) and (max-width: 961px) {
                     .full { grid-area: auto / 3 / auto / 36 !important; }
                 }
-                @container article-columns (min-width: 1281px) and (max-width: 1688px) {
-                    .full { grid-area: auto / 3 / auto / 48 !important; }
+                @container article-columns (min-width: 962px) and (max-width: 1273px) {
+                    .full { grid-area: auto / 3 / auto / 60 !important; }
                 }
-                @container article-columns (min-width: 1689px) {
+                @container article-columns (min-width: 1274px) and (max-width: 1585px) {
                     .full { grid-area: auto / 3 / auto / 81 !important; }
                 }
-                @container article-columns (max-width: 768px) {
+                @container article-columns (min-width: 1586px) {
+                    .full { grid-area: auto / 5 / auto / 98 !important; }
+                }
+                @container article-columns (max-width: 649px) {
                     .container { margin-bottom: 0; }
                 }
             </style>

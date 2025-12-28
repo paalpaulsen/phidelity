@@ -100,18 +100,18 @@ class PhiSection extends HTMLElement {
             }
         }
 
-        /* --- MACRO 5: HEXAD (Dashboard 1-6 Cols) --- */
+        /* --- MACRO 5: HEXAD (1-6 Cols) --- */
         /* Default: 1 Col (see general default) */
         
         /* 2 Cols */
-        @container (min-width: 1720px) {
+        @container (min-width: 1820px) {
             .layout-hexad { 
                 grid-template-columns: 1fr 1fr; 
                 gap: 1px;
             }
         }
         /* 3 Cols */
-        @container (min-width: 3000px) {
+        @container (min-width: 3400px) {
             .layout-hexad { 
                 grid-template-columns: 1fr 1fr 1fr;
                 gap: 1px;

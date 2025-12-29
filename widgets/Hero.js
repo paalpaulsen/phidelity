@@ -146,12 +146,11 @@ class PhiHero extends HTMLElement {
                 }
 
                 .avatar {
-                    width: 48px;
-                    height: 48px;
+                    width: 64px;
+                    height: 64px;
                     border-radius: 50%;
                     object-fit: cover;
                     background-color: var(--mono-10);
-                    border: 2px solid rgba(255,255,255,0.5);
                 }
 
                 .user-info {

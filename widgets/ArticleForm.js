@@ -269,7 +269,7 @@ class PhiArticleForm extends HTMLElement {
             });
 
             // Parse JSON safely
-            letresult;
+            let result;
             try {
                 result = await response.json();
             } catch (jsonError) {

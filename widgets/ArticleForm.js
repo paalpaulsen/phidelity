@@ -229,6 +229,84 @@ class PhiArticleForm extends HTMLElement {
 
             </div>
         `;
+
+        // Bind Events
+        const sendBtn = this.shadowRoot.querySelector('#send-btn');
+        if (sendBtn) {
+            sendBtn.addEventListener('click', () => this.sendEmail());
+        }
+    }
+
+    async sendEmail() {
+        const nameInput = this.shadowRoot.querySelector('#name');
+        const emailInput = this.shadowRoot.querySelector('#email');
+        const phoneInput = this.shadowRoot.querySelector('#phone');
+        const messageInput = this.shadowRoot.querySelector('#message');
+        const sendBtn = this.shadowRoot.querySelector('#send-btn');
+
+        const name = nameInput.value;
+        const email = emailInput.value;
+        const phone = phoneInput.value;
+        const message = messageInput.value;
+
+        if (!name || !email || !message) {
+            alert('Please fill in Name, Email, and Message.');
+            return;
+        }
+
+        // UI Loading State
+        const originalBtnText = sendBtn.innerText;
+        sendBtn.innerText = 'Sending...';
+        sendBtn.disabled = true;
+
+        try {
+            const response = await fetch('send_mail.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, phone, message })
+            });
+
+            // Parse JSON safely
+            letresult;
+            try {
+                result = await response.json();
+            } catch (jsonError) {
+                // If response is not JSON (e.g., PHP error HTML), throw text
+                const text = await response.text();
+                throw new Error('Server response not valid JSON: ' + text.substring(0, 50));
+            }
+
+            if (response.ok && result.status === 'success') {
+                // Success
+                sendBtn.innerText = 'Sent!';
+                alert('Message sent successfully!');
+
+                // Clear Form
+                nameInput.value = '';
+                emailInput.value = '';
+                phoneInput.value = '';
+                messageInput.value = '';
+            } else {
+                throw new Error(result.message || 'Failed to send');
+            }
+        } catch (error) {
+            console.error('Email Error:', error);
+            // Alert user with specific error if available, or generic
+            alert('Could not send message. (' + error.message + ')');
+        } finally {
+            // Reset Button
+            if (sendBtn.innerText !== 'Sent!') {
+                sendBtn.innerText = originalBtnText;
+                sendBtn.disabled = false;
+            } else {
+                setTimeout(() => {
+                    sendBtn.innerText = originalBtnText;
+                    sendBtn.disabled = false;
+                }, 3000);
+            }
+        }
     }
 }
 

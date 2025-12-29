@@ -38,18 +38,23 @@ class PhiArticleForm extends HTMLElement {
             // Standard Text Indent is typically 3/-3 or similar.
             // Here we want a 2-column form layout.
             if (cols >= 50 && cols < 74) {
-                // Left col: 3 to 26 (24 cols)
-                // Right col: 27 to 50 (24 cols) -> actually 27 / 51 in grid lines?
-                // Grid lines are 1-based. 50 cols + 1 gap? No, gaps are 0.
-                // Col 50 ends at line 51.
+                // Requested: 2 col spacing (Gap & Right Margin)
+                // Usable Width: 3 to 49 (46 cols).
+                // Gap: 2 cols.
+                // Fields: 22 cols each.
 
-                nameArea = '3 / 27';
-                emailArea = '27 / 51';
+                // Left: 3 to 25.
+                // Gap: 25 to 27.
+                // Right: 27 to 49.
+                // Right Margin: 49 to 51.
+
+                nameArea = '3 / 25';
+                emailArea = '27 / 49';
 
                 // Row 2: Phone
-                phoneArea = '3 / 27';
+                phoneArea = '3 / 25';
 
-                messageArea = '3 / 51';
+                messageArea = '3 / 49';
                 buttonArea = '3 / 15'; // Smaller button
             }
 

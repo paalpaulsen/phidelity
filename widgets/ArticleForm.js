@@ -27,6 +27,7 @@ class PhiArticleForm extends HTMLElement {
             const rowHeight = `minmax(calc(100cqw / ${cols} / 1.618), auto)`;
 
             // Layout Logic (Responsive)
+            // Default: Mobile (Stacked, Full Width)
             let nameArea = '1 / -1';
             let emailArea = '1 / -1';
             let topicArea = '1 / -1';
@@ -35,40 +36,70 @@ class PhiArticleForm extends HTMLElement {
             let messageArea = '1 / -1';
             let buttonArea = '1 / -1';
 
-            if (cols >= 50) {
-                // 2-Column Grid (approx)
-                nameArea = '3 / 27';
-                emailArea = '27 / 51'; // Adjusted for 50-col grid (3-27 is 24 cols, 27-51 is 24 cols)? 
-                // Wait, 50 col grid logic:
-                // Start 3. 
-                // Let's use simple halves for now based on previous manual values:
-                // Previous was 3/15 and 15/27.
-                nameArea = '3 / 27';
-                emailArea = '27 / 51'; // Should check if 51 exists. max is 50. 
-                // Let's stick to safe values:
-                nameArea = '3 / 26';
-                emailArea = '26 / 49';
+            // TABLET (50 Cols)
+            // Standard Text Indent is typically 3/-3 or similar.
+            // Here we want a 2-column form layout.
+            if (cols >= 50 && cols < 74) {
+                // Left col: 3 to 26 (24 cols)
+                // Right col: 27 to 50 (24 cols) -> actually 27 / 51 in grid lines?
+                // Grid lines are 1-based. 50 cols + 1 gap? No, gaps are 0.
+                // Col 50 ends at line 51.
 
-                topicArea = '3 / 26';
-                contactArea = '26 / 49';
-                newsletterArea = '3 / 49'; // Full width
-
-                messageArea = '3 / 49'; // Full
-                buttonArea = '3 / 15'; // Left
+                nameArea = '3 / 27';
+                emailArea = '27 / 51';
+                topicArea = '3 / 27';
+                contactArea = '27 / 51';
+                newsletterArea = '3 / 51';
+                messageArea = '3 / 51';
+                buttonArea = '3 / 15'; // Smaller button
             }
 
-            if (cols >= 74) {
-                // Desktop Grid
-                nameArea = '3 / 38'; // Half of content area (3-73) roughly
-                emailArea = '38 / 73';
+            // DESKTOP (74 Cols)
+            // Standard Text Indent: 3 / -3 (approx)
+            if (cols >= 74 && cols < 122) {
+                // Total width 74.
+                // Half is 37.
+                // Left: 3 to 39 (36 cols)
+                // Right: 39 to 75? (36 cols) -> 39 + 36 = 75. 74 cols ends at 75.
+                nameArea = '3 / 39';
+                emailArea = '39 / 75';
+                topicArea = '3 / 39';
+                contactArea = '39 / 75';
+                newsletterArea = '3 / 75';
+                messageArea = '3 / 75';
+                buttonArea = '3 / 21';
+            }
 
-                topicArea = '3 / 38';
-                contactArea = '38 / 73';
+            // LARGE SCREENS (122+ Cols) 
+            // Standard Text Indent: 5 / -5 (Cols 5 to 118) -> Line 5 to 119?
+            // 122 cols.
+            // Start line 5. End line 122-4 = 118? No.
+            // 122 cols. -5 means 5th from end.
+            if (cols >= 122) {
+                // We want to center the form or restrict it to the "Content Area"
+                // Let's use 5 / -5 as the bounds.
+                // However, grid-column on children needs specific line numbers if we don't have a wrapper.
+                // Phidelity widgets usually don't have an inner wrapper for "content area", they use grid columns directly.
 
-                newsletterArea = '3 / 73';
+                // Left half of "5 to -5":
+                // 5 is start. Total width is huge.
+                // Let's just use specific spans for a balanced look (approx 50/50 split of the center area).
 
-                messageArea = '3 / 73';
-                buttonArea = '3 / 20';
+                // Center line of 122 is 62.
+                // Left: 25 to 62.
+                // Right: 62 to 99. (Leaving 24 cols on each side? 25 is 5+20?)
+
+                // Let's try to match the ArticleTextOnly feel (which uses 5 / -5).
+                // Left Field: 5 / 62
+                // Right Field: 62 / 119 (122 cols + 1 = 123. 123 - 4 = 119).
+
+                nameArea = '5 / 62';
+                emailArea = '62 / 119';
+                topicArea = '5 / 62';
+                contactArea = '62 / 119';
+                newsletterArea = '5 / 119';
+                messageArea = '5 / 119';
+                buttonArea = '5 / 25';
             }
 
             return `

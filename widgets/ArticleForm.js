@@ -31,8 +31,6 @@ class PhiArticleForm extends HTMLElement {
             let nameArea = '1 / -1';
             let emailArea = '1 / -1';
             let phoneArea = '1 / -1';
-            let contactArea = '1 / -1';
-            let newsletterArea = '1 / -1';
             let messageArea = '1 / -1';
             let buttonArea = '1 / -1';
 
@@ -48,12 +46,8 @@ class PhiArticleForm extends HTMLElement {
                 nameArea = '3 / 27';
                 emailArea = '27 / 51';
 
-                // Row 2: Phone | Contact
+                // Row 2: Phone
                 phoneArea = '3 / 27';
-                contactArea = '27 / 51';
-
-                // Row 3: Newsletter (Full)
-                newsletterArea = '3 / 51';
 
                 messageArea = '3 / 51';
                 buttonArea = '3 / 15'; // Smaller button
@@ -71,12 +65,8 @@ class PhiArticleForm extends HTMLElement {
                 nameArea = '3 / 39';
                 emailArea = '39 / 75';
 
-                // Row 2: Phone | Contact
+                // Row 2: Phone
                 phoneArea = '3 / 39';
-                contactArea = '39 / 75';
-
-                // Row 3: Newsletter (Full)
-                newsletterArea = '3 / 75';
 
                 messageArea = '3 / 75';
                 buttonArea = '3 / 21';
@@ -91,12 +81,8 @@ class PhiArticleForm extends HTMLElement {
                 nameArea = '5 / 60';
                 emailArea = '64 / 119';
 
-                // Row 2: Phone | Contact
+                // Row 2: Phone
                 phoneArea = '5 / 60';
-                contactArea = '64 / 119';
-
-                // Row 3: Newsletter (Full Width)
-                newsletterArea = '5 / 119';
 
                 messageArea = '5 / 119';
                 buttonArea = '5 / 25';
@@ -111,8 +97,6 @@ class PhiArticleForm extends HTMLElement {
                 .field-name { grid-column: ${nameArea}; }
                 .field-email { grid-column: ${emailArea}; }
                 .field-phone { grid-column: ${phoneArea}; }
-                .field-contact { grid-column: ${contactArea}; }
-                .field-newsletter { grid-column: ${newsletterArea}; }
                 .field-message { grid-column: ${messageArea}; }
                 .field-submit { grid-column: ${buttonArea}; }
             }
@@ -204,36 +188,6 @@ class PhiArticleForm extends HTMLElement {
                 </div>
 
 
-
-                <!-- CONTACT PREFERENCE (Radio) -->
-                <div class="field-wrapper field-contact">
-                    <fieldset class="ds-fieldset">
-                        <legend class="ds-label" data-weight="medium">Preferred Contact</legend>
-                        <div class="ds-field">
-                            <input class="ds-input" type="radio" value="email" id="contact-email" name="contact" checked />
-                            <label class="ds-label" data-weight="regular" for="contact-email">Email</label>
-                        </div>
-                        <div class="ds-field">
-                            <input class="ds-input" type="radio" value="phone" id="contact-phone" name="contact" />
-                            <label class="ds-label" data-weight="regular" for="contact-phone">Phone</label>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <!-- NEWSLETTER (Checkbox) -->
-                <div class="field-wrapper field-newsletter">
-                    <fieldset class="ds-fieldset">
-                        <legend class="ds-label" data-weight="medium">Notifications</legend>
-                        <div class="ds-field">
-                            <input class="ds-input" type="checkbox" value="weekly" id="notify-weekly" />
-                            <label class="ds-label" data-weight="regular" for="notify-weekly">Weekly Digest</label>
-                        </div>
-                        <div class="ds-field">
-                            <input class="ds-input" type="checkbox" value="offers" id="notify-offers" />
-                            <label class="ds-label" data-weight="regular" for="notify-offers">Special Offers</label>
-                        </div>
-                    </fieldset>
-                </div>
 
                 <!-- MESSAGE -->
                 <div class="field-wrapper field-message">

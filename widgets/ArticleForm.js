@@ -56,19 +56,25 @@ class PhiArticleForm extends HTMLElement {
             // DESKTOP (74 Cols)
             // Standard Text Indent: 3 / -3 (approx)
             if (cols >= 74 && cols < 122) {
-                // Total width 74.
-                // Half is 37.
-                // Left: 3 to 39 (36 cols)
-                // Right: 39 to 75? (36 cols) -> 39 + 36 = 75. 74 cols ends at 75.
-                // Left: 3 to 39 (36 cols)
-                // Right: 39 to 75? (36 cols) -> 39 + 36 = 75. 74 cols ends at 75.
-                nameArea = '3 / 39';
-                emailArea = '39 / 75';
+                // Requested: 2 col spacing between Name and Email. 2 col space to right margin.
+                // Left Margin: 2 cols (1-3)
+                // Right Margin: 2 cols (73-75) -> End line 73.
+                // Total Width: 3 to 73 = 70 cols.
+                // Gap: 2 cols.
+                // Fields: (70 - 2) / 2 = 34 cols each.
 
-                // Row 2: Phone
-                phoneArea = '3 / 39';
+                // Name: 3 to 3+34 = 37.
+                // Gap: 37 to 39.
+                // Email: 39 to 73.
 
-                messageArea = '3 / 75';
+                nameArea = '3 / 37';
+                emailArea = '39 / 73';
+
+                // Row 2: Phone (Align Left)
+                phoneArea = '3 / 37';
+
+                // Message: Full Width of Content Area
+                messageArea = '3 / 73';
                 buttonArea = '3 / 21';
             }
 

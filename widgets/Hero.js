@@ -114,6 +114,18 @@ class PhiHero extends HTMLElement {
                     }
                 }
 
+                /* Tablet (50 Cols) Background Adjustment (Fix Cropping) */
+                @container hero (min-width: 650px) and (max-width: 961px) {
+                    .container {
+                        /* Shift image left by approx 3 columns worth (3 * 13px = ~40px or %), 
+                           but background-position is easier. 
+                           User said "move image 3 columns to the left".
+                           If it's centered, moving left means moving center point left.
+                           "40% center" or similar */
+                        background-position: 40% center; 
+                    }
+                }
+
                 /* Large Screen Background Adjustment (122 Col+) */
                 @container hero (min-width: 1586px) {
                     .container {

@@ -189,7 +189,7 @@ class PhiArticleForm extends HTMLElement {
                 <div class="field-wrapper field-name">
                     <div class="ds-field">
                         <label class="ds-label" data-weight="medium" for="name">Name</label>
-                        <input class="ds-input" id="name" type="text" placeholder="Ola Nordmann" />
+                        <input class="ds-input" id="name" type="text" placeholder="Your full name" />
                     </div>
                 </div>
 
@@ -197,7 +197,7 @@ class PhiArticleForm extends HTMLElement {
                 <div class="field-wrapper field-email">
                     <div class="ds-field">
                         <label class="ds-label" data-weight="medium" for="email">Email</label>
-                        <input class="ds-input" id="email" type="email" placeholder="ola@norge.no" />
+                        <input class="ds-input" id="email" type="email" placeholder="email@domain.com" />
                     </div>
                 </div>
 
@@ -205,7 +205,7 @@ class PhiArticleForm extends HTMLElement {
                 <div class="field-wrapper field-phone">
                     <div class="ds-field">
                         <label class="ds-label" data-weight="medium" for="phone">Phone Number</label>
-                        <input class="ds-input" id="phone" type="tel" placeholder="+47 000 00 000" />
+                        <input class="ds-input" id="phone" type="tel" placeholder="+00 000 00 000" />
                     </div>
                 </div>
 
@@ -222,7 +222,7 @@ class PhiArticleForm extends HTMLElement {
                 <!-- SUBMIT -->
                 <div class="field-wrapper field-submit">
                     <!-- Default ds-button = Primary -->
-                    <button class="ds-button" type="button" data-variant="primary">
+                    <button id="send-btn" class="ds-button" type="button" data-variant="primary">
                         Send Message
                     </button>
                 </div>

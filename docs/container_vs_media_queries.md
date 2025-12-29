@@ -127,3 +127,60 @@ You asked: *Can we still do complex Dashboards (Bento Box) with Media Queries?*
 ### The Trade-off
 *   **Pros:** You have absolute pixel-perfect control over the *entire* screen composition at every breakpoint.
 *   **Cons:** You cannot reuse `.tile-1` elsewhere. It is hard-coded to be "Top Left on Desktop". You must write a unique grid map for every distinct dashboard view.
+
+## 5. The Typography Trade-off: Global Control vs. Fractal Context
+You noted a valid advantage for Media Queries: **Standardized Text Scaling**.
+
+### The Media Query Advantage (`clamp` & `vw`)
+With Media Queries, the "Viewport" is the single source of truth.
+- You can set `font-size: clamp(16px, 2vw, 24px);` on the `body`.
+- **Result:** Every piece of text on the screen scales in perfect unison as you resize the window. You have total control over the "Macro Scale."
+- **Benefit:** Predictability. You know *exactly* how big text will be on a 1400px screen, regardless of where the text sits.
+
+### The Phidelity Container Approach
+In Phidelity, we avoid `vw` for text because a widget might be in a narrow sidebar on a huge screen.
+- If we used `2vw` (based on 1920px width), the text in the sidebar would be huge, breaking the layout.
+- Instead, we use **Modular Scales** (`--scale-up`, `--scale-down`) that react to the container's standard breakpoints.
+
+### Conclusion on Text
+- **Media Queries:** Better for "Marketing Sites" where you want a cinematic, uniform scaling experience across the whole page.
+- **Container Queries:** Essential for "Applications" where a card needs to look legible whether it's full-screen or tucked into a dashboard corner.
+
+## 6. The Navigation Problem: "False Widths"
+You highlighted a critical failure point for Media Queries: **Dynamic Sidebars**.
+
+### The Scenario
+You have a dashboard with a collapsible Left Navigation.
+1.  **State A (Nav Closed):** Main content area is 1600px wide.
+2.  **State B (Nav Open):** Main content area shrinks to 1300px wide.
+
+### The Failure (Media Queries)
+The **Browser Viewport** width has not changed (it's still 1920px wide).
+-   Therefore, **Media Queries do not trigger**.
+-   The content in the main area "thinks" it still has 1600px of space.
+-   **Result:** The content attempts to render its "Wide Desktop" layout inside the reduced 1300px space, causing horizontal scrolling, overlap, or broken grids.
+
+### The Fix (Container Queries)
+With Container Queries, the widget doesn't care about the viewport.
+-   When the Nav opens, the Main Area (the container) physically shrinks.
+-   **Result:** The widgets inside detect the new width (1300px) and instantly snap to their "Standard Desktop" (or Tablet) layout.
+-   **No JavaScript Required:** This happens natively in CSS, making dynamic layouts robust and jank-free.
+
+## 7. The Hybrid Fallback Strategy (Mobile/Tablet Only)
+You corrected the scope: *Media Query fallbacks are mostly critical for older Mobile/Tablets.*
+
+### Browser Reality Check
+Actually, Container Queries are quite new!
+-   **Chrome 105** (August 2022)
+-   **Safari 16** (September 2022)
+-   **Firefox 110** (February 2023)
+
+The "2017" date likely refers to early prototypes or polyfills. Real native support is a "Post-2022" feature.
+This confirms your suspicion: **Legacy devices (Standard iPhone 8, older iPads, corporate IE/Edge) are the main target for fallbacks.**
+
+### The Strategy: "MQ Below / CQ Above"
+Since complex "Sidebar/Dashboard" layouts rarely happen on Mobile, we can assume:
+-   **Under 1000px (Mobile/Tablet):** Strict full-width stacking. Safe to use **Media Queries**.
+-   **Over 1000px (Desktop):** Complex nested layouts. Here we can likely assume modern browsers (as desktops update frequently) and rely on **Container Queries**.
+
+**Verdict:** If we implement a fallback, we only need to "hardcode" the Mobile and Tablet grids using Media Queries. We can leave the complex Desktop behavior to the "Modern" engine.

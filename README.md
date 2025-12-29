@@ -89,3 +89,16 @@ Because the grid has "No Gaps," placing items is a coordinate exercise.
 ---
 
 > *"The grid is not a constraint; it is the mathematical soil in which your design grows."*
+
+---
+
+## 5. License & Attribution
+
+### MIT License
+Phidelity is open-source software licensed under the [MIT License](LICENSE).
+
+### Attribution Request
+While the MIT license allows for free use, we kindly request that if you use Phidelity in your projects, you provide credit to the original creator.
+
+**Recommended Citation:**
+> Built with [Phidelity](https://github.com/paalpaulsen/phidelity) - A Golden Ratio CSS Framework by Pål Eirik Paulsen.

@@ -183,7 +183,7 @@ class PhiArticleForm extends HTMLElement {
                Explicitly set theme and size mode for Designsystemet variables.
             -->
             <div class="container" data-color-scheme="light" data-size="md">
-                <h2>Contact Us</h2>
+                <h2>Contact</h2>
 
                 <!-- NAME -->
                 <div class="field-wrapper field-name">

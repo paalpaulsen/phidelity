@@ -33,6 +33,7 @@ class PhiArticleQuote extends HTMLElement {
             if (cols === 50) gridColumn = '13 / -13'; // Width 26
             if (cols === 74) gridColumn = '19 / -19'; // Width 38 (Wider)
             if (cols === 98) gridColumn = '13 / -13'; // Width 74 (Even Wider)
+            if (cols >= 122) gridColumn = '25 / -25'; // Width 74 (122), Width 98 (146), etc. Keeps 24col margins.
 
             return `
             @container article-quote ${bp.query} {

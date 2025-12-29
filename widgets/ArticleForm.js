@@ -28,11 +28,15 @@ class PhiArticleForm extends HTMLElement {
 
             // Layout Logic (Responsive)
             // Default: Mobile (Stacked, Full Width)
-            let nameArea = '1 / -1';
-            let emailArea = '1 / -1';
-            let phoneArea = '1 / -1';
-            let messageArea = '1 / -1';
-            let buttonArea = '1 / -1';
+            // User manually updated to 3 / -3 for fields
+            let nameArea = '3 / -3';
+            let emailArea = '3 / -3';
+            let phoneArea = '3 / -3';
+            let messageArea = '3 / -3';
+            let buttonArea = '3 / -3';
+
+            // H2 Header Alignment
+            let headerArea = '3 / -1';
 
             // TABLET (50 Cols)
             // Standard Text Indent is typically 3/-3 or similar.
@@ -97,6 +101,9 @@ class PhiArticleForm extends HTMLElement {
 
                 messageArea = '5 / 119';
                 buttonArea = '5 / 25';
+
+                // Header Indentation (Increase by 2 cols)
+                headerArea = '5 / -1';
             }
 
             return `
@@ -105,6 +112,10 @@ class PhiArticleForm extends HTMLElement {
                     grid-template-columns: repeat(${cols}, 1fr);
                     grid-auto-rows: ${rowHeight};
                 }
+                
+                /* Responsive Header Alignment */
+                h2 { grid-column: ${headerArea}; }
+                
                 .field-name { grid-column: ${nameArea}; }
                 .field-email { grid-column: ${emailArea}; }
                 .field-phone { grid-column: ${phoneArea}; }

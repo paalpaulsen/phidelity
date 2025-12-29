@@ -168,6 +168,7 @@ class PhiArticleForm extends HTMLElement {
                     box-sizing: border-box;
                 }
                 
+                ${this.generateGridCSS()}
             </style>
 
             <!-- 

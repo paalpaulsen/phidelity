@@ -121,6 +121,7 @@ class PhiHero extends HTMLElement {
                            User wants to see more of the right side (which was cropped).
                            Shifting alignment towards right (80%) brings the right side into view. */
                         background-position: 80% center; 
+                        background-size: 70% auto; /* User request: reduce size to 70% */
                     }
                 }
 

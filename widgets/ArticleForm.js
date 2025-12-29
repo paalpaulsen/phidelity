@@ -77,37 +77,16 @@ class PhiArticleForm extends HTMLElement {
 
             // LARGE SCREENS (122+ Cols) 
             // Standard Text Indent: 5 / -5 (Cols 5 to 118) -> Line 5 to 119?
-            // 122 cols.
-            // Start line 5. End line 122-4 = 118? No.
-            // 122 cols. -5 means 5th from end.
             if (cols >= 122) {
-                // We want to center the form or restrict it to the "Content Area"
-                // Let's use 5 / -5 as the bounds.
-                // However, grid-column on children needs specific line numbers if we don't have a wrapper.
-                // Phidelity widgets usually don't have an inner wrapper for "content area", they use grid columns directly.
+                // Layout: [5 ... 60] (4 col gap) [64 ... 119]
+                // Total width 114 cols. 55 cols each.
 
-                // Left half of "5 to -5":
-                // 5 is start. Total width is huge.
-                // Let's just use specific spans for a balanced look (approx 50/50 split of the center area).
+                nameArea = '5 / 60';
+                emailArea = '64 / 119';
 
-                // Center line of 122 is 62.
-                // Left: 25 to 62.
-                // Right: 62 to 99. (Leaving 24 cols on each side? 25 is 5+20?)
-
-                // Let's try to match the ArticleTextOnly feel (which uses 5 / -5).
-                // Left Field: 5 / 62
-                // Right Field: 62 / 119 (122 cols + 1 = 123. 123 - 4 = 119).
-
-                // Let's try to match the ArticleTextOnly feel (which uses 5 / -5).
-                // Left Field: 5 / 62
-                // Right Field: 62 / 119 (122 cols + 1 = 123. 123 - 4 = 119).
-
-                nameArea = '5 / 62';
-                emailArea = '62 / 119';
-
-                // Row 2: Contact | Newsletter
-                contactArea = '5 / 62';
-                newsletterArea = '62 / 119';
+                // Row 2: Contact | Newsletter (Align with Name/Email)
+                contactArea = '5 / 60';
+                newsletterArea = '64 / 119';
 
                 messageArea = '5 / 119';
                 buttonArea = '5 / 25';

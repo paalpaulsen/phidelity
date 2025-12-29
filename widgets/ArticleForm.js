@@ -131,6 +131,7 @@ class PhiArticleForm extends HTMLElement {
                     width: 100%;
                     padding-block: 3rem;
                     gap: 0; 
+                    background-color: var(--mono-09); /* Enforce background */
                 }
 
                 /* Layout Containers (Phidelity controls placement) */

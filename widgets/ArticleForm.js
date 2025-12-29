@@ -30,6 +30,7 @@ class PhiArticleForm extends HTMLElement {
             // Default: Mobile (Stacked, Full Width)
             let nameArea = '1 / -1';
             let emailArea = '1 / -1';
+            let phoneArea = '1 / -1';
             let contactArea = '1 / -1';
             let newsletterArea = '1 / -1';
             let messageArea = '1 / -1';
@@ -47,9 +48,12 @@ class PhiArticleForm extends HTMLElement {
                 nameArea = '3 / 27';
                 emailArea = '27 / 51';
 
-                // Row 2: Contact | Newsletter
-                contactArea = '3 / 27';
-                newsletterArea = '27 / 51';
+                // Row 2: Phone | Contact
+                phoneArea = '3 / 27';
+                contactArea = '27 / 51';
+
+                // Row 3: Newsletter (Full)
+                newsletterArea = '3 / 51';
 
                 messageArea = '3 / 51';
                 buttonArea = '3 / 15'; // Smaller button
@@ -67,9 +71,12 @@ class PhiArticleForm extends HTMLElement {
                 nameArea = '3 / 39';
                 emailArea = '39 / 75';
 
-                // Row 2: Contact | Newsletter
-                contactArea = '3 / 39';
-                newsletterArea = '39 / 75';
+                // Row 2: Phone | Contact
+                phoneArea = '3 / 39';
+                contactArea = '39 / 75';
+
+                // Row 3: Newsletter (Full)
+                newsletterArea = '3 / 75';
 
                 messageArea = '3 / 75';
                 buttonArea = '3 / 21';
@@ -84,9 +91,12 @@ class PhiArticleForm extends HTMLElement {
                 nameArea = '5 / 60';
                 emailArea = '64 / 119';
 
-                // Row 2: Contact | Newsletter (Align with Name/Email)
-                contactArea = '5 / 60';
-                newsletterArea = '64 / 119';
+                // Row 2: Phone | Contact
+                phoneArea = '5 / 60';
+                contactArea = '64 / 119';
+
+                // Row 3: Newsletter (Full Width)
+                newsletterArea = '5 / 119';
 
                 messageArea = '5 / 119';
                 buttonArea = '5 / 25';
@@ -100,6 +110,7 @@ class PhiArticleForm extends HTMLElement {
                 }
                 .field-name { grid-column: ${nameArea}; }
                 .field-email { grid-column: ${emailArea}; }
+                .field-phone { grid-column: ${phoneArea}; }
                 .field-contact { grid-column: ${contactArea}; }
                 .field-newsletter { grid-column: ${newsletterArea}; }
                 .field-message { grid-column: ${messageArea}; }
@@ -181,6 +192,14 @@ class PhiArticleForm extends HTMLElement {
                     <div class="ds-field">
                         <label class="ds-label" data-weight="medium" for="email">Email</label>
                         <input class="ds-input" id="email" type="email" placeholder="ola@norge.no" />
+                    </div>
+                </div>
+
+                <!-- PHONE -->
+                <div class="field-wrapper field-phone">
+                    <div class="ds-field">
+                        <label class="ds-label" data-weight="medium" for="phone">Phone Number</label>
+                        <input class="ds-input" id="phone" type="tel" placeholder="+47 000 00 000" />
                     </div>
                 </div>
 

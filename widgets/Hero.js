@@ -213,6 +213,10 @@ class PhiHero extends HTMLElement {
                                 <a href="https://x.com/paalpaulsen" class="icon-link" target="_blank" rel="noopener noreferrer" aria-label="X">
                                     <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                                 </a>
+                                <!-- Bluesky -->
+                                <a href="https://bsky.app/profile/interfazer.bsky.social" class="icon-link" target="_blank" rel="noopener noreferrer" aria-label="Bluesky">
+                                    <svg viewBox="0 0 24 24"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565-.131 2.032-.028 3.09.029 3.686c1.115 11.187 7.105 14.96 11.971 14.96.673 0 1.346-.154 2.019-.46-1.04 1.281-3.64 3.65-8.834 2.378-.501-.122-1.127.359-.724.872.935 1.185 2.508 2.315 4.707 2.457 7.957.514 11.238-6.103 12.03-9.155.074-.287.195-.56.363-.815.701-1.066 3.018-5.753 3.018-5.753s-6.375 7.02-9.61 10.29C14.075 17.575 12.875 14.288 12 10.8z"/></svg>
+                                </a>
                             </div>
                         </div>
                     </div>

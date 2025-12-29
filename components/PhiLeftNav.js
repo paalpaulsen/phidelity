@@ -198,6 +198,7 @@ class PhiLeftNav extends HTMLElement {
           
           <li><a href="#bento" class="nav-l1">Bento Box</a></li>
           <li><a href="#masonry" class="nav-l1">Elastic Masonry</a></li>
+          <li><a href="#contact" class="nav-l1">Contact Form</a></li>
           
         </ul>
       </nav>

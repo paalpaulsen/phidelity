@@ -30,7 +30,6 @@ class PhiArticleForm extends HTMLElement {
             // Default: Mobile (Stacked, Full Width)
             let nameArea = '1 / -1';
             let emailArea = '1 / -1';
-            let topicArea = '1 / -1';
             let contactArea = '1 / -1';
             let newsletterArea = '1 / -1';
             let messageArea = '1 / -1';
@@ -47,9 +46,11 @@ class PhiArticleForm extends HTMLElement {
 
                 nameArea = '3 / 27';
                 emailArea = '27 / 51';
-                topicArea = '3 / 27';
-                contactArea = '27 / 51';
-                newsletterArea = '3 / 51';
+
+                // Row 2: Contact | Newsletter
+                contactArea = '3 / 27';
+                newsletterArea = '27 / 51';
+
                 messageArea = '3 / 51';
                 buttonArea = '3 / 15'; // Smaller button
             }
@@ -61,11 +62,15 @@ class PhiArticleForm extends HTMLElement {
                 // Half is 37.
                 // Left: 3 to 39 (36 cols)
                 // Right: 39 to 75? (36 cols) -> 39 + 36 = 75. 74 cols ends at 75.
+                // Left: 3 to 39 (36 cols)
+                // Right: 39 to 75? (36 cols) -> 39 + 36 = 75. 74 cols ends at 75.
                 nameArea = '3 / 39';
                 emailArea = '39 / 75';
-                topicArea = '3 / 39';
-                contactArea = '39 / 75';
-                newsletterArea = '3 / 75';
+
+                // Row 2: Contact | Newsletter
+                contactArea = '3 / 39';
+                newsletterArea = '39 / 75';
+
                 messageArea = '3 / 75';
                 buttonArea = '3 / 21';
             }
@@ -93,11 +98,17 @@ class PhiArticleForm extends HTMLElement {
                 // Left Field: 5 / 62
                 // Right Field: 62 / 119 (122 cols + 1 = 123. 123 - 4 = 119).
 
+                // Let's try to match the ArticleTextOnly feel (which uses 5 / -5).
+                // Left Field: 5 / 62
+                // Right Field: 62 / 119 (122 cols + 1 = 123. 123 - 4 = 119).
+
                 nameArea = '5 / 62';
                 emailArea = '62 / 119';
-                topicArea = '5 / 62';
-                contactArea = '62 / 119';
-                newsletterArea = '5 / 119';
+
+                // Row 2: Contact | Newsletter
+                contactArea = '5 / 62';
+                newsletterArea = '62 / 119';
+
                 messageArea = '5 / 119';
                 buttonArea = '5 / 25';
             }
@@ -110,7 +121,6 @@ class PhiArticleForm extends HTMLElement {
                 }
                 .field-name { grid-column: ${nameArea}; }
                 .field-email { grid-column: ${emailArea}; }
-                .field-topic { grid-column: ${topicArea}; }
                 .field-contact { grid-column: ${contactArea}; }
                 .field-newsletter { grid-column: ${newsletterArea}; }
                 .field-message { grid-column: ${messageArea}; }
@@ -194,18 +204,7 @@ class PhiArticleForm extends HTMLElement {
                     </div>
                 </div>
 
-                <!-- TOPIC (Select) -->
-                <div class="field-wrapper field-topic">
-                    <div class="ds-field">
-                        <label class="ds-label" data-weight="medium" for="topic">Topic</label>
-                        <select class="ds-select" id="topic">
-                            <option value="" disabled selected>Select a topic...</option>
-                            <option value="support">Customer Support</option>
-                            <option value="sales">Sales Inquiry</option>
-                            <option value="press">Press & Media</option>
-                        </select>
-                    </div>
-                </div>
+
 
                 <!-- CONTACT PREFERENCE (Radio) -->
                 <div class="field-wrapper field-contact">

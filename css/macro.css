@@ -213,7 +213,7 @@ body {
     line-height: var(--leading-base);
     font-weight: 300;
     /* Inter Regular */
-    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -491,7 +491,7 @@ small {
         z-index: 4000;
         background: var(--c-nav-bg);
         transition: transform 0.3s ease;
-        box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         visibility: hidden;
     }
 
@@ -552,6 +552,7 @@ small {
     /* Container Query Context */
     container-type: inline-size;
     container-name: macro-zone;
+    content-visibility: auto;
 }
 
 /* UTILITY: Dark Zone */

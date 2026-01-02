@@ -14,13 +14,13 @@ class PhiArticleBottomImage extends HTMLElement {
         const breakpoints = [
             { id: '13', query: '(max-width: 337px)', cols: 13, textCols: 1 },
             { id: '26', query: '(min-width: 338px) and (max-width: 649px)', cols: 26, textCols: 1 },
-            { id: '50', query: '(min-width: 650px) and (max-width: 961px)', cols: 50, textCols: 1 },
-            { id: '74', query: '(min-width: 962px) and (max-width: 1273px)', cols: 74, textCols: 2 },
-            { id: '98', query: '(min-width: 1274px) and (max-width: 1585px)', cols: 98, textCols: 4 },
-            { id: '122', query: '(min-width: 1586px) and (max-width: 1897px)', cols: 122, textCols: 4 },
-            { id: '146', query: '(min-width: 1898px) and (max-width: 2209px)', cols: 146, textCols: 6 },
-            { id: '170', query: '(min-width: 2210px) and (max-width: 2521px)', cols: 170, textCols: 6 },
-            { id: '194', query: '(min-width: 2522px)', cols: 194, textCols: 6 }
+            { id: '50', query: '(min-width: 650px) and (max-width: 961px)', cols: 50, textCols: 1 }, /* Keep 1 for Tablet as per layout */
+            { id: '74', query: '(min-width: 962px) and (max-width: 1273px)', cols: 74, textCols: 2 }, /* Keep 2 for Desktop */
+            { id: '98', query: '(min-width: 1274px) and (max-width: 1585px)', cols: 98, textCols: 3 },
+            { id: '122', query: '(min-width: 1586px) and (max-width: 1897px)', cols: 122, textCols: 3 },
+            { id: '146', query: '(min-width: 1898px) and (max-width: 2209px)', cols: 146, textCols: 3 },
+            { id: '170', query: '(min-width: 2210px) and (max-width: 2521px)', cols: 170, textCols: 3 },
+            { id: '194', query: '(min-width: 2522px)', cols: 194, textCols: 3 }
         ];
 
         return breakpoints.map(bp => {

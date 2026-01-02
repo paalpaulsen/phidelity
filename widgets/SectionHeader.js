@@ -27,10 +27,19 @@ class SectionHeader extends HTMLElement {
         :host {
           display: block;
           width: 100%;
+          min-width: 0;
+          max-width: 100%;
+          overflow: hidden; /* Safari Enforcer */
           --c-bg: var(--mono-02);
           --c-text: var(--mono-10);
           --font-serif: 'DM Serif Display', serif;
           --font-sans: 'Inter', sans-serif;
+        }
+
+        .wrapper {
+            container-type: inline-size;
+            container-name: header-box;
+            width: 100%;
         }
 
         .header-block {
@@ -38,29 +47,30 @@ class SectionHeader extends HTMLElement {
           color: var(--c-text);
           padding-top: 4rem;
           padding-bottom: 4rem; /* Restored vertical space */
-        
           position: relative;
-          
-          /* Container Context for Grid Logic */
-          container-type: inline-size;
-          container-name: header-box;
         }
 
         .content-wrapper {
           display: grid;
-          /* Local Typography Defaults (Mobile) */
-          --scale: 1.309;
-          --type-base: var(--type-base);
-          /* H2 uses global fluid clamp */
-          --type-summary-l: calc(var(--type-base) * var(--scale));
+          /* Default Typography (Will be overridden by queries) */
         }
 
-        /* Desktop Typography Override */
-        @container header-box (min-width: 963px) {
-          .content-wrapper {
-            --scale: 1.618;
-            --type-summary-l: calc(var(--type-base) * var(--scale));
-          }
+        /* RESPONSIVE TYPOGRAPHY (Mobile Scale) */
+        @container header-box (max-width: 961px) {
+            .content-wrapper {
+                --scale-up: 1.309; 
+                --type-h2: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                --type-summary-l: calc(var(--type-base) * var(--scale-up));
+            }
+        }
+
+        /* RESPONSIVE TYPOGRAPHY (Desktop Scale) */
+        @container header-box (min-width: 962px) {
+            .content-wrapper {
+                --scale-up: 1.618;
+                --type-h2: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                --type-summary-l: calc(var(--type-base) * var(--scale-up));
+            }
         }
 
         .text-container {
@@ -108,6 +118,7 @@ class SectionHeader extends HTMLElement {
         /* 50 Cols (651px - 962px) */
         @container header-box (min-width: 651px) and (max-width: 962px) {
           .content-wrapper { grid-template-columns: repeat(50, 1fr); }
+          /* Recalc columns to match grid */
           .text-container { grid-column: 7 / -7; }
         }
 
@@ -137,12 +148,14 @@ class SectionHeader extends HTMLElement {
 
       </style>
 
-      <div class="header-block">
-        <div class="content-wrapper">
-          <div class="text-container">
-            <h2>${title}</h2>
-            ${lead ? `<p class="lead">${lead}</p>` : ''}
-          </div>
+      <div class="wrapper">
+        <div class="header-block">
+            <div class="content-wrapper">
+            <div class="text-container">
+                <h2>${title}</h2>
+                ${lead ? `<p class="lead">${lead}</p>` : ''}
+            </div>
+            </div>
         </div>
       </div>
     `;

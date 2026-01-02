@@ -79,6 +79,7 @@ class PhiHero extends HTMLElement {
                 :host {
                     display: block;
                     width: 100%;
+                    min-width: 0;
                     height: 100%; /* Force fill of parent Zone */
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text); 
@@ -137,6 +138,26 @@ class PhiHero extends HTMLElement {
                 /* Local overrides only - Typography handled by macro.css */
                 h1 { margin: 0 0 1.5rem 0; }
                 .summary-l { margin-bottom: 2rem; max-width: 55ch; color: var(--mono-05); }
+
+                /* RESPONSIVE TYPOGRAPHY: Force Mobile Scale in smaller containers */
+                @container hero (max-width: 961px) {
+                    .container {
+                        --scale-up: 1.309; 
+                        
+                        /* Re-calculate Headings based on local scale */
+                        --type-h3: calc(var(--type-base) * var(--scale-up));
+                        --type-h2: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                        --type-h1-s: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                        --type-h1-m: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+                        --type-h1-l: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+                        
+                        /* Mappings */
+                        --type-h1: var(--type-h1-m);
+                        --type-display-med: var(--type-h1-m);
+                        --type-display-lg: var(--type-h1-l);
+                        --type-summary-l: calc(var(--type-base) * var(--scale-up));
+                    }
+                }
 
                 /* Layout & Structure (Preserved) */
                 .meta {

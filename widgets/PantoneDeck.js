@@ -21,6 +21,9 @@ class PantoneDeck extends HTMLElement {
       <style>
         :host {
           display: block;
+          min-width: 0;
+          max-width: 100%;
+          overflow: hidden; /* Safari Enforcer */
           font-family: 'Inter', sans-serif;
           color: var(--c-text);
           padding-bottom: 4rem;
@@ -35,6 +38,15 @@ class PantoneDeck extends HTMLElement {
           container-type: inline-size; 
           container-name: bento-box; 
           width: 100%; 
+        }
+
+        /* RESPONSIVE TYPOGRAPHY (Mobile Scale) */
+        @container bento-box (max-width: 961px) {
+          #deck-container {
+             --scale-up: 1.309; 
+             --type-h3: calc(var(--type-base) * var(--scale-up));
+             /* Add other levels if used (e.g. H2) */
+          }
         }
         
         h3.zone-label { 
@@ -57,7 +69,7 @@ class PantoneDeck extends HTMLElement {
         .pantone-gallery {
           display: grid;
           /* Default (Mobile 26 cols) */
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
           gap: calc(100cqw * 2 / 26);
           padding: 0 calc(100cqw * 2 / 26);
         }
@@ -70,7 +82,7 @@ class PantoneDeck extends HTMLElement {
         /* 13 Cols (< 170px) */
         @container bento-box (max-width: 169px) {
           .pantone-gallery {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
             gap: 0;
             padding: 0 calc(100cqw * 2 / 13);
           }
@@ -83,7 +95,7 @@ class PantoneDeck extends HTMLElement {
         /* 26 Cols (170px - 650px) */
         @container bento-box (min-width: 170px) and (max-width: 650px) {
           .pantone-gallery {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: calc(100cqw * 2 / 26);
             padding: 0 calc(100cqw * 2 / 26);
           }
@@ -96,7 +108,7 @@ class PantoneDeck extends HTMLElement {
         /* 50 Cols (651px - 962px) */
         @container bento-box (min-width: 651px) and (max-width: 962px) {
           .pantone-gallery {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: calc(100cqw * 2 / 50);
             padding: 0 calc(100cqw * 2 / 50);
           }
@@ -109,7 +121,7 @@ class PantoneDeck extends HTMLElement {
         /* 74 Cols (963px - 1274px) */
         @container bento-box (min-width: 963px) and (max-width: 1274px) {
           .pantone-gallery {
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(6, minmax(0, 1fr));
             gap: calc(100cqw * 2 / 74);
             padding: 0 calc(100cqw * 2 / 74);
           }
@@ -122,7 +134,7 @@ class PantoneDeck extends HTMLElement {
         /* 98 Cols (1275px - 1585px) */
         @container bento-box (min-width: 1275px) and (max-width: 1585px) {
           .pantone-gallery {
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(8, minmax(0, 1fr));
             gap: calc(100cqw * 2 / 98);
             padding: 0 calc(100cqw * 2 / 98);
           }
@@ -135,7 +147,7 @@ class PantoneDeck extends HTMLElement {
         /* 122 Cols (1586px - 1897px) */
         @container bento-box (min-width: 1586px) and (max-width: 1897px) {
           .pantone-gallery {
-            grid-template-columns: repeat(10, 1fr);
+            grid-template-columns: repeat(10, minmax(0, 1fr));
             gap: calc(100cqw * 2 / 122);
             padding: 0 calc(100cqw * 2 / 122);
           }
@@ -148,7 +160,7 @@ class PantoneDeck extends HTMLElement {
         /* 146 Cols (> 1898px) */
         @container bento-box (min-width: 1898px) {
           .pantone-gallery {
-            grid-template-columns: repeat(12, 1fr);
+            grid-template-columns: repeat(12, minmax(0, 1fr));
             gap: calc(100cqw * 2 / 146);
             padding: 0 calc(100cqw * 2 / 146);
           }
@@ -218,6 +230,21 @@ class PantoneDeck extends HTMLElement {
 
         /* Light card border fix */
         .pantone-card.is-light { border-color: var(--mono-08); }
+
+        /* RESPONSIVE CARD TYPOGRAPHY */
+        /* When the card itself is squeezed (e.g. by Right Nav or Mobile Screen) */
+        @container (max-width: 220px) {
+            .color-name {
+                font-size: 0.75rem; /* Shrink from 0.85rem */
+            }
+            .val-group {
+                font-size: 0.6rem; /* Shrink from type-caption (~0.75rem) */
+            }
+        }
+        @container (max-width: 150px) {
+            .color-name { font-size: 0.65rem; }
+            .val-group { font-size: 0.5rem; }
+        }
       </style>
 
       <div class="wrapper">

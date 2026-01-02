@@ -55,6 +55,7 @@ class PhiArticleTextOnly extends HTMLElement {
                 :host {
                     display: block;
                     width: 100%;
+                    min-width: 0;
                     height: 100%;
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     color: var(--c-text);
@@ -70,6 +71,22 @@ class PhiArticleTextOnly extends HTMLElement {
                     padding-block: 3rem; 
                     box-sizing: border-box;
                     gap: 0;
+                }
+
+                /* RESPONSIVE TYPOGRAPHY */
+                @container article-text-only (max-width: 961px) {
+                    .container {
+                        --scale-up: 1.309; 
+                        --type-h3: calc(var(--type-base) * var(--scale-up));
+                        --type-h2: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                        --type-h1-s: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                        --type-h1-m: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+                        --type-h1-l: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+                        --type-h1: var(--type-h1-m);
+                        --type-display-med: var(--type-h1-m);
+                        --type-display-lg: var(--type-h1-l);
+                        --type-summary-l: calc(var(--type-base) * var(--scale-up));
+                    }
                 }
 
                 p {

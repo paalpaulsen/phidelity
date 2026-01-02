@@ -26,12 +26,22 @@ class PhiSection extends HTMLElement {
         :host {
           display: block;
           width: 100%;
+          min-width: 0; 
+          max-width: 100%;
+          overflow: hidden; /* Safari Enforcer */
+        }
+
+        .wrapper {
+            container-type: inline-size;
+            container-name: phi-section;
+            width: 100%;
         }
 
         section {
           width: 100%;
           display: grid;
-          grid-template-columns: 1fr; /* Default Stacked */
+          /* Critical Fix: Use minmax(0, 1fr) to force children to shrink */
+          grid-template-columns: minmax(0, 1fr); 
           gap: 1px;
           background: #3C3C3C; /* var(--c-border) */
         }
@@ -43,14 +53,14 @@ class PhiSection extends HTMLElement {
 
         /* --- MACRO 1: FULL WIDTH --- */
         .layout-full {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
         }
 
         /* --- MACRO 2: GOLDEN RATIO --- */
         /* Desktop: 1.618fr | 1fr */
-        @container (min-width: 999px) {
+        @container phi-section (min-width: 999px) {
             .layout-golden {
-                grid-template-columns: 1.618fr 1fr;
+                grid-template-columns: minmax(0, 1.618fr) minmax(0, 1fr);
                 gap: 1px;
             }
             .layout-golden ::slotted(:nth-child(3)) {
@@ -58,9 +68,9 @@ class PhiSection extends HTMLElement {
             }
         }
         /* Wide: 1.618fr | 1fr | 1.618fr */
-        @container (min-width: 1900px) {
+        @container phi-section (min-width: 1900px) {
             .layout-golden {
-                grid-template-columns: 1.618fr 1fr 1.618fr;
+                grid-template-columns: minmax(0, 1.618fr) minmax(0, 1fr) minmax(0, 1.618fr);
                 gap: 1px;
             }
             .layout-golden ::slotted(:nth-child(3)) {
@@ -70,9 +80,9 @@ class PhiSection extends HTMLElement {
 
         /* --- MACRO 3: TRINITY (1:1:1) --- */
         /* Desktop: 1fr | 1fr (Starts at 2000px as requested) */
-        @container (min-width: 2000px) {
+        @container phi-section (min-width: 2000px) {
             .layout-trinity {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
                 column-gap: 0; /* No vertical lines requested? Preserving existing logic */
                 gap: 1px;
             }
@@ -81,9 +91,9 @@ class PhiSection extends HTMLElement {
             }
         }
         /* Wide: 1fr | 1fr | 1fr */
-        @container (min-width: 2400px) {
+        @container phi-section (min-width: 2400px) {
             .layout-trinity {
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 column-gap: 0;
             }
             .layout-trinity ::slotted(:nth-child(3)) {
@@ -93,9 +103,9 @@ class PhiSection extends HTMLElement {
 
         /* --- MACRO 4: STATIC DYNAMIC --- */
         /* Desktop Wide: 1000px | 1fr */
-        @container (min-width: 1500px) {
+        @container phi-section (min-width: 1500px) {
             .layout-static-dynamic {
-                grid-template-columns: 1000px 1fr;
+                grid-template-columns: 1000px minmax(0, 1fr);
                 gap: 1px;
             }
         }
@@ -104,46 +114,48 @@ class PhiSection extends HTMLElement {
         /* Default: 1 Col (see general default) */
         
         /* 2 Cols */
-        @container (min-width: 1820px) {
+        @container phi-section (min-width: 1820px) {
             .layout-hexad { 
-                grid-template-columns: 1fr 1fr; 
+                grid-template-columns: repeat(2, minmax(0, 1fr)); 
                 gap: 1px;
             }
         }
         /* 3 Cols */
-        @container (min-width: 3400px) {
+        @container phi-section (min-width: 3400px) {
             .layout-hexad { 
-                grid-template-columns: 1fr 1fr 1fr;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 1px;
             }
         }
         /* 6 Cols */
-        @container (min-width: 4000px) {
+        @container phi-section (min-width: 4000px) {
             .layout-hexad { 
-                grid-template-columns: repeat(6, 1fr);
+                grid-template-columns: repeat(6, minmax(0, 1fr));
                 gap: 1px;
             }
         }
 
         /* --- MACRO 6: TETRA (4 Blocks 2x2) --- */
         /* Desktop: 1fr | 1fr */
-        @container (min-width: 1600px) {
+        @container phi-section (min-width: 1600px) {
             .layout-tetra {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 1px 0;
             }
         }
         /* Ultra Wide: 1fr | 1fr | 1fr | 1fr */
-        @container (min-width: 2800px) {
+        @container phi-section (min-width: 2800px) {
             .layout-tetra {
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-columns: repeat(4, minmax(0, 1fr));
             }
         }
       </style>
 
-      <section class="layout-${layout}">
-        <slot></slot>
-      </section>
+      <div class="wrapper">
+        <section class="layout-${layout}">
+            <slot></slot>
+        </section>
+      </div>
     `;
     }
 }

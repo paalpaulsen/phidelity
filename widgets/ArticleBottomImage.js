@@ -81,6 +81,22 @@ class PhiArticleBottomImage extends HTMLElement {
                     flex: 1 0 auto; 
                 }
 
+                /* RESPONSIVE TYPOGRAPHY */
+                @container article-columns (max-width: 961px) {
+                    .container {
+                        --scale-up: 1.309; 
+                        --type-h3: calc(var(--type-base) * var(--scale-up));
+                        --type-h2: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                        --type-h1-s: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                        --type-h1-m: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+                        --type-h1-l: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+                        --type-h1: var(--type-h1-m);
+                        --type-display-med: var(--type-h1-m);
+                        --type-display-lg: var(--type-h1-l);
+                        --type-summary-l: calc(var(--type-base) * var(--scale-up));
+                    }
+                }
+
                 /* Bottom Zone (Grid Layout) */
                 .bottom-zone {
                     display: grid;

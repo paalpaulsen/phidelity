@@ -63,7 +63,7 @@ class PhiArticleImageContent extends HTMLElement {
 
         const alt = this.getAttribute('alt') || 'Full width article image';
         const caption = this.getAttribute('caption') || '';
-        const credit = this.getAttribute('credit') || 'Photo: Source';
+        const credit = this.getAttribute('credit') || 'Photo: Phidelity';
 
         // Prepare logical images
         // If imageSet exists, we render multiple images and toggle them with CSS

@@ -94,6 +94,20 @@ class PhiArticleQuote extends HTMLElement {
                     text-align: center;
                 }
 
+                /* RESPONSIVE TYPOGRAPHY */
+                @container article-quote (max-width: 961px) {
+                    .container {
+                        --scale-up: 1.309; 
+                        --type-h3: calc(var(--type-base) * var(--scale-up));
+                        --type-h2: calc(var(--type-base) * var(--scale-up) * var(--scale-up));
+                        /* H1 not used in quote but updating for consistency */
+                        --type-h1: calc(var(--type-base) * Math.pow(var(--scale-up), 3)); 
+                        
+                        /* Fix for Display Size in Quote */
+                        --type-display-lg: calc(var(--type-base) * var(--scale-up) * var(--scale-up) * var(--scale-up) * var(--scale-up) * var(--scale-up));
+                    }
+                }
+
                 /* Huge Quote Mark */
                 .quote-mark {
                     font-family: var(--font-serif);

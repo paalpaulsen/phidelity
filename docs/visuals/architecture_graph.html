@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phidelity Architecture Diagram</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+        }
+
+        .mermaid {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Phidelity Architecture Overview</h1>
+    <div class="mermaid">
+        flowchart TD
+        %% Core Inputs
+        subgraph Core ["1. The Core Assets (Shared)"]
+        direction TB
+        DS[Designsystemet<br />(React Atoms)]
+        PHI[Phidelity<br />(Layout Engine)]
+        CMS[Sanity CMS<br />(Content)]
+        BRAND[Brand Guide<br />(CSS Tokens)]
+        end
+
+        %% The Head
+        subgraph Head ["2. The Head (Astro Renderer)"]
+        ASTRO{Astro Builder}
+        MIDDLEware[Middleware<br />(Auth/API)]
+        end
+
+        %% Deployment Paths
+        subgraph Deploy ["3. Deployment Paths"]
+        direction LR
+
+        %% External Path
+        subgraph Ext [External / Marketing]
+        SSG[Static Build (SSG)]
+        CDN[Azure Static Web Apps<br />(Global CDN)]
+        PUBLIC(Public Visitor)
+        end
+
+        %% Internal Path
+        subgraph Int [Internal / Dashboard]
+        SSR[Server Server (SSR)]
+        APP[Azure App Service<br />(Node.js)]
+        ENTRA[Entra ID<br />(Azure AD Auth)]
+        PRIVATE(Employee)
+        end
+        end
+
+        %% Connections
+        DS & PHI & CMS & BRAND --> ASTRO
+        ASTRO --> SSG
+        ASTRO --> MIDDLEware --> SSR
+
+        %% External Flow
+        SSG --> CDN --> PUBLIC
+
+        %% Internal Flow
+        SSR --> APP --> ENTRA --> PRIVATE
+    </div>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</body>
+
+</html>

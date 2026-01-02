@@ -84,6 +84,7 @@ class PhiArticleImageContent extends HTMLElement {
                 :host {
                     display: block;
                     width: 100%;
+                    align-self: start; /* Prevent stretching to row height */
                     font-family: var(--font-sans, 'Inter', sans-serif);
                     background: var(--mono-10);
                     container-type: inline-size;

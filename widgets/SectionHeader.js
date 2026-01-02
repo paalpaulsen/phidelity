@@ -119,19 +119,19 @@ class SectionHeader extends HTMLElement {
         @container header-box (min-width: 651px) and (max-width: 962px) {
           .content-wrapper { grid-template-columns: repeat(50, 1fr); }
           /* Recalc columns to match grid */
-          .text-container { grid-column: 7 / -7; }
+          .text-container { grid-column: 4 / -4; }
         }
 
         /* 74 Cols (963px - 1274px) */
         @container header-box (min-width: 963px) and (max-width: 1274px) {
           .content-wrapper { grid-template-columns: repeat(74, 1fr); }
-          .text-container { grid-column: 7 / -7; }
+          .text-container { grid-column: 5 / -5; }
         }
 
         /* 98 Cols (1275px - 1585px) */
         @container header-box (min-width: 1275px) and (max-width: 1585px) {
           .content-wrapper { grid-template-columns: repeat(98, 1fr); }
-          .text-container { grid-column: 7 / -7; }
+          .text-container { grid-column: 6 / -6; }
         }
 
         /* 122 Cols (1586px - 1897px) */

@@ -562,7 +562,7 @@ small {
     /* Container Query Context */
     container-type: inline-size;
     container-name: macro-zone;
-    content-visibility: auto;
+    /* content-visibility: auto; <-- REMOVED: Breaks anchor scrolling height calculation */
 }
 
 /* UTILITY: Dark Zone */

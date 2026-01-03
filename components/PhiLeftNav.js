@@ -25,6 +25,31 @@ class PhiLeftNav extends HTMLElement {
       });
     });
 
+    // Mobile Auto-Close Logic (Leaf Links Only)
+    const allLinks = this.shadowRoot.querySelectorAll('a');
+    allLinks.forEach(link => {
+      if (link.classList.contains('has-children')) return;
+      link.addEventListener('click', () => {
+        document.body.classList.remove('mobile-left-open');
+      });
+    });
+
+    // Backdrop Click Logic
+    document.addEventListener('click', (e) => {
+      if (!document.body.classList.contains('mobile-left-open')) return;
+
+      const path = e.composedPath();
+      const isInsideNav = path.includes(this);
+
+      // Check if we clicked the toggle button (to prevent immediate re-close)
+      // The toggle is outside this component (in PhiHeader)
+      const isToggle = path.some(el => el.id === 'btn-left' || (el.classList && el.classList.contains('nav-btn')));
+
+      if (!isInsideNav && !isToggle) {
+        document.body.classList.remove('mobile-left-open');
+      }
+    });
+
     // Color Links Logic
     const colorLinks = this.shadowRoot.querySelectorAll('.color-link');
     colorLinks.forEach(link => {
@@ -36,6 +61,7 @@ class PhiLeftNav extends HTMLElement {
           bubbles: true,
           composed: true
         }));
+        document.body.classList.remove('mobile-left-open');
       });
     });
   }

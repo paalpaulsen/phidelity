@@ -268,7 +268,6 @@ h3 {
     break-inside: avoid;
     -webkit-column-break-after: avoid;
     /* Safari/WebKit Legacy */
-    column-break-after: avoid;
     page-break-after: avoid;
     orphans: 3;
 }
@@ -277,7 +276,6 @@ h3 {
 h3+p {
     break-before: avoid;
     -webkit-column-break-before: avoid;
-    column-break-before: avoid;
 }
 
 /* LEAD / SUMMARY TEXT */

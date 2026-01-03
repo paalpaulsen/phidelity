@@ -24,6 +24,30 @@ class PhiRightNav extends HTMLElement {
         }
       });
     });
+
+    // Mobile Auto-Close Logic (Leaf Links Only)
+    const allLinks = this.shadowRoot.querySelectorAll('a');
+    allLinks.forEach(link => {
+      if (link.classList.contains('has-children')) return;
+      link.addEventListener('click', () => {
+        document.body.classList.remove('mobile-right-open');
+      });
+    });
+
+    // Backdrop Click Logic
+    document.addEventListener('click', (e) => {
+      if (!document.body.classList.contains('mobile-right-open')) return;
+
+      const path = e.composedPath();
+      const isInsideNav = path.includes(this);
+
+      // Check if we clicked the toggle button
+      const isToggle = path.some(el => el.id === 'btn-right' || (el.classList && el.classList.contains('nav-btn')));
+
+      if (!isInsideNav && !isToggle) {
+        document.body.classList.remove('mobile-right-open');
+      }
+    });
   }
 
   render() {

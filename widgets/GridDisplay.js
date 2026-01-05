@@ -79,6 +79,7 @@ class GridDisplay extends HTMLElement {
             font-weight: 700;
             opacity: 0.5;
             margin: 0;
+            white-space: nowrap;
         }
 
         .paragraph {

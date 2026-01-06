@@ -131,8 +131,12 @@ class GridDisplay extends HTMLElement {
           .col-index:nth-child(-n+13) { display: flex; }
           .col-index:nth-child(12), .col-index:nth-child(13) { background: var(--c-margin); color: var(--c-margin-text); font-weight: bold; }
           
-          .row.is-full { display: grid; }
+          .row.is-full, .row.is-half, .row.is-third, .row.is-fourth { display: grid; }
           .full { grid-column: 2 / 13; } /* 1 Col Margin */
+
+          .half1 { grid-column: 2 / 7; } .half2 { grid-column: 8 / 13; }
+          .third1 { grid-column: 2 / 5; } .third2 { grid-column: 6 / 9; } .third3 { grid-column: 10 / 13; }
+          .fourth1 { grid-column: 2 / 4; } .fourth2 { grid-column: 5 / 7; } .fourth3 { grid-column: 8 / 10; } .fourth4 { grid-column: 11 / 13; }
 
           .hud-item:nth-child(1) { grid-column: 2 / 13; margin-bottom: 1rem; }
           .hud-item:nth-child(2) { grid-column: 2 / 13; }

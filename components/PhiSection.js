@@ -43,7 +43,7 @@ class PhiSection extends HTMLElement {
           /* Critical Fix: Use minmax(0, 1fr) to force children to shrink */
           grid-template-columns: minmax(0, 1fr); 
           gap: 1px;
-          background: #3C3C3C; /* var(--c-border) */
+          background: var(--c-border, #3C3C3C);
         }
 
         /* Ensure slotted content participates in the grid */

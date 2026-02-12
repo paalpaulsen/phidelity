@@ -23,7 +23,7 @@ class PhiMain extends HTMLElement {
           display: flex;
           flex-direction: column;
           gap: 1px;
-          background: #3C3C3C; /* var(--c-border) */
+          background: var(--c-border, #3C3C3C);
           min-height: 100%;
         }
 

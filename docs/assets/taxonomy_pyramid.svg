@@ -1,0 +1,38 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  
+  <!-- Title -->
+  <text x="400" y="50" font-family="Helvetica, Arial, sans-serif" font-size="24" text-anchor="middle" font-weight="bold" fill="#333">Phidelity Taxonomy</text>
+
+  <!-- Level 3: Layouts (Top) -->
+  <g filter="url(#shadow)">
+    <path d="M400 100 L550 220 L250 220 Z" fill="#FFD700" stroke="#fff" stroke-width="2"/>
+    <text x="400" y="160" font-family="Helvetica, Arial, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">LAYOUTS</text>
+    <text x="400" y="185" font-family="Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#444">Canvas • Widgets • Templates</text>
+  </g>
+
+  <!-- Level 2: Components (Middle) -->
+  <g filter="url(#shadow)">
+    <path d="M230 230 L570 230 L650 380 L150 380 Z" fill="#E0E0E0" stroke="#fff" stroke-width="2"/>
+    <text x="400" y="290" font-family="Helvetica, Arial, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#333">COMPONENTS</text>
+    <text x="400" y="315" font-family="Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#555">Primitives • Composites • Modules</text>
+  </g>
+
+  <!-- Level 1: Tokens (Bottom) -->
+  <g filter="url(#shadow)">
+    <path d="M130 390 L670 390 L750 540 L50 540 Z" fill="#333333" stroke="#fff" stroke-width="2"/>
+    <text x="400" y="450" font-family="Helvetica, Arial, sans-serif" font-size="20" text-anchor="middle" font-weight="bold" fill="#fff">TOKENS</text>
+    <text x="400" y="475" font-family="Helvetica, Arial, sans-serif" font-size="14" text-anchor="middle" fill="#ccc">Brand • Physics</text>
+  </g>
+
+</svg>

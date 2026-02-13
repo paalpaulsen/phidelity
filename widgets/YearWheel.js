@@ -27,13 +27,16 @@ class PhiYearWheel extends HTMLElement {
                 }
 
                 // Render dots on the wheel
-                this.events = window.EVENTS_DATA; // Store locally
-                // Sort events chronologically
-                this.events.sort((a, b) => {
+                this.allEvents = window.EVENTS_DATA; // Source of truth
+                this.events = [...this.allEvents]; // Active filtered set
+                // Sort events chronologically (Source)
+                this.allEvents.sort((a, b) => {
                     const dateA = this.parseDate(a.startDate);
                     const dateB = this.parseDate(b.startDate);
                     return dateA - dateB;
                 });
+                // Sync active events
+                this.events = [...this.allEvents];
 
                 this.activeIndex = 0;
                 this.renderEventDots();
@@ -294,33 +297,22 @@ class PhiYearWheel extends HTMLElement {
     }
 
     applyFilters() {
-        if (!this.events) return;
+        if (!this.allEvents) return;
 
-        // If no filters selected, show ALL (default behavior)
-        // OR show NONE? User said "Checking a box will only show...". 
-        // Typically empty = all. If strictly "only show checked", then empty = none.
-        // Let's assume Empty = All for usability, unless user objects.
-        // Actually, user said "Checking a box will only show Events...". 
-        // If I uncheck all, it should probably revert to full view.
-
-        let filteredEvents = this.events;
+        // Reset to full list or filter
+        let filteredEvents = this.allEvents;
         if (this.selectedFilters.size > 0) {
-            filteredEvents = this.events.filter(e => this.selectedFilters.has(e.businessUnit));
+            filteredEvents = this.allEvents.filter(e => this.selectedFilters.has(e.businessUnit));
         }
 
-        // 1. Update List
-        const eventList = this.shadowRoot.getElementById('wheel-events');
-        if (eventList) {
-            eventList.setAttribute('items', JSON.stringify(filteredEvents));
-        }
+        this.events = filteredEvents;
+        this.activeIndex = 0; // Reset pagination when filter changes
 
-        // 2. Update Dots on Wheel
-        this.renderEventDots(filteredEvents);
+        // 1. Update List (This handles pagination slicing)
+        this.updateEventList();
 
-        // 3. Reset Needles/Active State if active event is filtered out
-        // For simplicity, just reset active index to 0 or null if current active is gone.
-        // Or keep it if present.
-        // For now, let's just re-render dots.
+        // 2. Update Dots on Wheel (Uses this.events)
+        this.renderEventDots();
     }
 
     updateEventList() {

@@ -108,41 +108,21 @@ class EventList extends HTMLElement {
             /* HEADER: Always Visible */
             .card-header {
                 display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 1rem;
+                flex-direction: column; /* Stack Date above Title */
+                gap: 0.25rem; /* Reduced space between Date and Title Row */
                 width: 100%;
             }
 
-            .header-left {
+            .header-top-row {
+                width: 100%;
+            }
+
+            .header-main-row {
                 display: flex;
-                flex-direction: column;
-                gap: 0.25rem;
-            }
-
-            .event-date {
-                font-size: 0.75rem;
-                color: var(--mono-05);
-                font-weight: 500;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
-                display: flex; 
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            .event-title {
-                margin: 0;
-                font-size: 1.125rem;
-                font-weight: 600;
-                line-height: 1.2;
-                color: var(--c-text);
-            }
-
-            .header-right {
-                display: flex;
-                align-items: center;
+                justify-content: space-between;
+                align-items: center; /* Align Title with Icons */
                 gap: 1rem;
+                width: 100%;
             }
 
             .event-size {
@@ -160,10 +140,33 @@ class EventList extends HTMLElement {
                 transform: rotate(180deg); /* Point up when expanded */
             }
 
+            .eyebrow {
+                font-family: var(--font-sans);
+                font-size: var(--type-micro);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-weight: 600;
+                line-height: 1.2;
+                color: var(--mono-05);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .event-title {
+                margin: 0;
+                font-family: var(--font-sans);
+                font-size: var(--type-base);
+                font-weight: 700;
+                line-height: 1.3;
+                letter-spacing: var(--tracking-heading);
+                color: var(--mono-02);
+            }
+
             /* BODY: Hidden when Collapsed */
             .card-body {
-                padding-top: 1rem;
-                margin-top: 1rem;
+                padding-top: 0.5rem;
+                margin-top: 0.5rem;
                 border-top: 1px solid var(--mono-09);
                 display: flex;
                 flex-direction: column;
@@ -180,7 +183,7 @@ class EventList extends HTMLElement {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 1rem;
-                font-size: 0.875rem;
+                font-size: var(--type-caption);
                 color: var(--mono-05);
                 align-items: center;
             }
@@ -190,16 +193,19 @@ class EventList extends HTMLElement {
                 border-radius: 4px;
                 background: var(--mono-09);
                 color: var(--mono-02);
+                font-family: var(--font-sans);
                 font-weight: 600;
-                font-size: 0.75rem;
+                font-size: var(--type-micro);
                 text-transform: uppercase;
                 letter-spacing: 0.05em;
             }
 
             .event-summary {
                 margin: 0;
-                font-size: 0.9375rem;
+                font-family: var(--font-sans);
+                font-size: var(--type-base);
                 line-height: 1.5;
+                font-weight: 300;
                 color: var(--mono-04);
             }
 
@@ -221,17 +227,19 @@ class EventList extends HTMLElement {
             // Time Formatting
             const startTime = item.startDate.split(' ')[1] || '';
             const endTime = item.endDate.split(' ')[1] || '';
-            const timeDisplay = startTime && endTime ? `${startTime} - ${endTime}` : startTime;
+            const timeDisplay = startTime && endTime ? `${startTime}&nbsp;-&nbsp;${endTime}` : startTime;
 
             return `
                     <div class="event-card ${collapsedClass}" 
                          style="border-left-color: ${sizeColor}"
                          onclick="this.classList.toggle('collapsed')">
                         
-                        <!-- HEADER: Date, Title, Size -->
+                        <!-- HEADER: Stacked Date and Title/Icons -->
                         <div class="card-header">
-                            <div class="header-left">
-                                <div class="event-date">
+                            
+                            <!-- Row 1: Date (Full Width) -->
+                            <div class="header-top-row">
+                                <div class="event-date eyebrow">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                                         <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -246,23 +254,30 @@ class EventList extends HTMLElement {
                                     </svg>
                                     ${timeDisplay}
                                 </div>
+                            </div>
+
+                            <!-- Row 2: Title and Icons (Flex) -->
+                            <div class="header-main-row">
                                 <h3 class="event-title">${item.title}</h3>
-                            </div>
-                            <div class="header-right">
-                                <div class="event-size" 
-                                     title="Size: ${item.size}" 
-                                     style="background-color: ${sizeColor};">
+                                
+                                <div class="header-right">
+                                    <div class="event-size" 
+                                         title="Size: ${item.size}" 
+                                         style="background-color: ${sizeColor};">
+                                    </div>
+                                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                    </svg>
                                 </div>
-                                <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="18 15 12 9 6 15"></polyline>
-                                </svg>
                             </div>
+
                         </div>
 
                         <!-- BODY: Summary, End Date, BU (Hidden in Collapsed) -->
                         <div class="card-body" onclick="event.stopPropagation();">
                             
                             <p class="event-summary">${item.summary}</p>
+                            
                             
                             <div class="meta-row">
                                 <span class="bu-tag" style="color: ${buColor}; background: color-mix(in srgb, ${buColor} 10%, transparent);">

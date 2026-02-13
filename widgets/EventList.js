@@ -26,15 +26,9 @@ class EventList extends HTMLElement {
         this.render();
     }
 
-    // Helper to format Business Unit styles
+    // Helper to format Business Unit styles (Deprecated: All use uniform grey now)
     getBuColor(bu) {
-        const map = {
-            'X-BU': 'var(--accent-warm)',
-            'APPS': 'var(--accent-cold)',
-            'DPS': 'var(--accent-nexus)',
-            'Advisory': 'var(--mono-06)'
-        };
-        return map[bu] || 'var(--mono-06)';
+        return 'var(--mono-06)';
     }
 
     // Helper: Get Color by Event Size (Sopra Steria Palette)
@@ -186,13 +180,14 @@ class EventList extends HTMLElement {
                 font-size: var(--type-caption);
                 color: var(--mono-05);
                 align-items: center;
+                justify-content: flex-end; /* Right align content */
             }
 
             .bu-tag {
                 padding: 0.25rem 0.5rem;
                 border-radius: 4px;
-                background: var(--mono-09);
-                color: var(--mono-02);
+                background: var(--mono-09); /* Grey background */
+                color: var(--mono-05);      /* Grey text */
                 font-family: var(--font-sans);
                 font-weight: 600;
                 font-size: var(--type-micro);
@@ -280,7 +275,7 @@ class EventList extends HTMLElement {
                             
                             
                             <div class="meta-row">
-                                <span class="bu-tag" style="color: ${buColor}; background: color-mix(in srgb, ${buColor} 10%, transparent);">
+                                <span class="bu-tag">
                                     ${item.businessUnit}
                                 </span>
                                 <!-- End Date Removed per request -->

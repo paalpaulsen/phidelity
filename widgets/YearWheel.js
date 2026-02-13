@@ -423,7 +423,7 @@ class PhiYearWheel extends HTMLElement {
                             padding-right: 2rem;
                         }
                         .wheel-wrapper, .event-list {
-                            margin-bottom: 2rem;
+                            margin-bottom: 0; /* Reduced from 2rem to remove excess space below wheel */
                         }
                      `;
                 }
@@ -493,7 +493,7 @@ class PhiYearWheel extends HTMLElement {
 
                 /* Margins between the main sections */
                 .title-container { margin-bottom: 0; }
-                .filter-container { margin-bottom: 2rem; }
+                .filter-container { margin-bottom: 1rem; } /* Reduced from 2rem */
                 .content-container { margin-bottom: 4rem; }
 
                 /* Element Styling */
@@ -502,6 +502,7 @@ class PhiYearWheel extends HTMLElement {
                     font-size: 3rem;
                     margin: 2rem 0 1rem 0;
                     color: var(--mono-01);
+                    font-weight: var(--heading-weight, 400);
                 }
 
                 .filter-content {

@@ -77,6 +77,7 @@ class EventList extends HTMLElement {
                 gap: 1rem;
                 transition: all 0.2s ease-in-out;
                 border-left: 4px solid var(--mono-08);
+                border-radius: 4px; /* User requested 4px rounded corners */
                 cursor: pointer;
                 position: relative;
             }

@@ -228,7 +228,8 @@ class PhiYearWheel extends HTMLElement {
             // Label Position (Center of Slice, slightly inwards)
             const labelAngle = startAngle + (anglePerMonth / 2);
             const labelRad = (labelAngle - 90) * (Math.PI / 180);
-            const labelR = 110; // Outside radius
+            let labelR = 110; // Outside radius
+            if (month === 'MAR') labelR = 114; // Adjust MAR separation per user request
 
             const lx = center.x + labelR * Math.cos(labelRad);
             const ly = center.y + labelR * Math.sin(labelRad);

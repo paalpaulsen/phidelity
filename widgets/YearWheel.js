@@ -10,6 +10,9 @@ class PhiYearWheel extends HTMLElement {
     async connectedCallback() { // Made async just in case
         this.render();
 
+        // Render Month Slices (Dynamic)
+        this.renderMonthSlices();
+
         // Initialize Grid CSS
         this.generateGridCSS();
 
@@ -176,6 +179,72 @@ class PhiYearWheel extends HTMLElement {
             circle.appendChild(title);
 
             dotsGroup.appendChild(circle);
+        });
+    }
+
+    renderMonthSlices() {
+        const slicesGroup = this.shadowRoot.getElementById('slices');
+        const labelsGroup = this.shadowRoot.getElementById('month-labels');
+        if (!slicesGroup || !labelsGroup) return;
+
+        slicesGroup.innerHTML = '';
+        labelsGroup.innerHTML = '';
+
+        const center = { x: 100, y: 100 };
+        const radius = 100;
+        const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+        const anglePerMonth = 360 / 12;
+
+        months.forEach((month, index) => {
+            // Calculate start and end angles (clockwise, starting from top 0)
+            const startAngle = index * anglePerMonth;
+            const endAngle = (index + 1) * anglePerMonth;
+
+            // Convert to radians (subtract 90 to align with top)
+            const startRad = (startAngle - 90) * (Math.PI / 180);
+            const endRad = (endAngle - 90) * (Math.PI / 180);
+
+            const x1 = center.x + radius * Math.cos(startRad);
+            const y1 = center.y + radius * Math.sin(startRad);
+            const x2 = center.x + radius * Math.cos(endRad);
+            const y2 = center.y + radius * Math.sin(endRad);
+
+            // Path definition
+            const d = `
+                M ${center.x} ${center.y}
+                L ${x1} ${y1}
+                A ${radius} ${radius} 0 0 1 ${x2} ${y2}
+                Z
+            `;
+
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", d);
+            path.classList.add("slice");
+            path.setAttribute("fill", "var(--mono-10)");
+            path.setAttribute("stroke", "var(--mono-05)");
+            path.setAttribute("stroke-width", "1");
+            slicesGroup.appendChild(path);
+
+            // Label Position (Center of Slice, slightly inwards)
+            const labelAngle = startAngle + (anglePerMonth / 2);
+            const labelRad = (labelAngle - 90) * (Math.PI / 180);
+            const labelR = 110; // Outside radius
+
+            const lx = center.x + labelR * Math.cos(labelRad);
+            const ly = center.y + labelR * Math.sin(labelRad);
+
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", lx);
+            text.setAttribute("y", ly);
+            text.setAttribute("text-anchor", "middle");
+            text.setAttribute("dominant-baseline", "middle");
+            text.style.fontFamily = "var(--font-sans)";
+            text.style.fontSize = "8px";
+            text.style.fontWeight = "600";
+            text.style.fill = "var(--mono-04)";
+            text.textContent = month;
+
+            labelsGroup.appendChild(text);
         });
     }
 
@@ -398,6 +467,8 @@ class PhiYearWheel extends HTMLElement {
                 :host {
                     display: block;
                     width: 100%;
+                    height: auto; /* explicit auto */
+                    min-height: 0;
                     /* Main outer container */
                     container-type: inline-size; 
                 }
@@ -444,10 +515,11 @@ class PhiYearWheel extends HTMLElement {
                     background: transparent;
                     border: none;
                     border-top: 1px solid var(--mono-06);
-                    padding: 1rem;
+                    padding: 1rem 1rem 1rem 0; /* Left padding 0 to align with H1 */
                     display: flex;
                     gap: 0.5rem; /* Reduced gap given more items */
                     align-items: center;
+                    justify-content: flex-start; /* Explicit left alignment */
                     width: 100%;
                     box-sizing: border-box;
                 }
@@ -595,10 +667,7 @@ class PhiYearWheel extends HTMLElement {
                 <!-- 2. Filter Container -->
                 <div class="phi-container filter-container">
                     <div class="filter-content">
-                        <!-- Filter Icon -->
-                        <svg class="nav-icon" style="width: 20px; height: 20px; margin-right: 0.5rem; flex-shrink: 0;" viewBox="0 0 24 24">
-                            <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
-                        </svg>
+                        <!-- Filter Icon removed per user request -->
                         <button class="filter-btn" id="filter-xbu" onclick="this.getRootNode().host.toggleFilter('X-BU')">
                             <div class="filter-checkbox"></div>
                             X&nbsp;-BU
@@ -624,60 +693,12 @@ class PhiYearWheel extends HTMLElement {
                     <div class="wrapper-col">
                         <div class="phi-container wheel-wrapper">
                              <!-- Content inside aligns to THIS container's grid -->
-                            <svg viewBox="-5 -5 210 210" xmlns="http://www.w3.org/2000/svg">
+                            <svg viewBox="-20 -20 240 240" xmlns="http://www.w3.org/2000/svg">
                                 <g id="slices">
-                                    <path d="M 100 100 L 100.0 0.0 A 100 100 0 0 1 112.0536680255323 0.7291125901946032 Z" class="slice" id="slice-0" />
-                                    <path d="M 100 100 L 112.0536680255323 0.7291125901946032 A 100 100 0 0 1 123.93156642875576 2.905818257394799 Z" class="slice" id="slice-1" />
-                                    <path d="M 100 100 L 123.93156642875576 2.905818257394799 A 100 100 0 0 1 135.46048870425358 6.498375731458523 Z" class="slice" id="slice-2" />
-                                    <path d="M 100 100 L 135.46048870425358 6.498375731458523 A 100 100 0 0 1 146.47231720437685 11.454397434679024 Z" class="slice" id="slice-3" />
-                                    <path d="M 100 100 L 146.47231720437685 11.454397434679024 A 100 100 0 0 1 156.8064746731156 17.701613410634366 Z" class="slice" id="slice-4" />
-                                    <path d="M 100 100 L 156.8064746731156 17.701613410634366 A 100 100 0 0 1 166.31226582407953 25.148925182889897 Z" class="slice" id="slice-5" />
-                                    <path d="M 100 100 L 166.31226582407953 25.148925182889897 A 100 100 0 0 1 174.85107481711012 33.68773417592048 Z" class="slice" id="slice-6" />
-                                    <path d="M 100 100 L 174.85107481711012 33.68773417592048 A 100 100 0 0 1 182.29838658936563 43.193525326884426 Z" class="slice" id="slice-7" />
-                                    <path d="M 100 100 L 182.29838658936563 43.193525326884426 A 100 100 0 0 1 188.545602565321 53.52768279562314 Z" class="slice" id="slice-8" />
-                                    <path d="M 100 100 L 188.545602565321 53.52768279562314 A 100 100 0 0 1 193.5016242685415 64.53951129574642 Z" class="slice" id="slice-9" />
-                                    <path d="M 100 100 L 193.5016242685415 64.53951129574642 A 100 100 0 0 1 197.0941817426052 76.06843357124424 Z" class="slice" id="slice-10" />
-                                    <path d="M 100 100 L 197.0941817426052 76.06843357124424 A 100 100 0 0 1 199.2708874098054 87.9463319744677 Z" class="slice" id="slice-11" />
-                                    <path d="M 100 100 L 199.2708874098054 87.9463319744677 A 100 100 0 0 1 200.0 100.0 Z" class="slice" id="slice-12" />
-                                    <path d="M 100 100 L 200.0 100.0 A 100 100 0 0 1 199.2708874098054 112.05366802553232 Z" class="slice" id="slice-13" />
-                                    <path d="M 100 100 L 199.2708874098054 112.05366802553232 A 100 100 0 0 1 197.0941817426052 123.93156642875579 Z" class="slice" id="slice-14" />
-                                    <path d="M 100 100 L 197.0941817426052 123.93156642875579 A 100 100 0 0 1 193.5016242685415 135.46048870425358 Z" class="slice" id="slice-15" />
-                                    <path d="M 100 100 L 193.5016242685415 135.46048870425358 A 100 100 0 0 1 188.545602565321 146.47231720437685 Z" class="slice" id="slice-16" />
-                                    <path d="M 100 100 L 188.545602565321 146.47231720437685 A 100 100 0 0 1 182.29838658936563 156.8064746731156 Z" class="slice" id="slice-17" />
-                                    <path d="M 100 100 L 182.29838658936563 156.8064746731156 A 100 100 0 0 1 174.8510748171101 166.31226582407953 Z" class="slice" id="slice-18" />
-                                    <path d="M 100 100 L 174.8510748171101 166.31226582407953 A 100 100 0 0 1 166.31226582407953 174.8510748171101 Z" class="slice" id="slice-19" />
-                                    <path d="M 100 100 L 166.31226582407953 174.8510748171101 A 100 100 0 0 1 156.8064746731156 182.29838658936563 Z" class="slice" id="slice-20" />
-                                    <path d="M 100 100 L 156.8064746731156 182.29838658936563 A 100 100 0 0 1 146.47231720437685 188.545602565321 Z" class="slice" id="slice-21" />
-                                    <path d="M 100 100 L 146.47231720437685 188.545602565321 A 100 100 0 0 1 135.46048870425358 193.5016242685415 Z" class="slice" id="slice-22" />
-                                    <path d="M 100 100 L 135.46048870425358 193.5016242685415 A 100 100 0 0 1 123.93156642875576 197.0941817426052 Z" class="slice" id="slice-23" />
-                                    <path d="M 100 100 L 123.93156642875576 197.0941817426052 A 100 100 0 0 1 112.05366802553228 199.2708874098054 Z" class="slice" id="slice-24" />
-                                    <path d="M 100 100 L 112.05366802553228 199.2708874098054 A 100 100 0 0 1 100.0 200.0 Z" class="slice" id="slice-25" />
-                                    <path d="M 100 100 L 100.0 200.0 A 100 100 0 0 1 87.94633197446768 199.2708874098054 Z" class="slice" id="slice-26" />
-                                    <path d="M 100 100 L 87.94633197446768 199.2708874098054 A 100 100 0 0 1 76.06843357124419 197.0941817426052 Z" class="slice" id="slice-27" />
-                                    <path d="M 100 100 L 76.06843357124419 197.0941817426052 A 100 100 0 0 1 64.53951129574642 193.5016242685415 Z" class="slice" id="slice-28" />
-                                    <path d="M 100 100 L 64.53951129574642 193.5016242685415 A 100 100 0 0 1 53.52768279562311 188.54560256532096 Z" class="slice" id="slice-29" />
-                                    <path d="M 100 100 L 53.52768279562311 188.54560256532096 A 100 100 0 0 1 43.193525326884426 182.29838658936563 Z" class="slice" id="slice-30" />
-                                    <path d="M 100 100 L 43.193525326884426 182.29838658936563 A 100 100 0 0 1 33.687734175920454 174.8510748171101 Z" class="slice" id="slice-31" />
-                                    <path d="M 100 100 L 33.687734175920454 174.8510748171101 A 100 100 0 0 1 25.148925182889855 166.31226582407947 Z" class="slice" id="slice-32" />
-                                    <path d="M 100 100 L 25.148925182889855 166.31226582407947 A 100 100 0 0 1 17.701613410634366 156.8064746731156 Z" class="slice" id="slice-33" />
-                                    <path d="M 100 100 L 17.701613410634366 156.8064746731156 A 100 100 0 0 1 11.454397434678995 146.47231720437682 Z" class="slice" id="slice-34" />
-                                    <path d="M 100 100 L 11.454397434678995 146.47231720437682 A 100 100 0 0 1 6.498375731458523 135.46048870425358 Z" class="slice" id="slice-35" />
-                                    <path d="M 100 100 L 6.498375731458523 135.46048870425358 A 100 100 0 0 1 2.9058182573947846 123.93156642875573 Z" class="slice" id="slice-36" />
-                                    <path d="M 100 100 L 2.9058182573947846 123.93156642875573 A 100 100 0 0 1 0.729112590194589 112.05366802553226 Z" class="slice" id="slice-37" />
-                                    <path d="M 100 100 L 0.729112590194589 112.05366802553226 A 100 100 0 0 1 0.0 100.00000000000001 Z" class="slice" id="slice-38" />
-                                    <path d="M 100 100 L 0.0 100.00000000000001 A 100 100 0 0 1 0.7291125901946032 87.94633197446771 Z" class="slice" id="slice-39" />
-                                    <path d="M 100 100 L 0.7291125901946032 87.94633197446771 A 100 100 0 0 1 2.905818257394799 76.06843357124421 Z" class="slice" id="slice-40" />
-                                    <path d="M 100 100 L 2.905818257394799 76.06843357124421 A 100 100 0 0 1 6.498375731458523 64.53951129574644 Z" class="slice" id="slice-41" />
-                                    <path d="M 100 100 L 6.498375731458523 64.53951129574644 A 100 100 0 0 1 11.45439743467901 53.52768279562316 Z" class="slice" id="slice-42" />
-                                    <path d="M 100 100 L 11.45439743467901 53.52768279562316 A 100 100 0 0 1 17.70161341063438 43.1935253268844 Z" class="slice" id="slice-43" />
-                                    <path d="M 100 100 L 17.70161341063438 43.1935253268844 A 100 100 0 0 1 25.148925182889897 33.68773417592047 Z" class="slice" id="slice-44" />
-                                    <path d="M 100 100 L 25.148925182889897 33.68773417592047 A 100 100 0 0 1 33.687734175920454 25.148925182889926 Z" class="slice" id="slice-45" />
-                                    <path d="M 100 100 L 33.687734175920454 25.148925182889926 A 100 100 0 0 1 43.19352532688448 17.70161341063431 Z" class="slice" id="slice-46" />
-                                    <path d="M 100 100 L 43.19352532688448 17.70161341063431 A 100 100 0 0 1 53.527682795623164 11.454397434678995 Z" class="slice" id="slice-47" />
-                                    <path d="M 100 100 L 53.527682795623164 11.454397434678995 A 100 100 0 0 1 64.53951129574641 6.498375731458523 Z" class="slice" id="slice-48" />
-                                    <path d="M 100 100 L 64.53951129574641 6.498375731458523 A 100 100 0 0 1 76.06843357124431 2.9058182573947704 Z" class="slice" id="slice-49" />
-                                    <path d="M 100 100 L 76.06843357124431 2.9058182573947704 A 100 100 0 0 1 87.94633197446774 0.729112590194589 Z" class="slice" id="slice-50" />
-                                    <path d="M 100 100 L 87.94633197446774 0.729112590194589 A 100 100 0 0 1 99.99999999999999 0.0 Z" class="slice" id="slice-51" />
+                                    <!-- Slices will be generated by JS -->
+                                </g>
+                                <g id="month-labels">
+                                    <!-- Labels will be generated by JS -->
                                 </g>
                                 <g id="quarters">
                                     <path d="M 100 100 L 100 60 A 40 40 0 0 1 140 100 Z" class="quarter" id="q1" />

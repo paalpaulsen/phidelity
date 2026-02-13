@@ -146,16 +146,11 @@ class EventList extends HTMLElement {
             }
 
             .event-size {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                width: 32px;
-                height: 32px;
+                display: inline-block;
+                width: 16px; 
+                height: 16px;
                 border-radius: 50%;
-                background: var(--mono-09);
-                color: var(--mono-04);
-                font-size: 0.75rem;
-                font-weight: 700;
+                /* background set inline */
                 flex-shrink: 0;
             }
 
@@ -254,8 +249,9 @@ class EventList extends HTMLElement {
                                 <h3 class="event-title">${item.title}</h3>
                             </div>
                             <div class="header-right">
-                                <div class="event-size" title="Size: ${item.size}">
-                                    ${this.getSizeIcon(item.size)}
+                                <div class="event-size" 
+                                     title="Size: ${item.size}" 
+                                     style="background-color: ${sizeColor};">
                                 </div>
                                 <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polyline points="18 15 12 9 6 15"></polyline>

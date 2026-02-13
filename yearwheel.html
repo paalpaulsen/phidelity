@@ -42,13 +42,28 @@
     </style>
 </head>
 
-<body style="background-color: #F8F8F8; --c-border: #F8F8F8; --c-zone-bg: transparent;">
+<body
+    style="background-color: #F8F8F8; --c-border: #F8F8F8; --c-zone-bg: transparent; display: flex; flex-direction: column; min-height: 100vh;">
 
     <!-- HEADER -->
     <!-- HEADER -->
     <phi-header-white></phi-header-white>
 
-    <div class="shell-body" style="grid-template-columns: 1fr; height: auto; min-height: calc(100vh - 120px);">
+    <style>
+        /* FORCE COMPACT LAYOUT */
+        .shell-body,
+        phi-main,
+        phi-section,
+        .zone,
+        phi-year-wheel {
+            height: auto !important;
+            min-height: 0 !important;
+            flex: 0 0 auto !important;
+            margin-bottom: 0 !important;
+            display: block !important;
+        }
+    </style>
+    <div class="shell-body" style="grid-template-columns: 1fr; height: auto; flex: 0 0 auto;">
 
         <!-- MAIN CONTENT -->
         <phi-main>
@@ -69,6 +84,8 @@
         <p style="margin: 0; font-size: var(--type-micro); letter-spacing: 0.1em; font-weight: 700;">&copy; 2026 SOPRA
             STERIA</p>
     </footer>
+    <!-- Void Spacer -->
+    <div style="flex-grow: 1; background-color: var(--mono-02);"></div>
 
     <!-- Widgets -->
     <script src="widgets/GridDisplay.js"></script>

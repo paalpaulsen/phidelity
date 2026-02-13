@@ -1,6 +1,6 @@
 window.EVENTS_DATA = [
     // JANUARY
-    { title: "Q1 Planning Kickoff", startDate: "15/01/2026 09:00", endDate: "16/01/2026 16:00", size: "M", businessUnit: "Advisory", summary: "Initial planning session for Q1 objectives and key results." },
+    { title: "Q1 Planning Kickoff", startDate: "15/01/2026 09:00", endDate: "16/01/2026 16:00", size: "M", businessUnit: "Advisory", summary: "Initial planning session for Q1 objectives and key results.", link: "https://www.soprasteria.no", linkText: "View Agenda" },
     { title: "React Native Workshop", startDate: "20/01/2026 10:00", endDate: "20/01/2026 15:00", size: "S", businessUnit: "APPS", summary: "Hands-on session for mobile developers transitioning to React Native." },
     { title: "Client Strategy Session", startDate: "28/01/2026 09:00", endDate: "28/01/2026 17:00", size: "L", businessUnit: "X-BU", summary: "Full-day workshop with key stakeholders to define 2026 roadmap." },
     { title: "Data Privacy Training", startDate: "30/01/2026 13:00", endDate: "30/01/2026 15:00", size: "S", businessUnit: "DPS", summary: "Mandatory GDPR and data handling refresher." },
@@ -14,7 +14,7 @@ window.EVENTS_DATA = [
     // MARCH
     { title: "Agile Coaching", startDate: "02/03/2026 09:00", endDate: "02/03/2026 17:00", size: "M", businessUnit: "Advisory", summary: "Advanced Scrum Master training for team leads." },
     { title: "Spring Town Hall", startDate: "10/03/2026 10:00", endDate: "10/03/2026 12:00", size: "L", businessUnit: "X-BU", summary: "Company-wide updates and Q&A with leadership." },
-    { title: "Annual Developer Summit", startDate: "15/03/2026 09:00", endDate: "18/03/2026 17:00", size: "XL", businessUnit: "APPS", summary: "Three days of intensive workshops, keynotes, and networking with the global engineering team." },
+    { title: "Annual Developer Summit", startDate: "15/03/2026 09:00", endDate: "18/03/2026 17:00", size: "XL", businessUnit: "APPS", summary: "Three days of intensive workshops, keynotes, and networking with the global engineering team.", link: "#", linkText: "Register Now" },
     { title: "Security Best Practices", startDate: "25/03/2026 13:00", endDate: "25/03/2026 14:30", size: "S", businessUnit: "DPS", summary: "Review of new security protocols and tools." },
     { title: "Q1 Retrospective", startDate: "30/03/2026 14:00", endDate: "30/03/2026 16:00", size: "L", businessUnit: "Advisory", summary: "Reviewing Q1 performance and lessons learned." },
 
@@ -28,7 +28,7 @@ window.EVENTS_DATA = [
     { title: "Marketing Workshop", startDate: "02/05/2026 10:00", endDate: "02/05/2026 12:00", size: "S", businessUnit: "Advisory", summary: "Aligning on messaging for upcoming product launches." },
     { title: "Tech Debt Sprint", startDate: "12/05/2026 09:00", endDate: "15/05/2026 17:00", size: "M", businessUnit: "APPS", summary: "Dedicated week to refactoring and clearing technical debt." },
     { title: "Q2 Marketing Sync", startDate: "22/05/2026 09:30", endDate: "23/05/2026 14:00", size: "L", businessUnit: "Advisory", summary: "Alignment on Q2 marketing campaigns and product launches." },
-    { title: "Accessibility Audit", startDate: "28/05/2026 09:00", endDate: "29/05/2026 17:00", size: "XL", businessUnit: "DPS", summary: "Comprehensive audit of all client-facing applications for WCAG compliance." },
+    { title: "Accessibility Audit", startDate: "28/05/2026 09:00", endDate: "29/05/2026 17:00", size: "XL", businessUnit: "DPS", summary: "Comprehensive audit of all client-facing applications for WCAG compliance.", link: "#", linkText: "Download Report" },
 
     // JUNE
     { title: "Summer Party Planning", startDate: "05/06/2026 15:00", endDate: "05/06/2026 16:00", size: "S", businessUnit: "X-BU", summary: "Organizing committee meeting for the annual summer event." },

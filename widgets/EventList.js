@@ -204,6 +204,32 @@ class EventList extends HTMLElement {
                 color: var(--mono-04);
             }
 
+            /* LINK BUTTON */
+            .event-link-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem; /* Space between text and icon */
+                background-color: var(--mono-02);
+                color: var(--mono-10);
+                padding: 0.75rem 1.5rem;
+                border-radius: 4px; /* Standard button radius */
+                text-decoration: none;
+                font-family: var(--font-sans);
+                font-size: var(--type-base);
+                font-weight: 600;
+                margin-top: 0.5rem; /* Space below summary */
+                align-self: flex-start; /* Left align */
+                transition: all 0.2s ease;
+                border: 1px solid var(--mono-02);
+            }
+
+            .event-link-btn:hover {
+                background-color: var(--mono-10);
+                color: var(--mono-02);
+                border-color: var(--mono-02);
+            }
+            
             /* RESPONSIVE LAYOUTS */
             /* Force Single Column Stack to fill width */
             .event-grid { grid-template-columns: 1fr; }
@@ -273,6 +299,17 @@ class EventList extends HTMLElement {
                             
                             <p class="event-summary">${item.summary}</p>
                             
+                            <!-- LINK BUTTON (If exists) -->
+                            ${item.link ? `
+                                <a href="${item.link}" target="_blank" class="event-link-btn">
+                                    ${item.linkText || 'Read More'}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            ` : ''}
                             
                             <div class="meta-row">
                                 <span class="bu-tag">

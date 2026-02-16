@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Editor - Sopra Steria</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Design System (Designsystemet) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@digdir/designsystemet-css@latest/dist/index.css">
+
+    <!-- Phidelity Macro CSS -->
+    <link rel="stylesheet" href="css/macro.css">
+
+    <!-- Data -->
+    <script src="data/event_data.js"></script>
+
+    <!-- Widgets -->
+    <script src="widgets/EventEditor.js" defer></script>
+    <script src="components/PhiHeaderWhite.js"></script>
+
+    <style>
+        /* FIX: Allow sticky positioning to work by removing overflow clipping on shell */
+        .shell-body {
+            overflow: visible !important;
+        }
+
+        html,
+        body {
+            max-width: 1378px !important;
+            min-width: 338px !important;
+            margin: 0 auto !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #F8F8F8;
+        }
+
+        /* OVERRIDE: Use Inter for H1 on this page only */
+        phi-event-editor {
+            --font-serif: 'Inter', sans-serif;
+            --heading-weight: 600;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body style="background-color: #F8F8F8; --c-border: #F8F8F8; --c-zone-bg: transparent;">
+
+    <!-- HEADER -->
+    <phi-header-white></phi-header-white>
+
+    <div class="main-content">
+        <!-- The Widget -->
+        <phi-event-editor></phi-event-editor>
+    </div>
+
+    <!-- CUSTOM FOOTER: Sopra Steria -->
+    <footer
+        style="background-color: var(--mono-02); color: var(--mono-10); padding: 2rem; text-align: center; font-family: var(--font-sans); border-top: 1px solid var(--mono-03);">
+        <p style="margin: 0; font-size: var(--type-micro); letter-spacing: 0.1em; font-weight: 700;">&copy; 2026 SOPRA
+            STERIA</p>
+    </footer>
+
+</body>
+
+</html>

@@ -126,13 +126,7 @@ class PhiEventEditor extends HTMLElement {
         this.render();
     }
 
-    exportData() {
-        const dataStr = "window.EVENTS_DATA = " + JSON.stringify(this.state.items, null, 4) + ";";
-        navigator.clipboard.writeText(dataStr).then(() => {
-            alert('Data copied to clipboard! Replace content of data/event_data.js');
-        });
-        console.log(dataStr);
-    }
+
 
     updateTempItem(field, value) {
         this.state.tempItem[field] = value;
@@ -503,7 +497,6 @@ class PhiEventEditor extends HTMLElement {
                     <small>Manage your Year Wheel events</small>
                 </div>
                 <div style="display:flex; gap:0.5rem;">
-                    <button id="export-btn" type="button" class="btn btn-secondary btn-sm">Copy JSON</button>
                     <button id="add-btn" type="button" class="btn btn-primary btn-sm">+ Add New</button>
                 </div>
             </div>
@@ -649,10 +642,7 @@ class PhiEventEditor extends HTMLElement {
     bindMainEvents() {
         if (this.state.view === 'list') {
             const addBtn = this.shadowRoot.getElementById('add-btn');
-            const exportBtn = this.shadowRoot.getElementById('export-btn');
-
             if (addBtn) addBtn.addEventListener('click', () => this.addNew());
-            if (exportBtn) exportBtn.addEventListener('click', () => this.exportData());
 
             // Filter bindings
             const searchInput = this.shadowRoot.getElementById('filter-search');

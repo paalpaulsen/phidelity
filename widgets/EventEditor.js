@@ -188,7 +188,218 @@ class PhiEventEditor extends HTMLElement {
             });
     }
 
+    // --- IMPORT ---
 
+    importFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const data = new Uint8Array(e.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+
+            // Assume first sheet
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+
+            // Get data as array of arrays (AOA) to detect structure
+            const aoa = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' });
+
+            if (!aoa || aoa.length === 0) {
+                alert('File appears to be empty.');
+                return;
+            }
+
+            let newItems = [];
+
+            // Heuristic detection: Check row 2 (index 1) or 3 for Month names "JANUAR", "FEBRUAR"
+            // The user's CSV starts with ~RSHJUL 2026, then empty, then Category, JANUAR...
+            // Let's scan first 5 rows for a line containing "JANUAR"
+            let matrixHeaderRowIndex = -1;
+            for (let i = 0; i < Math.min(aoa.length, 5); i++) {
+                const rowStr = aoa[i].join(' ').toUpperCase();
+                if (rowStr.includes('JANUAR') && rowStr.includes('FEBRUAR')) {
+                    matrixHeaderRowIndex = i;
+                    break;
+                }
+            }
+
+            if (matrixHeaderRowIndex !== -1) {
+                console.log('Detected Matrix Format (Year Wheel)');
+                newItems = this.parseMatrixData(aoa, matrixHeaderRowIndex);
+            } else {
+                console.log('Detected List Format (Standard)');
+                // Re-parse as objects for list
+                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                newItems = this.parseListData(jsonData);
+            }
+
+            if (newItems.length > 0) {
+                if (confirm(`Found ${newItems.length} events. Append them to your existing list?`)) {
+                    this.state.items = [...this.state.items, ...newItems];
+                    this.saveItem(); // Trigger save and re-render
+                    alert('Import successful!');
+                }
+            } else {
+                alert('No valid events could be parsed from the file.');
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    parseListData(data) {
+        // Expects objects with keys like title, startDate, etc.
+        // Or maps common alternatives: 'Date'->'startDate', 'Subject'->'title'
+        return data.map(row => {
+            // Basic mapping
+            const title = row.Title || row.title || row.Subject || 'Untitled Event';
+            let startDate = row.StartDate || row.startDate || row.Date || row.date;
+
+            // If date is Excel serial number, convert it? SheetJS usually handles this if raw:false
+            // Assuming string dates for now or SheetJS default
+
+            if (!startDate) {
+                startDate = new Date().toISOString().split('T')[0];
+            }
+
+            return {
+                title: title,
+                startDate: startDate, // Needs to be normalized to DD/MM/YYYY HH:mm ideally
+                endDate: row.EndDate || row.endDate || startDate,
+                summary: row.Summary || row.summary || row.Description || '',
+                businessUnit: row.BusinessUnit || row.businessUnit || 'X-BU',
+                size: row.Size || row.size || 'M',
+                link: row.Link || row.link || '',
+                linkText: row.LinkText || row.linkText || '',
+                hidden: false
+            };
+        });
+    }
+
+    parseMatrixData(aoa, headerIndex) {
+        // User format:
+        // Row 0: Year (approx)
+        // Row headerIndex: Kategori, JANUAR, ...
+        // Rows below: CategoryName, "16/1 - Event Title", ...
+
+        const events = [];
+        const yearRow = aoa[0] ? aoa[0].join('') : '';
+        // Try to find year "2026" in first row
+        const yearMatch = yearRow.match(/20\d\d/);
+        const defaultYear = yearMatch ? yearMatch[0] : new Date().getFullYear().toString();
+
+        const monthMap = {
+            'JANUAR': 0, 'FEBRUAR': 1, 'MARS': 2, 'APRIL': 3, 'MAI': 4, 'JUNI': 5,
+            'JULI': 6, 'AUGUST': 7, 'SEPTEMBER': 8, 'OKTOBER': 9, 'NOVEMBER': 10, 'DESEMBER': 11
+        };
+
+        const headerRow = aoa[headerIndex];
+        const monthCols = {}; // colIndex -> monthIndex (0-11)
+
+        // Map columns to months
+        headerRow.forEach((cell, idx) => {
+            if (typeof cell === 'string') {
+                const upper = cell.toUpperCase().trim();
+                for (const [name, mIdx] of Object.entries(monthMap)) {
+                    if (upper.includes(name)) {
+                        monthCols[idx] = mIdx;
+                    }
+                }
+            }
+        });
+
+        // Loop data rows
+        for (let i = headerIndex + 1; i < aoa.length; i++) {
+            const row = aoa[i];
+            const category = row[0]; // Assuming Col 0 is Category
+
+            if (!category) continue;
+
+            // Check each month column
+            for (const [colIdx, monthIdx] of Object.entries(monthCols)) {
+                const cellContent = row[colIdx];
+                if (cellContent && typeof cellContent === 'string' && cellContent.trim() !== '') {
+                    // Parse cell: "16/1 - Title" OR "2/4-6/4 - Title" OR "TBC - Title"
+                    // Split by first dash that looks like a separator
+                    // Regex: Start with date-like pattern, then dash, then text
+
+                    // Handling multiple events in one cell? User sample doesn't clearly show, assumes one.
+                    // But "6/8 - 7/8 - TENK Tech Camp" has two dashes.
+
+                    // Strategy: Look for the first " - " (space dash space) or just dash if desperate
+                    // User format: "16/1 - Title"
+
+                    const parts = cellContent.split(/\s-\s/); // Split by " - "
+                    let datePart = '';
+                    let titlePart = '';
+
+                    if (parts.length >= 2) {
+                        datePart = parts[0].trim();
+                        titlePart = parts.slice(1).join(' - ').trim(); // Join rest back
+                    } else {
+                        // Fallback, maybe just title?
+                        titlePart = cellContent;
+                    }
+
+                    // Parse DatePart: "16/1" or "2/4-6/4" or "TBC"
+                    let startDateStr = '';
+                    let endDateStr = '';
+
+                    // Simple Day/Month matcher
+                    // 16/1 or 16.1 or 16-1
+                    // Range: 2/4-6/4
+
+                    const dateRangeMatch = datePart.match(/(\d{1,2}[./]\d{1,2})\s*-\s*(\d{1,2}[./]\d{1,2})/);
+                    const singleDateMatch = datePart.match(/(\d{1,2}[./]\d{1,2})/);
+
+                    if (dateRangeMatch) {
+                        startDateStr = this.normalizeDate(dateRangeMatch[1], defaultYear);
+                        endDateStr = this.normalizeDate(dateRangeMatch[2], defaultYear);
+                    } else if (singleDateMatch) {
+                        startDateStr = this.normalizeDate(singleDateMatch[1], defaultYear);
+                        endDateStr = startDateStr;
+                    } else {
+                        // TBC or no date found
+                        // If TBC, maybe set start date to first of that month?
+                        startDateStr = `01/${(monthIdx + 1).toString().padStart(2, '0')}/${defaultYear} 09:00`;
+                        endDateStr = startDateStr;
+                        if (!titlePart.toUpperCase().startsWith('TBC')) {
+                            titlePart = `[${datePart}] ${titlePart}`;
+                        }
+                    }
+
+                    events.push({
+                        title: titlePart,
+                        startDate: startDateStr,
+                        endDate: endDateStr,
+                        summary: '',
+                        businessUnit: this.normalizeUnit(category),
+                        size: 'M',
+                        hidden: false
+                    });
+                }
+            }
+        }
+        return events;
+    }
+
+    normalizeDate(dayMonthStr, year) {
+        // Input: "16/1" or "16.1"
+        const clean = dayMonthStr.replace('.', '/');
+        const [day, month] = clean.split('/');
+        const pad = (n) => n.toString().padStart(2, '0');
+        // Default time 09:00
+        return `${pad(day)}/${pad(month)}/${year} 09:00`;
+    }
+
+    normalizeUnit(raw) {
+        // Map user categories to known BU types if possible, else defaults.
+        // User has: KONSULENTER, LEDERGRUPPE, ADVISORY Nasjonalt, etc.
+        const upper = raw.toUpperCase();
+        if (upper.includes('ADVISORY')) return 'Advisory';
+        if (upper.includes('APPS')) return 'APPS';
+        if (upper.includes('DPS')) return 'DPS';
+        if (upper.includes('LEDER')) return 'X-BU'; // Management often X-BU
+        return 'X-BU'; // Default
+    }
 
     updateTempItem(field, value) {
         this.state.tempItem[field] = value;
@@ -571,6 +782,8 @@ class PhiEventEditor extends HTMLElement {
                         <span style="font-size: 0.8rem; color: #666; margin-right: 0.5rem;">Saving...</span>
                     ` : ''}
                     <button id="add-btn" type="button" class="btn btn-primary btn-sm">+ Add New</button>
+                    <button id="import-btn" type="button" class="btn btn-secondary btn-sm" style="margin-left: 0.5rem;">Import CSV/XLSX</button>
+                    <input type="file" id="file-input" accept=".csv, .xlsx, .xls" style="display: none;" />
                 </div>
             </div>
 
@@ -719,6 +932,20 @@ class PhiEventEditor extends HTMLElement {
 
             if (addBtn) addBtn.addEventListener('click', () => this.addNew());
             if (exportBtn) exportBtn.addEventListener('click', () => this.exportData());
+
+            const importBtn = this.shadowRoot.getElementById('import-btn');
+            const fileInput = this.shadowRoot.getElementById('file-input');
+
+            if (importBtn && fileInput) {
+                importBtn.addEventListener('click', () => fileInput.click());
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.importFile(e.target.files[0]);
+                        // Reset input so same file can be selected again if needed
+                        e.target.value = '';
+                    }
+                });
+            }
 
             // Filter bindings
             const searchInput = this.shadowRoot.getElementById('filter-search');

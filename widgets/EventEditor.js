@@ -349,6 +349,9 @@ class PhiEventEditor extends HTMLElement {
                         titlePart = cellContent;
                     }
 
+                    // Sanitize Title
+                    titlePart = this.sanitizeString(titlePart);
+
                     // Parse DatePart: "16/1" or "2/4-6/4" or "TBC"
                     let startDateStr = '';
                     let endDateStr = '';
@@ -376,128 +379,146 @@ class PhiEventEditor extends HTMLElement {
                         }
                     }
 
-                    events.push({
-                        title: titlePart,
+                    title: titlePart,
                         startDate: startDateStr,
-                        endDate: endDateStr,
-                        summary: '',
-                        businessUnit: this.normalizeUnit(category),
-                        size: 'M',
-                        hidden: false
-                    });
-                }
+                            endDate: endDateStr,
+                                summary: '',
+                                    businessUnit: this.normalizeUnit(category, titlePart),
+                                        size: 'M',
+                                            hidden: false
+                });
             }
         }
+    }
         return events;
     }
 
-    normalizeDate(dayMonthStr, year) {
-        // Input: "16/1" or "16.1"
-        const clean = dayMonthStr.replace('.', '/');
-        const [day, month] = clean.split('/');
-        const pad = (n) => n.toString().padStart(2, '0');
-        // Default time 09:00
-        return `${pad(day)}/${pad(month)}/${year} 09:00`;
-    }
+normalizeDate(dayMonthStr, year) {
+    // Input: "16/1" or "16.1"
+    const clean = dayMonthStr.replace('.', '/');
+    const [day, month] = clean.split('/');
+    const pad = (n) => n.toString().padStart(2, '0');
+    // Default time 09:00
+    return `${pad(day)}/${pad(month)}/${year} 09:00`;
+}
 
-    normalizeUnit(raw) {
-        // Map user categories to known BU types if possible, else defaults.
-        // User has: KONSULENTER, LEDERGRUPPE, ADVISORY Nasjonalt, etc.
-        const upper = raw.toUpperCase();
-        if (upper.includes('ADVISORY')) return 'Advisory';
-        if (upper.includes('APPS')) return 'APPS';
-        if (upper.includes('DPS')) return 'DPS';
-        if (upper.includes('LEDER')) return 'X-BU'; // Management often X-BU
-        return 'X-BU'; // Default
-    }
+normalizeUnit(raw, title = '') {
+    // Default to Advisory per user request
+    let bu = 'Advisory';
 
-    updateTempItem(field, value) {
-        this.state.tempItem[field] = value;
-    }
+    const upperRaw = raw ? raw.toUpperCase() : '';
+    const upperTitle = title ? title.toUpperCase() : '';
 
-    // --- HELPERS ---
+    // Category Overrides
+    if (upperRaw.includes('APPS')) bu = 'APPS';
+    if (upperRaw.includes('DPS')) bu = 'DPS';
 
-    // Convert DD/MM/YYYY HH:mm to YYYY-MM-DD (for input type="date")
-    toDateInputValue(dateStr) {
-        if (!dateStr) return '';
-        const [date, time] = dateStr.split(' ');
-        if (!date) return '';
-        const [day, month, year] = date.split('/');
-        return `${year}-${month}-${day}`;
-    }
+    // Title Override (X-BU in title wins)
+    if (upperTitle.includes('X-BU')) bu = 'X-BU';
 
-    // Convert DD/MM/YYYY HH:mm to HH:mm (for input type="time")
-    toTimeInputValue(dateStr) {
-        if (!dateStr) return '00:00';
-        const [date, time] = dateStr.split(' ');
-        return time || '00:00';
-    }
+    return bu;
+}
 
-    // Convert YYYY-MM-DD to DD/MM/YYYY
-    fromDateInputValue(val) {
-        if (!val) return '';
-        const [year, month, day] = val.split('-');
-        return `${day}/${month}/${year}`;
-    }
+sanitizeString(str) {
+    if (!str) return '';
+    // Fix Mac Roman / encoding artifacts common in Scandinavian CSVs
+    return str
+        .replace(/≈/g, 'Å')
+        .replace(/¯/g, 'ø')
+        .replace(/ÿ/g, 'Ø')
+        .replace(/Â/g, '') // Often appears before other chars
+        .replace(/Ã/g, 'Æ') // Sometimes Æ becomes Ã...
+        .replace(//g, '') // Remove replacement chars
+            .trim();
+}
 
-    // Return DD/MM/YYYY HH:mm from Date object
-    formatDate(date) {
-        const pad = (n) => n.toString().padStart(2, '0');
-        return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-    }
+updateTempItem(field, value) {
+    this.state.tempItem[field] = value;
+}
 
-    getFilteredItems() {
-        const now = new Date();
-        return this.state.items.map((item, index) => ({ item, index })).filter(({ item }) => {
-            // 1. Filter by Past Events
-            if (!this.state.showPastEvents) {
-                const date = this.parseDate(item.startDate);
-                if (date < now) return false;
-            }
+// --- HELPERS ---
 
-            // 2. Filter by Search Query
-            if (this.state.searchQuery) {
-                const query = this.state.searchQuery.toLowerCase();
-                const titleMatch = item.title && item.title.toLowerCase().includes(query);
-                const summaryMatch = item.summary && item.summary.toLowerCase().includes(query);
-                if (!titleMatch && !summaryMatch) return false;
-            }
+// Convert DD/MM/YYYY HH:mm to YYYY-MM-DD (for input type="date")
+toDateInputValue(dateStr) {
+    if (!dateStr) return '';
+    const [date, time] = dateStr.split(' ');
+    if (!date) return '';
+    const [day, month, year] = date.split('/');
+    return `${year}-${month}-${day}`;
+}
 
-            return true;
-        });
-    }
+// Convert DD/MM/YYYY HH:mm to HH:mm (for input type="time")
+toTimeInputValue(dateStr) {
+    if (!dateStr) return '00:00';
+    const [date, time] = dateStr.split(' ');
+    return time || '00:00';
+}
 
-    sortItems() {
-        this.state.items.sort((a, b) => {
-            const dateA = this.parseDate(a.startDate);
-            const dateB = this.parseDate(b.startDate);
-            return dateA - dateB;
-        });
-    }
+// Convert YYYY-MM-DD to DD/MM/YYYY
+fromDateInputValue(val) {
+    if (!val) return '';
+    const [year, month, day] = val.split('-');
+    return `${day}/${month}/${year}`;
+}
 
-    parseDate(dateStr) {
-        if (!dateStr) return new Date(8640000000000000); // Push to end
-        // Expects DD/MM/YYYY HH:mm
-        const [datePart, timePart] = dateStr.split(' ');
-        const [day, month, year] = datePart.split('/');
-        const [hours, minutes] = timePart ? timePart.split(':') : ['00', '00'];
-        return new Date(year, month - 1, day, hours, minutes);
-    }
+// Return DD/MM/YYYY HH:mm from Date object
+formatDate(date) {
+    const pad = (n) => n.toString().padStart(2, '0');
+    return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
 
-    getSizeColor(size) {
-        const map = {
-            'XL': '#D9202C', // Sopra Steria Red
-            'L': '#F4811F', // Sopra Steria Orange
-            'M': '#9E9E9E', // Sopra Steria Grey
-            'S': '#0e0e0e'  // Sopra Steria Black
-        };
-        return map[size] || '#9E9E9E';
-    }
+getFilteredItems() {
+    const now = new Date();
+    return this.state.items.map((item, index) => ({ item, index })).filter(({ item }) => {
+        // 1. Filter by Past Events
+        if (!this.state.showPastEvents) {
+            const date = this.parseDate(item.startDate);
+            if (date < now) return false;
+        }
 
-    // --- RENDERERS ---
+        // 2. Filter by Search Query
+        if (this.state.searchQuery) {
+            const query = this.state.searchQuery.toLowerCase();
+            const titleMatch = item.title && item.title.toLowerCase().includes(query);
+            const summaryMatch = item.summary && item.summary.toLowerCase().includes(query);
+            if (!titleMatch && !summaryMatch) return false;
+        }
 
-    render() {
-        this.shadowRoot.innerHTML = `
+        return true;
+    });
+}
+
+sortItems() {
+    this.state.items.sort((a, b) => {
+        const dateA = this.parseDate(a.startDate);
+        const dateB = this.parseDate(b.startDate);
+        return dateA - dateB;
+    });
+}
+
+parseDate(dateStr) {
+    if (!dateStr) return new Date(8640000000000000); // Push to end
+    // Expects DD/MM/YYYY HH:mm
+    const [datePart, timePart] = dateStr.split(' ');
+    const [day, month, year] = datePart.split('/');
+    const [hours, minutes] = timePart ? timePart.split(':') : ['00', '00'];
+    return new Date(year, month - 1, day, hours, minutes);
+}
+
+getSizeColor(size) {
+    const map = {
+        'XL': '#D9202C', // Sopra Steria Red
+        'L': '#F4811F', // Sopra Steria Orange
+        'M': '#9E9E9E', // Sopra Steria Grey
+        'S': '#0e0e0e'  // Sopra Steria Black
+    };
+    return map[size] || '#9E9E9E';
+}
+
+// --- RENDERERS ---
+
+render() {
+    this.shadowRoot.innerHTML = `
             <style>
                 :host {
                     display: block;
@@ -716,18 +737,18 @@ class PhiEventEditor extends HTMLElement {
             ${this.state.confirmDeleteIndex !== null ? this.renderModal() : ''}
         `;
 
-        if (!this.state.isAuthenticated) {
-            this.bindLoginEvents();
-        } else {
-            this.bindMainEvents();
-            if (this.state.confirmDeleteIndex !== null) {
-                this.bindModalEvents();
-            }
+    if (!this.state.isAuthenticated) {
+        this.bindLoginEvents();
+    } else {
+        this.bindMainEvents();
+        if (this.state.confirmDeleteIndex !== null) {
+            this.bindModalEvents();
         }
     }
+}
 
-    renderLogin() {
-        return `
+renderLogin() {
+    return `
             <div class="login-view">
                 <h2>Event Editor Access</h2>
                 <p>Please enter the password to manage events.</p>
@@ -736,10 +757,10 @@ class PhiEventEditor extends HTMLElement {
                 <button id="login-btn" class="btn btn-primary">Unlock Editor</button>
             </div>
         `;
-    }
+}
 
-    renderModal() {
-        return `
+renderModal() {
+    return `
             <div class="modal-overlay">
                 <div class="modal-content">
                     <h3>Confirm Deletion</h3>
@@ -751,19 +772,19 @@ class PhiEventEditor extends HTMLElement {
                 </div>
             </div>
         `;
-    }
+}
 
-    renderMain() {
-        return `
+renderMain() {
+    return `
             <div class="main-view">
                 ${this.state.view === 'list' ? this.renderList() : this.renderForm()}
             </div>
         `;
-    }
+}
 
-    renderList() {
-        const filtered = this.getFilteredItems();
-        return `
+renderList() {
+    const filtered = this.getFilteredItems();
+    return `
             <div class="top-nav">
                 <a href="yearwheel.html" class="back-link">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -808,8 +829,8 @@ class PhiEventEditor extends HTMLElement {
             <div class="event-list">
                 ${filtered.length === 0 ? '<div style="text-align:center; padding:2rem; color:#666;">No events found matching your criteria.</div>' : ''}
                 ${filtered.map(({ item, index }) => {
-            const sizeColor = this.getSizeColor(item.size);
-            return `
+        const sizeColor = this.getSizeColor(item.size);
+        return `
                     <div class="event-card ${item.hidden ? 'hidden' : ''}" style="border-left-color: ${sizeColor}">
                         <div class="card-top">
                             <div>
@@ -836,11 +857,11 @@ class PhiEventEditor extends HTMLElement {
                 `}).join('')}
             </div>
         `;
-    }
+}
 
-    renderForm() {
-        const item = this.state.tempItem;
-        return `
+renderForm() {
+    const item = this.state.tempItem;
+    return `
             <div class="form-view">
                 <div class="header-actions">
                     <h3>${this.state.editingItemIndex !== null ? 'Edit Event' : 'New Event'}</h3>
@@ -911,145 +932,145 @@ class PhiEventEditor extends HTMLElement {
                 </form>
             </div>
         `;
-    }
+}
 
-    // --- BINDINGS ---
+// --- BINDINGS ---
 
-    bindLoginEvents() {
-        const btn = this.shadowRoot.getElementById('login-btn');
-        const input = this.shadowRoot.getElementById('password-input');
+bindLoginEvents() {
+    const btn = this.shadowRoot.getElementById('login-btn');
+    const input = this.shadowRoot.getElementById('password-input');
 
-        const login = () => this.login(input.value);
+    const login = () => this.login(input.value);
 
-        btn.addEventListener('click', login);
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') login();
-        });
-    }
+    btn.addEventListener('click', login);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') login();
+    });
+}
 
-    bindModalEvents() {
-        const cancelBtn = this.shadowRoot.getElementById('modal-cancel');
-        const confirmBtn = this.shadowRoot.getElementById('modal-confirm');
+bindModalEvents() {
+    const cancelBtn = this.shadowRoot.getElementById('modal-cancel');
+    const confirmBtn = this.shadowRoot.getElementById('modal-confirm');
 
-        if (cancelBtn) cancelBtn.addEventListener('click', () => this.cancelDelete());
-        if (confirmBtn) confirmBtn.addEventListener('click', () => this.confirmDelete());
-    }
+    if (cancelBtn) cancelBtn.addEventListener('click', () => this.cancelDelete());
+    if (confirmBtn) confirmBtn.addEventListener('click', () => this.confirmDelete());
+}
 
-    bindMainEvents() {
-        if (this.state.view === 'list') {
-            const addBtn = this.shadowRoot.getElementById('add-btn');
-            const exportBtn = this.shadowRoot.getElementById('export-btn');
+bindMainEvents() {
+    if (this.state.view === 'list') {
+        const addBtn = this.shadowRoot.getElementById('add-btn');
+        const exportBtn = this.shadowRoot.getElementById('export-btn');
 
-            if (addBtn) addBtn.addEventListener('click', () => this.addNew());
-            if (exportBtn) exportBtn.addEventListener('click', () => this.exportData());
+        if (addBtn) addBtn.addEventListener('click', () => this.addNew());
+        if (exportBtn) exportBtn.addEventListener('click', () => this.exportData());
 
-            const importBtn = this.shadowRoot.getElementById('import-btn');
-            const fileInput = this.shadowRoot.getElementById('file-input');
+        const importBtn = this.shadowRoot.getElementById('import-btn');
+        const fileInput = this.shadowRoot.getElementById('file-input');
 
-            if (importBtn && fileInput) {
-                importBtn.addEventListener('click', () => fileInput.click());
-                fileInput.addEventListener('change', (e) => {
-                    if (e.target.files.length > 0) {
-                        this.importFile(e.target.files[0]);
-                        // Reset input so same file can be selected again if needed
-                        e.target.value = '';
-                    }
-                });
-            }
-
-            // Filter bindings
-            const searchInput = this.shadowRoot.getElementById('filter-search');
-            const pastCheckbox = this.shadowRoot.getElementById('filter-past');
-
-            if (searchInput) {
-                searchInput.addEventListener('input', (e) => {
-                    this.state.searchQuery = e.target.value;
-                    this.render();
-                    const input = this.shadowRoot.getElementById('filter-search');
-                    if (input) {
-                        input.focus();
-                        const len = input.value.length;
-                        input.setSelectionRange(len, len);
-                    }
-                });
-            }
-
-            if (pastCheckbox) {
-                pastCheckbox.addEventListener('change', (e) => {
-                    this.state.showPastEvents = e.target.checked;
-                    this.render();
-                });
-            }
-
-            // List Item Actions
-            const list = this.shadowRoot.querySelector('.event-list');
-            if (list) {
-                list.addEventListener('click', (e) => {
-                    const btn = e.target.closest('button');
-                    if (!btn) return;
-
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    const action = btn.dataset.action;
-                    const index = parseInt(btn.dataset.index);
-
-                    if (action === 'edit') this.editItem(index);
-                    if (action === 'delete') this.requestDelete(index);
-                    if (action === 'toggle-hidden') this.toggleHidden(index);
-                });
-            }
-        }
-        else if (this.state.view === 'edit') {
-            const cancelBtn = this.shadowRoot.getElementById('cancel-btn');
-            const saveBtn = this.shadowRoot.getElementById('save-btn');
-
-            const inputs = this.shadowRoot.querySelectorAll('input, textarea, select');
-            inputs.forEach(input => {
-                input.addEventListener('change', (e) => {
-                    // Special handling for date/time split inputs
-                    if (input.id.startsWith('input-startDate-') || input.id.startsWith('input-endDate-')) {
-                        const baseField = input.id.includes('startDate') ? 'startDate' : 'endDate';
-
-                        const dateInput = this.shadowRoot.getElementById(`input-${baseField}-date`);
-                        const timeInput = this.shadowRoot.getElementById(`input-${baseField}-time`);
-
-                        const dateVal = dateInput.value;
-                        const timeVal = timeInput.value;
-
-                        if (dateVal) {
-                            const formattedDate = this.fromDateInputValue(dateVal);
-                            const fullValue = `${formattedDate} ${timeVal || '00:00'}`;
-                            this.updateTempItem(baseField, fullValue);
-                        }
-                        return;
-                    }
-
-                    const field = e.target.id.replace('input-', '');
-                    let value = e.target.value;
-
-                    if (e.target.type === 'checkbox') {
-                        value = e.target.checked;
-                    }
-
-                    if (e.target.type === 'radio') {
-                        if (e.target.checked) {
-                            this.updateTempItem(e.target.name, value);
-                        }
-                    } else {
-                        this.updateTempItem(field, value);
-                    }
-                });
+        if (importBtn && fileInput) {
+            importBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    this.importFile(e.target.files[0]);
+                    // Reset input so same file can be selected again if needed
+                    e.target.value = '';
+                }
             });
+        }
 
-            if (cancelBtn) cancelBtn.addEventListener('click', () => {
-                this.state.view = 'list';
+        // Filter bindings
+        const searchInput = this.shadowRoot.getElementById('filter-search');
+        const pastCheckbox = this.shadowRoot.getElementById('filter-past');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.state.searchQuery = e.target.value;
+                this.render();
+                const input = this.shadowRoot.getElementById('filter-search');
+                if (input) {
+                    input.focus();
+                    const len = input.value.length;
+                    input.setSelectionRange(len, len);
+                }
+            });
+        }
+
+        if (pastCheckbox) {
+            pastCheckbox.addEventListener('change', (e) => {
+                this.state.showPastEvents = e.target.checked;
                 this.render();
             });
+        }
 
-            if (saveBtn) saveBtn.addEventListener('click', () => this.saveItem());
+        // List Item Actions
+        const list = this.shadowRoot.querySelector('.event-list');
+        if (list) {
+            list.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                const action = btn.dataset.action;
+                const index = parseInt(btn.dataset.index);
+
+                if (action === 'edit') this.editItem(index);
+                if (action === 'delete') this.requestDelete(index);
+                if (action === 'toggle-hidden') this.toggleHidden(index);
+            });
         }
     }
+    else if (this.state.view === 'edit') {
+        const cancelBtn = this.shadowRoot.getElementById('cancel-btn');
+        const saveBtn = this.shadowRoot.getElementById('save-btn');
+
+        const inputs = this.shadowRoot.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('change', (e) => {
+                // Special handling for date/time split inputs
+                if (input.id.startsWith('input-startDate-') || input.id.startsWith('input-endDate-')) {
+                    const baseField = input.id.includes('startDate') ? 'startDate' : 'endDate';
+
+                    const dateInput = this.shadowRoot.getElementById(`input-${baseField}-date`);
+                    const timeInput = this.shadowRoot.getElementById(`input-${baseField}-time`);
+
+                    const dateVal = dateInput.value;
+                    const timeVal = timeInput.value;
+
+                    if (dateVal) {
+                        const formattedDate = this.fromDateInputValue(dateVal);
+                        const fullValue = `${formattedDate} ${timeVal || '00:00'}`;
+                        this.updateTempItem(baseField, fullValue);
+                    }
+                    return;
+                }
+
+                const field = e.target.id.replace('input-', '');
+                let value = e.target.value;
+
+                if (e.target.type === 'checkbox') {
+                    value = e.target.checked;
+                }
+
+                if (e.target.type === 'radio') {
+                    if (e.target.checked) {
+                        this.updateTempItem(e.target.name, value);
+                    }
+                } else {
+                    this.updateTempItem(field, value);
+                }
+            });
+        });
+
+        if (cancelBtn) cancelBtn.addEventListener('click', () => {
+            this.state.view = 'list';
+            this.render();
+        });
+
+        if (saveBtn) saveBtn.addEventListener('click', () => this.saveItem());
+    }
+}
 }
 
 customElements.define('phi-event-editor', PhiEventEditor);

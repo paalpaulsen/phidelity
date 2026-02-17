@@ -90,6 +90,9 @@ class PhiEventEditor extends HTMLElement {
         this.sortItems();
         window.EVENTS_DATA = this.state.items;
 
+        // Persist to Server
+        this.saveToServer();
+
         this.state.view = 'list';
         this.render();
     }
@@ -109,6 +112,10 @@ class PhiEventEditor extends HTMLElement {
             this.state.items.splice(this.state.confirmDeleteIndex, 1);
             // Update Global Data
             window.EVENTS_DATA = this.state.items;
+
+            // Persist to Server
+            this.saveToServer();
+
             this.state.confirmDeleteIndex = null;
             this.render();
         }
@@ -123,7 +130,30 @@ class PhiEventEditor extends HTMLElement {
         const item = this.state.items[index];
         item.hidden = !item.hidden;
         window.EVENTS_DATA = this.state.items;
+        this.saveToServer();
         this.render();
+    }
+
+    saveToServer() {
+        fetch('/api/save-events', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.items)
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Data saved to server successfully');
+                } else {
+                    alert('Failed to save data to server');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving data:', error);
+                alert('Error connecting to server. Make sure server.js is running.');
+            });
     }
 
 

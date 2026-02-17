@@ -34,7 +34,7 @@ jobs:
           
           # Mirror local to remote
           # Removed --parallel to be safer on cheap shared hosting
-          echo "mirror -R --verbose --exclude .git/ --exclude .github/ --exclude node_modules/ ./ ${{ secrets.TARGET_DIR }}" >> deploy.lftp
+          echo "mirror -R --verbose --exclude .git/ --exclude .github/ --exclude node_modules/ --exclude data/event_data.js ./ ${{ secrets.TARGET_DIR }}" >> deploy.lftp
           echo "bye" >> deploy.lftp
           
           # Run lftp with debug output

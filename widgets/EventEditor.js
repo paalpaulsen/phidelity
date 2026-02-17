@@ -158,7 +158,8 @@ class PhiEventEditor extends HTMLElement {
         this.state.serverStatus = 'connecting';
         this.render();
 
-        fetch('/api/save-events', {
+        // Use .php endpoint for compatibility with standard hosting
+        fetch('/api/save_events.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

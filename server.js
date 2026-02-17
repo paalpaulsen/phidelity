@@ -20,8 +20,8 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // 1. API Endpoint: Save Events
-    if (req.method === 'POST' && req.url === '/api/save-events') {
+    // 1. API Endpoint: Save Events (Node.js & PHP simulation)
+    if (req.method === 'POST' && (req.url === '/api/save-events' || req.url === '/api/save_events.php')) {
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
         req.on('end', () => {

@@ -50,7 +50,7 @@ window.EVENTS_DATA = [
         "summary": "Deep dive into the new Phidelity design tokens and components."
     },
     {
-        "title": "Agile Coaching",
+        "title": "Agile Coaching - UpdatedAgile Coaching",
         "startDate": "02/03/2026 09:00",
         "endDate": "02/03/2026 17:00",
         "size": "M",

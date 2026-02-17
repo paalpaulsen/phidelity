@@ -38,7 +38,12 @@ class PhiYearWheel extends HTMLElement {
                 // Sync active events
                 this.events = [...this.allEvents];
 
-                this.activeIndex = 0;
+                // Find nearest upcoming event
+                const now = new Date();
+                const futureIndex = this.allEvents.findIndex(e => this.parseDate(e.startDate) >= now);
+                this.activeIndex = futureIndex !== -1 ? futureIndex : (this.allEvents.length - 1);
+                // Fallback to 0 if list is empty, but length check handles it implicitly (index -1 won't crash render but good to be safe)
+                if (this.activeIndex < 0) this.activeIndex = 0;
                 this.renderEventDots();
                 this.updateEventList();
             }

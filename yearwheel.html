@@ -99,7 +99,9 @@
     <!-- Widgets -->
     <script src="widgets/GridDisplay.js"></script>
     <script src="widgets/EventList.js"></script> <!-- Content Type Widget -->
-    <script src="data/event_data.js"></script> <!-- Data Source -->
+    <script>
+        document.write('<script src="data/event_data.js?v=' + new Date().getTime() + '"><\/script>');
+    </script> <!-- Data Source -->
     <script src="widgets/YearWheel.js"></script>
     <script src="components/PhiHeaderWhite.js"></script>
     <!-- script src="components/PhiFooter.js" removed -->

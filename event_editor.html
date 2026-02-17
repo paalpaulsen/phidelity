@@ -18,7 +18,9 @@
     <link rel="stylesheet" href="css/macro.css">
 
     <!-- Data -->
-    <script src="data/event_data.js"></script>
+    <script>
+        document.write('<script src="data/event_data.js?v=' + new Date().getTime() + '"><\/script>');
+    </script>
 
     <!-- Widgets -->
     <script src="widgets/EventEditor.js" defer></script>

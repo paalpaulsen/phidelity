@@ -30,6 +30,8 @@ jobs:
           echo "user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"" >> deploy.lftp
           
           # Use -p to ensure folder exists (no error if it does)
+          echo "mkdir -p ${{ secrets.TARGET_DIR }}/data" >> deploy.lftp
+          echo "chmod 777 ${{ secrets.TARGET_DIR }}/data" >> deploy.lftp
           echo "mkdir -p ${{ secrets.TARGET_DIR }}" >> deploy.lftp
           
           # Mirror local to remote

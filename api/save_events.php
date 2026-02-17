@@ -33,9 +33,16 @@ if (JSON_last_error() !== JSON_ERROR_NONE) {
 $fileContent = "window.EVENTS_DATA = " . JSON_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . ";";
 $filePath = __DIR__ . '/../data/event_data.js';
 
+// Check if directory is writable
+if (!is_writable(dirname($filePath))) {
+    http_response_code(500);
+    echo JSON_encode(['error' => 'Data directory is not writable. Perms: ' . substr(sprintf('%o', fileperms(dirname($filePath))), -4)]);
+    exit;
+}
+
 if (file_put_contents($filePath, $fileContent) === false) {
     http_response_code(500);
-    echo JSON_encode(['error' => 'Failed to write file']);
+    echo JSON_encode(['error' => 'Failed to write file. Last error: ' . error_get_last()['message']]);
 } else {
     echo JSON_encode(['success' => true]);
 }

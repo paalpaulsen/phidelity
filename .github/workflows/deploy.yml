@@ -23,6 +23,9 @@ jobs:
           # We use relative paths now based on debug findings
           echo "set sftp:auto-confirm yes" > deploy.lftp
           echo "set ssl:verify-certificate no" >> deploy.lftp
+          echo "set net:timeout 20" >> deploy.lftp
+          echo "set net:max-retries 2" >> deploy.lftp
+          echo "set net:reconnect-interval-base 5" >> deploy.lftp
           echo "open sftp://${{ secrets.SFTP_SERVER }}" >> deploy.lftp
           echo "user ${{ secrets.SFTP_USERNAME }} \"$SFTP_PASS\"" >> deploy.lftp
           
@@ -30,8 +33,9 @@ jobs:
           echo "mkdir -p ${{ secrets.TARGET_DIR }}" >> deploy.lftp
           
           # Mirror local to remote
-          echo "mirror -R --verbose --parallel=2 --exclude .git/ --exclude .github/ ./ ${{ secrets.TARGET_DIR }}" >> deploy.lftp
+          # Removed --parallel to be safer on cheap shared hosting
+          echo "mirror -R --verbose --exclude .git/ --exclude .github/ --exclude node_modules/ ./ ${{ secrets.TARGET_DIR }}" >> deploy.lftp
           echo "bye" >> deploy.lftp
           
-          # Run lftp
-          lftp -f deploy.lftp
+          # Run lftp with debug output
+          lftp -d -f deploy.lftp

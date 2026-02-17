@@ -32,14 +32,12 @@ class PhiEventEditor extends HTMLElement {
     }
 
     checkServerStatus() {
-        fetch('/api/health', { method: 'HEAD' }) // Assuming server responds to something, or just use save-events dry run
-        // Actually, just assume online until proven otherwise, or try a fetch
-        // Let's try to fetch index.html with a unique query param to bypass cache, just to see if network satisfies
-        // But really, we care if the API works.
-        // Let's just default to unknown and let the first save determine it, OR try a dummy save? No.
-        // Let's try a simple fetch to root. If it fails, we are definitely offline.
-        // But on GitHub, fetch('/') works.
-        // So we'll trust the user until a save fails.
+        if (window.location.protocol === 'file:') {
+            this.state.serverStatus = 'file-protocol';
+            return;
+        }
+
+        // Assume unknown until first save attempt or active check
         this.state.serverStatus = 'unknown';
     }
 
@@ -560,6 +558,10 @@ class PhiEventEditor extends HTMLElement {
                     <small>Manage your Year Wheel events</small>
                 </div>
                 <div style="display:flex; gap:0.5rem; align-items: center;">
+                    ${this.state.serverStatus === 'file-protocol' ? `
+                        <span style="color: #D9202C; font-size: 0.8rem; font-weight: 600; margin-right: 0.5rem;">Running from file://</span>
+                        <a href="http://localhost:3000/event_editor.html" class="btn btn-primary btn-sm" style="text-decoration: none;">Open Localhost</a>
+                    ` : ''}
                     ${this.state.serverStatus === 'offline' ? `
                         <span style="color: #D9202C; font-size: 0.8rem; font-weight: 600; margin-right: 0.5rem;">Offline Mode</span>
                         <button id="export-btn" type="button" class="btn btn-secondary btn-sm">Copy JSON</button>

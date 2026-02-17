@@ -235,7 +235,17 @@ class PhiEventEditor extends HTMLElement {
             if (newItems.length > 0) {
                 if (confirm(`Found ${newItems.length} events. Append them to your existing list?`)) {
                     this.state.items = [...this.state.items, ...newItems];
-                    this.saveItem(); // Trigger save and re-render
+
+                    // Sort items by date
+                    this.sortItems();
+
+                    // Update global data
+                    window.EVENTS_DATA = this.state.items;
+
+                    // Save directly to server (skip saveItem() validation)
+                    this.saveToServer();
+                    this.render();
+
                     alert('Import successful!');
                 }
             } else {

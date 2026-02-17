@@ -12,7 +12,8 @@ class PhiEventEditor extends HTMLElement {
             tempItem: {}, // Holds form data during edit
             confirmDeleteIndex: null, // Index of item to delete, null if none
             showPastEvents: false,
-            searchQuery: ''
+            searchQuery: '',
+            serverStatus: 'unknown' // 'unknown', 'online', 'offline'
         };
 
         // Password for "Simple protection"
@@ -26,7 +27,20 @@ class PhiEventEditor extends HTMLElement {
             this.state.items = JSON.parse(JSON.stringify(window.EVENTS_DATA));
             this.sortItems();
         }
+        this.checkServerStatus();
         this.render();
+    }
+
+    checkServerStatus() {
+        fetch('/api/health', { method: 'HEAD' }) // Assuming server responds to something, or just use save-events dry run
+        // Actually, just assume online until proven otherwise, or try a fetch
+        // Let's try to fetch index.html with a unique query param to bypass cache, just to see if network satisfies
+        // But really, we care if the API works.
+        // Let's just default to unknown and let the first save determine it, OR try a dummy save? No.
+        // Let's try a simple fetch to root. If it fails, we are definitely offline.
+        // But on GitHub, fetch('/') works.
+        // So we'll trust the user until a save fails.
+        this.state.serverStatus = 'unknown';
     }
 
     // --- ACTIONS ---
@@ -126,6 +140,14 @@ class PhiEventEditor extends HTMLElement {
         this.requestDelete(index);
     }
 
+    exportData() {
+        const dataStr = "window.EVENTS_DATA = " + JSON.stringify(this.state.items, null, 4) + ";";
+        navigator.clipboard.writeText(dataStr).then(() => {
+            alert('Data copied to clipboard! Replace content of data/event_data.js');
+        });
+        console.log(dataStr);
+    }
+
     toggleHidden(index) {
         const item = this.state.items[index];
         item.hidden = !item.hidden;
@@ -135,6 +157,9 @@ class PhiEventEditor extends HTMLElement {
     }
 
     saveToServer() {
+        this.state.serverStatus = 'connecting';
+        this.render();
+
         fetch('/api/save-events', {
             method: 'POST',
             headers: {
@@ -142,17 +167,25 @@ class PhiEventEditor extends HTMLElement {
             },
             body: JSON.stringify(this.state.items)
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Server returned ' + response.status);
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     console.log('Data saved to server successfully');
+                    this.state.serverStatus = 'online';
                 } else {
-                    alert('Failed to save data to server');
+                    console.warn('Failed to save data to server');
+                    this.state.serverStatus = 'offline';
                 }
+                this.render();
             })
             .catch(error => {
                 console.error('Error saving data:', error);
-                alert('Error connecting to server. Make sure server.js is running.');
+                this.state.serverStatus = 'offline';
+                this.render();
+                // Do NOT alert. User will see status indicator.
             });
     }
 
@@ -526,7 +559,14 @@ class PhiEventEditor extends HTMLElement {
                     <h3>Events (${this.state.items.length})</h3>
                     <small>Manage your Year Wheel events</small>
                 </div>
-                <div style="display:flex; gap:0.5rem;">
+                <div style="display:flex; gap:0.5rem; align-items: center;">
+                    ${this.state.serverStatus === 'offline' ? `
+                        <span style="color: #D9202C; font-size: 0.8rem; font-weight: 600; margin-right: 0.5rem;">Offline Mode</span>
+                        <button id="export-btn" type="button" class="btn btn-secondary btn-sm">Copy JSON</button>
+                    ` : ''}
+                    ${this.state.serverStatus === 'connecting' ? `
+                        <span style="font-size: 0.8rem; color: #666; margin-right: 0.5rem;">Saving...</span>
+                    ` : ''}
                     <button id="add-btn" type="button" class="btn btn-primary btn-sm">+ Add New</button>
                 </div>
             </div>
@@ -672,7 +712,10 @@ class PhiEventEditor extends HTMLElement {
     bindMainEvents() {
         if (this.state.view === 'list') {
             const addBtn = this.shadowRoot.getElementById('add-btn');
+            const exportBtn = this.shadowRoot.getElementById('export-btn');
+
             if (addBtn) addBtn.addEventListener('click', () => this.addNew());
+            if (exportBtn) exportBtn.addEventListener('click', () => this.exportData());
 
             // Filter bindings
             const searchInput = this.shadowRoot.getElementById('filter-search');

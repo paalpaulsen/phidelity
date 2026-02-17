@@ -429,7 +429,7 @@ class PhiEventEditor extends HTMLElement {
             .replace(/ÿ/g, 'Ø')
             .replace(/Â/g, '') // Often appears before other chars
             .replace(/Ã/g, 'Æ') // Sometimes Æ becomes Ã...
-            .replace(//g, '') // Remove replacement chars
+            .replace(/\uFFFD/g, '') // Remove replacement chars
             .trim();
     }
 
